@@ -1,2 +1,2 @@
-export { getZiweiChart, getMingGongStars, getSurroundingPalaces, shortPalaceNames, starNameMap } from './ziwei';
-export { getBaZiChart, calculateWuXingScore, analyzeWuXingBalance, wuXingColors } from './bazi';
+export { getZiweiChart } from './ziwei';
+export { getBaZiChart } from './bazi';
