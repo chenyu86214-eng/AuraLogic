@@ -59,6 +59,7 @@ function App() {
 
   // 生成命盘数据
   const generateCharts = (info) => {
+    console.log('=== generateCharts called with:', info);
     try {
       // 紫微斗数排盘
       const ziwei = getZiweiChart(
@@ -69,10 +70,13 @@ function App() {
         'en-US'
       );
       
+      console.log('=== ziwei result:', ziwei);
+      
       if (ziwei.success) {
         setZiweiData(ziwei);
       } else {
         console.error('Ziwei generation failed:', ziwei.error);
+        setError('紫微排盘失败: ' + (ziwei.error || '未知错误'));
       }
       
       // 八字排盘
@@ -82,14 +86,17 @@ function App() {
         info.isSolar
       );
       
+      console.log('=== bazi result:', bazi);
+      
       if (bazi.success) {
         setBaZiData(bazi);
       } else {
         console.error('BaZi generation failed:', bazi.error);
+        setError('八字排盘失败: ' + (bazi.error || '未知错误'));
       }
     } catch (e) {
       console.error('Chart generation error:', e);
-      setError('An error occurred while generating your chart.');
+      setError('排盘出错: ' + e.message);
     }
   };
 
