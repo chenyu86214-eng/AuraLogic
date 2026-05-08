@@ -169,3 +169,105 @@ body {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.7; transform: scale(1.1); }
 }
+
+/* ========================================
+   Form Controls - Deep Theme Support
+   ======================================== */
+
+/* Input fields */
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  color: var(--text-primary) !important;
+  background-color: rgba(36,31,66,0.6) !important;
+  border: 1px solid rgba(180,160,240,0.15) !important;
+  caret-color: var(--lavender) !important;
+}
+
+/* Placeholder color */
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-ghost) !important;
+  opacity: 1 !important;
+}
+
+input::-webkit-input-placeholder {
+  color: var(--text-ghost) !important;
+}
+
+input::-moz-placeholder {
+  color: var(--text-ghost) !important;
+}
+
+input:-ms-input-placeholder {
+  color: var(--text-ghost) !important;
+}
+
+/* Date input calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) brightness(1);
+}
+
+/* Time input */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+  cursor: pointer;
+}
+
+/* Select dropdown */
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4B0E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  padding-right: 36px !important;
+}
+
+/* Select options - critical for dark theme */
+select option {
+  background-color: #1C1838 !important;
+  color: var(--text-primary) !important;
+  padding: 8px 12px !important;
+}
+
+select optgroup {
+  background-color: #13102B !important;
+  color: var(--lavender) !important;
+  font-weight: 600 !important;
+}
+
+/* Focus states */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: rgba(180,160,240,0.4) !important;
+  box-shadow: 0 0 0 2px rgba(112,85,184,0.2) !important;
+}
+
+/* Hover states */
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: rgba(180,160,240,0.25) !important;
+}
+
+/* Disabled states */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}

@@ -75,7 +75,7 @@ export default function BirthInput({ onSubmit, initialData = {} }) {
           >
             ✦
           </div>
-          <h2 className="font-serif text-2xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="font-serif text-2xl font-semibold mb-2" style={{ color: '#EDE8F8' }}>
             Enter Your Birth Info
           </h2>
           <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -99,7 +99,7 @@ export default function BirthInput({ onSubmit, initialData = {} }) {
               style={{ 
                 background: 'rgba(36,31,66,0.6)',
                 border: '1px solid rgba(180,160,240,0.15)',
-                color: 'var(--text-primary)',
+                color: '#EDE8F8',
               }}
             />
           </div>
@@ -118,7 +118,7 @@ export default function BirthInput({ onSubmit, initialData = {} }) {
               style={{ 
                 background: 'rgba(36,31,66,0.6)',
                 border: `1px solid ${errors.birthDate ? '#F44336' : 'rgba(180,160,240,0.15)'}`,
-                color: 'var(--text-primary)',
+                color: '#EDE8F8',
               }}
             />
             {errors.birthDate && (
@@ -139,7 +139,7 @@ export default function BirthInput({ onSubmit, initialData = {} }) {
               style={{ 
                 background: 'rgba(36,31,66,0.6)',
                 border: `1px solid ${errors.birthTime ? '#F44336' : 'rgba(180,160,240,0.15)'}`,
-                color: 'var(--text-primary)',
+                color: '#EDE8F8',
               }}
             >
               <option value="">Select hour...</option>
@@ -251,7 +251,7 @@ export default function BirthInput({ onSubmit, initialData = {} }) {
               style={{ 
                 background: 'rgba(36,31,66,0.6)',
                 border: '1px solid rgba(180,160,240,0.15)',
-                color: 'var(--text-primary)',
+                color: '#EDE8F8',
               }}
             />
             <p className="text-[10px] mt-1" style={{ color: 'var(--text-ghost)' }}>
