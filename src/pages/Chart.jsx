@@ -1,5 +1,17 @@
 import { useState } from 'react';
-import { wuXingColors } from '../lib/astro';
+// 五行颜色映射（原从lib/astro导入，现内置）
+const wuXingColors = {
+  '金': { color: '#F2D97A', emoji: '🔶' },
+  '木': { color: '#6BCB77', emoji: '🟢' },
+  '水': { color: '#4D96FF', emoji: '🔵' },
+  '火': { color: '#FF6B6B', emoji: '🔴' },
+  '土': { color: '#C4B0E8', emoji: '🟣' },
+  'Metal': { color: '#F2D97A', emoji: '🔶' },
+  'Wood': { color: '#6BCB77', emoji: '🟢' },
+  'Water': { color: '#4D96FF', emoji: '🔵' },
+  'Fire': { color: '#FF6B6B', emoji: '🔴' },
+  'Earth': { color: '#C4B0E8', emoji: '🟣' },
+};
 
 const palaceCNNames = [
   '命宫', '兄弟', '夫妻', '子女',
