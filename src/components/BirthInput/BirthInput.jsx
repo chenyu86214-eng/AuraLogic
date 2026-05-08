@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
-export default function BirthInput({ onSubmit, initialData = {} }) {
+export default function BirthInput({ onSubmit, initialData }) {
+  const safeData = initialData || {};
   const [formData, setFormData] = useState({
-    name: initialData.name || '',
-    birthDate: initialData.birthDate || '',
-    birthTime: initialData.birthTime || '12',
-    gender: initialData.gender || 'male',
-    isSolar: initialData.isSolar !== false,
-    location: initialData.location || '',
-    ...initialData,
+    name: safeData.name || '',
+    birthDate: safeData.birthDate || '',
+    birthTime: safeData.birthTime || '12',
+    gender: safeData.gender || 'male',
+    isSolar: safeData.isSolar !== false,
+    location: safeData.location || '',
   });
   
   const [errors, setErrors] = useState({});
