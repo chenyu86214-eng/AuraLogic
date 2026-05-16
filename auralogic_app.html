@@ -2185,6 +2185,10 @@ body {
               <option value="female">女</option>
             </select>
           </div>
+          <div class="astro-field">
+            <label>姓名（选填）</label>
+            <input type="text" id="astroName" placeholder="输入你的名字" style="padding:10px 14px;border:1px solid var(--morandi-accent);border-radius:10px;background:var(--morandi-card);font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
           <button class="astro-submit-btn" onclick="calculateAstrology()">开始排盘</button>
         </div>
       </div>
@@ -2356,6 +2360,10 @@ function updateUIFromProfile(p) {
     if (hourSelect && userProfile.hourIdx !== undefined) hourSelect.value = userProfile.hourIdx;
     const genderSelect = document.getElementById('astroGender');
     if (genderSelect && userProfile.gender) genderSelect.value = userProfile.gender;
+    const nameInput = document.getElementById('astroName');
+    if (nameInput && userProfile.name) nameInput.value = userProfile.name;
+    // Auto-calculate astrology on load
+    setTimeout(() => calculateAstrology(true), 100);
   }
 
   const now=new Date();
@@ -2513,7 +2521,12 @@ async function sendDifyMessage(text) {
       })
     });
 
-    if (!resp.ok) { throw new Error('API error: '+resp.status); }
+    if (!resp.ok) {
+      const errText = await resp.text().catch(()=>'');
+      let errMsg = '';
+      try{ const j=JSON.parse(errText); errMsg = j.message || ''; }catch(e){ errMsg = errText; }
+      throw new Error('API error: '+resp.status+(errMsg?' ('+errMsg+')':''));
+    }
 
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
@@ -2555,14 +2568,14 @@ async function sendDifyMessage(text) {
     }
 
     if (!fullAnswer) {
-      bubble.innerHTML = '抱歉，Aura 暂时无法回应。请稍后再试。';
+      bubble.innerHTML = '抱歉，Aura 暂时未能给出完整回应。可能是 API 响应异常，请稍后再试。';
     }
 
     msgs.scrollTop = msgs.scrollHeight;
   } catch(e) {
     console.error('Dify API error:', e);
     const msgs = document.getElementById('chatMessages');
-    msgs.innerHTML += `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">抱歉，Aura 暂时无法连接。请稍后再试。</div><div class="msg-time">刚刚</div></div></div>`;
+    msgs.innerHTML += `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">抱歉，Aura 暂时无法连接。<br><span style="font-size:11px;color:var(--text-secondary);">${e.message}</span></div><div class="msg-time">刚刚</div></div></div>`;
     msgs.scrollTop = msgs.scrollHeight;
   }
 }
@@ -2982,22 +2995,26 @@ function calculateAstrology(confirmed){
   const dateInput=document.getElementById('astroBirthDate').value;
   const hourIdx=parseInt(document.getElementById('astroHour').value);
   const gender=document.getElementById('astroGender').value;
+  const nameInput=document.getElementById('astroName');
+  const userName=nameInput?nameInput.value.trim():'';
   if(!dateInput){ showToast('请选择出生日期','error'); return; }
   const [y,m,d]=dateInput.split('-').map(Number);
 
   // If not confirmed, show confirmation dialog first
   if(!confirmed){
     const existing = loadUserProfile();
-    if(existing && existing.year===y && existing.month===m && existing.day===d && existing.hourIdx===hourIdx && existing.gender===gender){
+    const sameProfile = existing && existing.year===y && existing.month===m && existing.day===d && existing.hourIdx===hourIdx && existing.gender===gender;
+    if(sameProfile && existing.name===userName){
       // Already saved, proceed
     } else {
       // Ask to confirm
       const msg = '是否将以下信息保存为你的命盘？\n\n'+
+        userName+(userName?' · ':'')+
         y+'年'+m+'月'+d+'日 · '+['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'][hourIdx]+
         ' · '+(gender==='male'?'男':'女');
       if(!confirm(msg)) return;
       // Save
-      const profile = { name:'', year:y, month:m, day:d, hourIdx, gender, birthDate:dateInput };
+      const profile = { name:userName, year:y, month:m, day:d, hourIdx, gender, birthDate:dateInput };
       saveUserProfile(profile);
       userProfile = profile;
       updateUIFromProfile(profile);
