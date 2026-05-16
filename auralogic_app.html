@@ -2414,44 +2414,117 @@ document.addEventListener('keydown',function(e){
   if(e.key===' '){e.preventDefault();togglePlay();}
 });
 
-/* ── Radio ──────────────────────────────── */
+/* ── Radio (Web Audio API) ──────────────── */
 let playing=false;
 const signals=[
-  {title:'Trust the Pause',desc:'在静默中发现力量'},
-  {title:'Soft Reset',desc:'温柔的重新开始'},
-  {title:'Let It Flow',desc:'让能量自然流动'},
-  {title:'Sacred Ground',desc:'守护你的内在边界'},
-  {title:'Inner Compass',desc:'倾听内心的指南针'}
+  {title:'Trust the Pause',desc:'在静默中发现力量',freq:432},
+  {title:'Soft Reset',desc:'温柔的重新开始',freq:396},
+  {title:'Let It Flow',desc:'让能量自然流动',freq:528},
+  {title:'Sacred Ground',desc:'守护你的内在边界',freq:174},
+  {title:'Inner Compass',desc:'倾听内心的指南针',freq:285}
 ];
 let currentSignal=0;
 let shuffleOn=false, repeatOn=false;
 let progressInterval=null;
-let fakeTime=0;
+let currentTime=0;
+
+// Web Audio state
+let audioCtx=null;
+let gainNode=null;
+let oscillators=[];
+let audioStartTime=0;
+let audioPausedAt=0;
+let currentVolume=0.7;
+
 const trackDurations=[222,198,264,186,240];
 
 function getCurrentDuration(){return trackDurations[currentSignal]||222;}
+
+function initAudio(){
+  if(!audioCtx){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    gainNode=audioCtx.createGain();
+    gainNode.gain.value=currentVolume;
+    gainNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state==='suspended') audioCtx.resume();
+}
+
+function stopOscillators(){
+  oscillators.forEach(o=>{try{o.stop();o.disconnect();}catch(e){}});
+  oscillators=[];
+}
+
+function startOscillators(){
+  stopOscillators();
+  initAudio();
+  const freq=signals[currentSignal].freq;
+  // Base tone
+  const osc1=audioCtx.createOscillator();
+  osc1.type='sine';
+  osc1.frequency.value=freq;
+  const g1=audioCtx.createGain();
+  g1.gain.value=0.15;
+  osc1.connect(g1).connect(gainNode);
+  osc1.start();
+  oscillators.push(osc1);
+  // Harmonic 1 (octave)
+  const osc2=audioCtx.createOscillator();
+  osc2.type='sine';
+  osc2.frequency.value=freq*2;
+  const g2=audioCtx.createGain();
+  g2.gain.value=0.05;
+  osc2.connect(g2).connect(gainNode);
+  osc2.start();
+  oscillators.push(osc2);
+  // Harmonic 2 (fifth)
+  const osc3=audioCtx.createOscillator();
+  osc3.type='sine';
+  osc3.frequency.value=freq*1.5;
+  const g3=audioCtx.createGain();
+  g3.gain.value=0.03;
+  osc3.connect(g3).connect(gainNode);
+  osc3.start();
+  oscillators.push(osc3);
+  // Low drone
+  const osc4=audioCtx.createOscillator();
+  osc4.type='triangle';
+  osc4.frequency.value=freq/2;
+  const g4=audioCtx.createGain();
+  g4.gain.value=0.08;
+  osc4.connect(g4).connect(gainNode);
+  osc4.start();
+  oscillators.push(osc4);
+}
 
 function togglePlay(){
   playing=!playing;
   const btn=document.getElementById('playBtn');
   if(btn) btn.textContent=playing?'⏸':'▶';
   if(playing){
-    const total=getCurrentDuration();
-    const speed=(Math.random()*0.3+1.2)*(total/222);
+    initAudio();
+    startOscillators();
+    audioStartTime=audioCtx.currentTime-audioPausedAt;
+    // Real progress tracking
+    if(progressInterval) clearInterval(progressInterval);
     progressInterval=setInterval(()=>{
       if(!playing)return;
-      fakeTime+=0.1;
-      if(fakeTime>=total){
-        fakeTime=0;
+      currentTime=audioCtx.currentTime-audioStartTime;
+      if(currentTime>=getCurrentDuration()){
+        currentTime=0;
+        audioPausedAt=0;
+        stopOscillators();
         if(shuffleOn){const n=Math.floor(Math.random()*signals.length);window.playSignal(n);}
         else{currentSignal=(currentSignal+1)%signals.length;window.playSignal(currentSignal);}
       }
       updateProgress();
-    },100/speed);
+    },100);
     document.querySelectorAll('.wave-bar').forEach(b=>{b.style.background='linear-gradient(180deg,var(--lavender),var(--violet))';b.style.animationDuration=(0.3+Math.random()*0.5)+'s';});
     showToast('🎵 正在播放 · '+signals[currentSignal].title,'success');
   } else {
     if(progressInterval){clearInterval(progressInterval);progressInterval=null;}
+    audioPausedAt=audioCtx?(audioCtx.currentTime-audioStartTime):0;
+    stopOscillators();
     document.querySelectorAll('.wave-bar').forEach(b=>{b.style.background='';b.style.animationDuration='';});
   }
 }
@@ -2459,45 +2532,89 @@ function togglePlay(){
 function playSignal(idx){
   if(idx<0||idx>=signals.length)return;
   if(progressInterval){clearInterval(progressInterval);progressInterval=null;}
+  stopOscillators();
   currentSignal=idx;
   const sig=signals[idx];
   const titleEl=document.getElementById('radioTrackTitle');
   if(titleEl) titleEl.textContent=sig.title;
   const rnpSub=document.querySelector('.rnp-sub');
   if(rnpSub) rnpSub.textContent=sig.desc+' · 能量 72%';
-  fakeTime=0;playing=true;
-  const btn=document.getElementById('playBtn');
-  if(btn) btn.textContent='⏸';
+  currentTime=0; audioPausedAt=0;
+  if(playing){
+    initAudio();
+    startOscillators();
+    audioStartTime=audioCtx.currentTime;
+    progressInterval=setInterval(()=>{
+      if(!playing)return;
+      currentTime=audioCtx.currentTime-audioStartTime;
+      if(currentTime>=getCurrentDuration()){
+        currentTime=0; audioPausedAt=0;
+        stopOscillators();
+        if(shuffleOn){const n=Math.floor(Math.random()*signals.length);window.playSignal(n);}
+        else{currentSignal=(currentSignal+1)%signals.length;window.playSignal(currentSignal);}
+      }
+      updateProgress();
+    },100);
+  } else {
+    playing=true;
+    const btn=document.getElementById('playBtn');
+    if(btn) btn.textContent='⏸';
+    initAudio();
+    startOscillators();
+    audioStartTime=audioCtx.currentTime;
+    progressInterval=setInterval(()=>{
+      if(!playing)return;
+      currentTime=audioCtx.currentTime-audioStartTime;
+      if(currentTime>=getCurrentDuration()){
+        currentTime=0; audioPausedAt=0;
+        stopOscillators();
+        if(shuffleOn){const n=Math.floor(Math.random()*signals.length);window.playSignal(n);}
+        else{currentSignal=(currentSignal+1)%signals.length;window.playSignal(currentSignal);}
+      }
+      updateProgress();
+    },100);
+    document.querySelectorAll('.wave-bar').forEach(b=>{b.style.background='linear-gradient(180deg,var(--lavender),var(--violet))';b.style.animationDuration=(0.3+Math.random()*0.5)+'s';});
+  }
   updateProgress();
-  togglePlay();
 }
 window.playSignal=playSignal;
 
 function updateProgress(){
   const total=getCurrentDuration();
-  const pct=Math.min(fakeTime/total*100,100);
+  const displayTime=playing?(audioCtx?audioCtx.currentTime-audioStartTime:0):audioPausedAt;
+  const pct=Math.min(Math.max(displayTime/total*100,0),100);
   const fill=document.getElementById('rpFill');if(fill)fill.style.width=pct+'%';
   const thumb=document.getElementById('rpThumb');if(thumb)thumb.style.left=pct+'%';
   const fmt=t=>{const m=Math.floor(t/60);const s=Math.floor(t%60);return m+':'+s.toString().padStart(2,'0');};
-  const cur=document.getElementById('rpCurrent');if(cur)cur.textContent=fmt(fakeTime);
+  const cur=document.getElementById('rpCurrent');if(cur)cur.textContent=fmt(displayTime);
   const tot=document.getElementById('rpTotal');if(tot)tot.textContent=fmt(total);
 }
 function seekTrack(e){
   const track=e.currentTarget;const rect=track.getBoundingClientRect();
-  fakeTime=((e.clientX-rect.left)/rect.width)*getCurrentDuration();
+  const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  const total=getCurrentDuration();
+  if(audioCtx && playing){
+    audioStartTime=audioCtx.currentTime-pct*total;
+    currentTime=pct*total;
+  } else {
+    audioPausedAt=pct*total;
+    currentTime=pct*total;
+  }
   updateProgress();
 }
 function setVolume(e){
   const track=e.currentTarget;const rect=track.getBoundingClientRect();
   const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  currentVolume=pct;
   const vf=document.getElementById('volFill');if(vf)vf.style.width=(pct*100)+'%';
   const vt=document.getElementById('volThumb');if(vt)vt.style.left=(pct*100)+'%';
   const vi=document.querySelector('.rp-vol-icon');if(vi)vi.textContent=pct<0.2?'🔇':pct<0.5?'🔉':'🔊';
+  if(gainNode) gainNode.gain.value=pct;
 }
 function toggleShuffle(){shuffleOn=!shuffleOn;document.getElementById('shuffleBtn').classList.toggle('active');showToast(shuffleOn?'🔀 随机播放已开启':'🔀 顺序播放');}
 function toggleRepeat(){repeatOn=!repeatOn;document.getElementById('repeatBtn').classList.toggle('active');showToast(repeatOn?'🔁 单曲循环已开启':'🔁 单曲循环关闭');}
-function nextTrack(){if(progressInterval){clearInterval(progressInterval);progressInterval=null;}currentSignal=(currentSignal+1)%signals.length;playSignal(currentSignal);}
-function prevTrack(){if(progressInterval){clearInterval(progressInterval);progressInterval=null;}currentSignal=(currentSignal-1+signals.length)%signals.length;playSignal(currentSignal);}
+function nextTrack(){if(progressInterval){clearInterval(progressInterval);progressInterval=null;}stopOscillators();currentSignal=(currentSignal+1)%signals.length;playSignal(currentSignal);}
+function prevTrack(){if(progressInterval){clearInterval(progressInterval);progressInterval=null;}stopOscillators();currentSignal=(currentSignal-1+signals.length)%signals.length;playSignal(currentSignal);}
 function nextSignal(){nextTrack();}
 function prevSignal(){prevTrack();}
 /* ── Dify AI Chat ─────────────────────────── */
