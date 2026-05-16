@@ -52,6 +52,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   cursor: default;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ─── COSMIC BACKGROUND ─────────────────────────────── */
@@ -68,7 +69,7 @@ body {
     radial-gradient(ellipse 30% 30% at 70% 40%, rgba(242,217,122,0.08) 0%, transparent 45%),
     linear-gradient(170deg, #0D0A1A 0%, #13102B 40%, #0F0D22 100%);
 }
-.star { position: absolute; border-radius: 50%; background: white; animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s); }
+.star { position: absolute; border-radius: 50%; background: white; animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s); will-change: opacity, transform; }
 @keyframes twinkle {
   0%,100% { opacity: var(--min-op, 0.3); transform: scale(1); }
   50%      { opacity: var(--max-op, 0.9); transform: scale(1.4); }
@@ -76,6 +77,7 @@ body {
 .nebula {
   position: absolute; border-radius: 50%; filter: blur(80px); mix-blend-mode: screen;
   animation: drift var(--dur, 20s) ease-in-out infinite alternate;
+  will-change: transform;
 }
 @keyframes drift {
   0%   { transform: translate(0,0) scale(1); }
@@ -96,6 +98,7 @@ body {
   padding: 0 32px; height: 60px;
   background: rgba(13,10,26,0.85);
   backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(180,160,240,0.1);
 }
 .topnav-logo {
@@ -137,6 +140,7 @@ body {
   transition: all 0.25s ease;
   font-family: 'Noto Sans SC', sans-serif;
   letter-spacing: 0.5px;
+  -webkit-tap-highlight-color: transparent;
 }
 .tab-btn:hover { color: var(--lavender); background: var(--veil); }
 .tab-btn.active {
@@ -167,7 +171,9 @@ body {
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   font-size: 14px; color: white;
   box-shadow: var(--glow-soft);
+  transition: transform 0.2s;
 }
+.avatar-btn:hover { transform: scale(1.08); }
 
 /* ─── PAGES ─────────────────────────────────────────── */
 .page { display: none; }
@@ -200,6 +206,7 @@ body {
   border-radius: var(--r-xl);
   padding: 28px;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: relative; overflow: hidden;
 }
 .greeting-card::before {
@@ -259,6 +266,7 @@ body {
   font-family: 'Noto Sans SC', sans-serif;
   transition: all 0.3s ease;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  -webkit-tap-highlight-color: transparent;
 }
 .view-chart-btn:hover {
   background: linear-gradient(135deg, rgba(112,85,184,0.5), rgba(78,58,142,0.35));
@@ -276,6 +284,7 @@ body {
   border-radius: var(--r-md); cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none; color: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 .quick-link:hover {
   background: rgba(46,40,80,0.9);
@@ -307,6 +316,7 @@ body {
   border-radius: var(--r-xl);
   padding: 28px;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex; flex-direction: column; align-items: center;
   position: relative; overflow: hidden;
 }
@@ -321,6 +331,7 @@ body {
 .mandala-svg {
   width: 100%; height: 100%;
   animation: mandala-spin 60s linear infinite;
+  will-change: transform;
 }
 @keyframes mandala-spin { to { transform: rotate(360deg); } }
 .mandala-center {
@@ -347,6 +358,7 @@ body {
   border: 1px solid rgba(180,160,240,0.1);
   border-radius: var(--r-sm); cursor: pointer;
   transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .palace-chip:hover {
   background: rgba(112,85,184,0.2);
@@ -362,6 +374,7 @@ body {
   border-radius: var(--r-lg); padding: 18px 20px;
   display: flex; align-items: flex-start; gap: 14px;
   cursor: pointer; transition: all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .insight-strip:hover {
   border-color: rgba(180,160,240,0.3);
@@ -393,6 +406,7 @@ body {
   border-radius: var(--r-xl); padding: 20px;
   position: relative; overflow: hidden;
   cursor: pointer; transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .radio-mini:hover { box-shadow: var(--glow-violet); }
 .radio-mini::before {
@@ -449,6 +463,7 @@ body {
   display:flex; align-items:center; justify-content:center;
   font-size:11px; cursor:pointer; color:var(--lavender);
   transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .radio-ctrl:hover { background: rgba(180,160,240,0.25); }
 .radio-ctrl.play {
@@ -566,6 +581,7 @@ body {
   cursor:pointer; border:none;
   font-family:'Noto Sans SC',sans-serif;
   transition:all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .theme-action-btn.primary {
   background: linear-gradient(135deg, var(--violet), var(--amethyst));
@@ -625,6 +641,7 @@ body {
   border:1px solid rgba(180,160,240,0.1);
   border-radius:var(--r-lg); padding:16px;
   cursor:pointer; transition:all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .palace-detail-card:hover {
   border-color:rgba(180,160,240,0.3);
@@ -710,6 +727,7 @@ body {
   display:flex; align-items:center; justify-content:center;
   font-size:16px; cursor:pointer; color:var(--lavender);
   transition:all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .rbc:hover { background:rgba(180,160,240,0.2); transform:scale(1.05); }
 .rbc.play-big {
@@ -843,6 +861,7 @@ body {
   border:1px solid rgba(180,160,240,0.15);
   color:var(--text-secondary); cursor:pointer;
   transition:all 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 .quick-pill:hover { background:var(--veil); color:var(--lavender); }
 .chat-input-row { display:flex; gap:10px; align-items:flex-end; }
@@ -926,6 +945,7 @@ body {
 .modal-overlay {
   display:none; position:fixed; inset:0; z-index:200;
   background:rgba(0,0,0,0.7); backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   align-items:center; justify-content:center;
 }
 .modal-overlay.show { display:flex; }
@@ -934,11 +954,12 @@ body {
   border:1px solid rgba(180,160,240,0.2);
   border-radius:var(--r-xl); padding:32px;
   max-width:480px; width:90%;
+  max-height:80vh; overflow-y:auto;
   box-shadow:0 30px 80px rgba(0,0,0,0.5);
   animation:modal-in 0.35s cubic-bezier(0.2,0.8,0.3,1);
 }
 @keyframes modal-in { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
-.modal-close { float:right; cursor:pointer; font-size:18px; color:var(--text-muted); background:none; border:none; color:var(--text-secondary); transition:color 0.2s; }
+.modal-close { float:right; cursor:pointer; font-size:18px; color:var(--text-muted); background:none; border:none; transition:color 0.2s; }
 .modal-close:hover { color:var(--lavender); }
 .modal-title { font-family:'Noto Serif SC',serif; font-size:18px; color:var(--text-primary); margin-bottom:4px; }
 .modal-sub { font-size:12px; color:var(--text-muted); margin-bottom:20px; }
@@ -955,36 +976,86 @@ body {
 .divider { height:1px; background:rgba(180,160,240,0.07); margin:8px 0; }
 .section-label { font-size:10px; letter-spacing:2px; color:var(--text-ghost); margin-bottom:8px; }
 
+/* ─── RESPONSIVE ──────────────────────────── */
 @media (max-width: 1100px) {
   .home-layout { grid-template-columns: 300px 1fr; }
-  .right-col { grid-column: 1; grid-row: 2; }
+  .right-col { grid-column: 1; grid-row: 2; display:grid; grid-template-columns:1fr 1fr; }
   .center-col { grid-column: 2; }
   .bottom-row { grid-column: 1 / 3; }
 }
+@media (max-width: 900px) {
+  .topnav .logo-sub { display:none; }
+  .topnav-tabs .tab-btn { padding:6px 10px; font-size:11px; }
+  .chart-page-grid { grid-template-columns:1fr; }
+  .chat-sidebar { width:200px; }
+}
 @media (max-width: 768px) {
-  .home-layout { grid-template-columns: 1fr; padding:16px; }
+  body { font-size: 14px; }
+  .home-layout { grid-template-columns: 1fr; padding:16px; gap:12px; }
   .hero-col, .center-col, .right-col { grid-column:1; grid-row:auto; }
+  .right-col { grid-template-columns:1fr; }
   .bottom-row { grid-column:1; grid-template-columns:1fr; }
   .chart-page-grid { grid-template-columns:1fr; }
+  .chart-page { padding:16px; }
   .chat-sidebar { display:none; }
+  .chat-page { padding:12px; height:auto; min-height:calc(100vh - 60px); }
+  .chat-messages .msg { max-width:90%; }
   .karma-grid { grid-template-columns:1fr; }
-  .topnav { padding:0 16px; }
-  .topnav-tabs { gap:0; }
-  .tab-btn { padding:6px 10px; font-size:11px; }
+  .karma-page { padding:16px; }
+  .topnav { padding:0 12px; flex-wrap:wrap; height:auto; min-height:56px; gap:6px; }
+  .topnav-tabs { flex-wrap:wrap; padding:2px; gap:1px; }
+  .topnav-tabs .tab-btn { padding:4px 8px; font-size:10px; }
+  .topnav .energy-pill { display:none; }
+  .logo-name { font-size:13px; }
+  .greeting-card { padding:20px; }
+  .chart-card { padding:20px; }
+  .big-mandala-wrap { padding:20px; min-height:300px; }
+  .big-mandala-svg { width:260px; height:260px; }
+  .radio-big-orb { width:120px; height:120px; font-size:44px; }
+  .radio-page-title { font-size:22px; }
+  .tab-btn, .quick-link, .palace-chip, .insight-strip, .radio-mini, .view-chart-btn, .theme-action-btn, .karma-big-card { cursor:default; }
+  .tab-btn:active, .quick-link:active, .palace-chip:active { opacity:0.7; }
+}
+@media (max-width: 480px) {
+  .home-layout { padding:12px 10px; gap:10px; }
+  .greeting-name { font-size:20px; }
+  .energy-value { font-size:28px; }
+  .mandala-wrap { width:180px; height:180px; }
+  .chart-tab-row { flex-wrap:wrap; }
+  .chart-page-header { flex-direction:column; align-items:flex-start; gap:10px; }
+  .chart-page-title { font-size:18px; }
+  .karma-page-header { flex-direction:column; align-items:flex-start; gap:10px; }
+  .karma-page-title { font-size:18px; }
+  .radio-big-orb { width:100px; height:100px; font-size:36px; }
+  .wave-bar { width:2px; }
+}
+
+/* ─── REDUCED MOTION ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .star, .nebula, .mandala-svg, .radio-orb, .radio-ring, .radio-big-ring, .radio-big-orb { animation: none !important; }
+}
+
+/* ─── KEYBOARD SHORTCUT HINT ─────────────── */
+.keyboard-hint {
+  position:fixed; bottom:16px; right:16px; z-index:300;
+  font-size:10px; color:var(--text-ghost);
+  background:rgba(13,10,26,0.8);
+  padding:6px 12px; border-radius:var(--r-full);
+  border:1px solid rgba(180,160,240,0.1);
+  pointer-events:none; user-select:none;
 }
 </style>
 </head>
 <body>
 
 <!-- ── COSMIC BG ──────────────────────────── -->
-<div class="cosmos">
+<div class="cosmos" id="cosmos">
   <div class="cosmos-base"></div>
-  <!-- Nebulas -->
   <div class="nebula" style="width:500px;height:500px;background:radial-gradient(circle,rgba(78,58,142,0.3),transparent);top:-100px;left:-100px;--dur:25s;--dx:40px;--dy:20px;"></div>
   <div class="nebula" style="width:400px;height:400px;background:radial-gradient(circle,rgba(112,85,184,0.2),transparent);bottom:0;right:-80px;--dur:30s;--dx:-30px;--dy:-40px;"></div>
   <div class="nebula" style="width:300px;height:300px;background:radial-gradient(circle,rgba(242,217,122,0.08),transparent);top:40%;left:30%;--dur:20s;--dx:20px;--dy:-30px;"></div>
 </div>
-<!-- Stars injected by JS -->
 
 <!-- ── APP SHELL ──────────────────────────── -->
 <div class="app">
@@ -998,15 +1069,15 @@ body {
         <div class="logo-sub">Eastern Wisdom · AI Insight · Spiritual Guidance</div>
       </div>
     </a>
-    <div class="topnav-tabs">
-      <button class="tab-btn active" onclick="showPage('home')">🏠 首页</button>
-      <button class="tab-btn" onclick="showPage('chart')">⭕ 星盘</button>
-      <button class="tab-btn" onclick="showPage('radio')">📻 Aura Radio</button>
-      <button class="tab-btn" onclick="showPage('chat')">✨ Ask Aura</button>
-      <button class="tab-btn" onclick="showPage('karma')">💫 业力标签</button>
+    <div class="topnav-tabs" role="tablist">
+      <button class="tab-btn active" role="tab" onclick="showPage('home')">🏠 首页</button>
+      <button class="tab-btn" role="tab" onclick="showPage('chart')">⭕ 星盘</button>
+      <button class="tab-btn" role="tab" onclick="showPage('radio')">📻 Aura Radio</button>
+      <button class="tab-btn" role="tab" onclick="showPage('chat')">✨ Ask Aura</button>
+      <button class="tab-btn" role="tab" onclick="showPage('karma')">💫 业力标签</button>
     </div>
     <div class="topnav-right">
-      <div class="energy-pill"><div class="energy-dot"></div>能量 72%</div>
+      <div class="energy-pill"><div class="energy-dot"></div>能量 <span id="energyDisplay">72</span>%</div>
       <div class="avatar-btn" onclick="showModal('profile')">S</div>
     </div>
   </nav>
@@ -1020,8 +1091,8 @@ body {
       <!-- Left: Greeting + Quick Links -->
       <div class="hero-col">
         <div class="greeting-card">
-          <div class="greeting-time">MAY 7, 2026 · 甲辰年 · 四月初十</div>
-          <div class="greeting-name">早安，Stella ✦</div>
+          <div class="greeting-time" id="greetingTime">Loading...</div>
+          <div class="greeting-name" id="greetingName">早安，Stella ✦</div>
           <div class="greeting-sub">你的星盘正在共鸣</div>
           <div class="energy-meter-wrap">
             <div class="energy-header">
@@ -1077,24 +1148,19 @@ body {
           <div class="chart-title">本命星盘概览</div>
           <div class="mandala-wrap">
             <svg class="mandala-svg" viewBox="0 0 220 220" fill="none">
-              <!-- Outer ring -->
               <circle cx="110" cy="110" r="105" stroke="rgba(180,160,240,0.12)" stroke-width="1"/>
               <circle cx="110" cy="110" r="88" stroke="rgba(180,160,240,0.18)" stroke-width="1" stroke-dasharray="4 3"/>
               <circle cx="110" cy="110" r="68" stroke="rgba(180,160,240,0.1)" stroke-width="1"/>
               <circle cx="110" cy="110" r="46" stroke="rgba(180,160,240,0.15)" stroke-width="0.8"/>
-              <!-- Spokes -->
               <line x1="110" y1="5" x2="110" y2="215" stroke="rgba(180,160,240,0.07)" stroke-width="0.5"/>
               <line x1="5" y1="110" x2="215" y2="110" stroke="rgba(180,160,240,0.07)" stroke-width="0.5"/>
               <line x1="32" y1="32" x2="188" y2="188" stroke="rgba(180,160,240,0.05)" stroke-width="0.5"/>
               <line x1="188" y1="32" x2="32" y2="188" stroke="rgba(180,160,240,0.05)" stroke-width="0.5"/>
-              <!-- Accent dots -->
               <circle cx="110" cy="6" r="2.5" fill="rgba(155,132,212,0.5)"/>
               <circle cx="214" cy="110" r="2.5" fill="rgba(242,217,122,0.4)"/>
               <circle cx="110" cy="214" r="2.5" fill="rgba(155,132,212,0.5)"/>
               <circle cx="6" cy="110" r="2.5" fill="rgba(242,217,122,0.4)"/>
-              <!-- Glowing orbit line -->
               <circle cx="110" cy="110" r="78" stroke="url(#orbitGrad)" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.6"/>
-              <!-- Planet dots -->
               <circle cx="150" cy="45" r="4" fill="rgba(155,132,212,0.7)"/>
               <circle cx="185" cy="90" r="3" fill="rgba(242,217,122,0.6)"/>
               <circle cx="170" cy="170" r="3.5" fill="rgba(155,132,212,0.5)"/>
@@ -1121,7 +1187,6 @@ body {
           </div>
         </div>
 
-        <!-- AI Insight Strips -->
         <div class="insight-strip" onclick="showPage('chat')">
           <div class="insight-icon" style="background:linear-gradient(135deg,rgba(112,85,184,0.3),rgba(78,58,142,0.2));">🌙</div>
           <div class="insight-body">
@@ -1143,7 +1208,6 @@ body {
 
       <!-- Right: Radio + Karma + History -->
       <div class="right-col">
-        <!-- Radio Mini -->
         <div class="radio-mini" onclick="showPage('radio')">
           <div class="radio-label">AURA RADIO · 今日信号</div>
           <div class="radio-orb-wrap">
@@ -1166,7 +1230,6 @@ body {
           </div>
         </div>
 
-        <!-- Karma Mini -->
         <div class="karma-card">
           <div class="karma-header">
             <div class="karma-label">业力标签</div>
@@ -1180,7 +1243,6 @@ body {
           </div>
         </div>
 
-        <!-- Past Signals -->
         <div style="background:rgba(19,16,43,0.7);border:1px solid rgba(180,160,240,0.1);border-radius:var(--r-lg);padding:16px;">
           <div class="ps-label">PAST SIGNALS</div>
           <div class="signal-row" onclick="showPage('radio')">
@@ -1203,11 +1265,10 @@ body {
 
       <!-- Bottom Row -->
       <div class="bottom-row">
-        <!-- Daily Luck -->
         <div class="daily-card">
           <div class="daily-header">
             <div class="daily-title">今日各项运势</div>
-            <div class="daily-date">2026年5月7日</div>
+            <div class="daily-date" id="dailyDate">2026年5月7日</div>
           </div>
           <div class="luck-items">
             <div class="luck-item">
@@ -1243,7 +1304,6 @@ body {
           </div>
         </div>
 
-        <!-- Today's Theme -->
         <div class="theme-card">
           <div class="theme-card-label">TODAY'S MESSAGE</div>
           <div class="theme-quote">"今天感觉有点不同了，像是某个旧的模式正在悄悄松动。"</div>
@@ -1269,54 +1329,17 @@ body {
           <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Stella · 1990年6月15日 · 紫微斗数 + 八字四柱</div>
         </div>
         <div class="chart-tab-row">
-          <button class="chart-tab active" onclick="this.parentNode.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">紫微斗数</button>
-          <button class="chart-tab" onclick="this.parentNode.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">八字四柱</button>
-          <button class="chart-tab" onclick="this.parentNode.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">大运流年</button>
+          <button class="chart-tab active">紫微斗数</button>
+          <button class="chart-tab">八字四柱</button>
+          <button class="chart-tab">大运流年</button>
         </div>
       </div>
       <div class="chart-page-grid">
         <div class="big-mandala-wrap">
-          <svg class="big-mandala-svg" viewBox="0 0 380 380" fill="none">
-            <circle cx="190" cy="190" r="182" stroke="rgba(180,160,240,0.08)" stroke-width="1"/>
-            <circle cx="190" cy="190" r="160" stroke="rgba(180,160,240,0.12)" stroke-width="1" stroke-dasharray="6 4"/>
-            <circle cx="190" cy="190" r="130" stroke="rgba(180,160,240,0.1)" stroke-width="1"/>
-            <circle cx="190" cy="190" r="100" stroke="rgba(180,160,240,0.15)" stroke-width="1" stroke-dasharray="3 3"/>
-            <circle cx="190" cy="190" r="68" stroke="rgba(180,160,240,0.1)" stroke-width="1"/>
-            <circle cx="190" cy="190" r="38" stroke="rgba(180,160,240,0.12)" stroke-width="0.8"/>
-            <!-- 12 spokes -->
-            <line x1="190" y1="8" x2="190" y2="372" stroke="rgba(180,160,240,0.06)" stroke-width="0.5"/>
-            <line x1="8" y1="190" x2="372" y2="190" stroke="rgba(180,160,240,0.06)" stroke-width="0.5"/>
-            <line x1="56" y1="56" x2="324" y2="324" stroke="rgba(180,160,240,0.04)" stroke-width="0.5"/>
-            <line x1="324" y1="56" x2="56" y2="324" stroke="rgba(180,160,240,0.04)" stroke-width="0.5"/>
-            <line x1="190" y1="8" x2="56" y2="324" stroke="rgba(180,160,240,0.03)" stroke-width="0.5" transform="rotate(30 190 190)"/>
-            <line x1="190" y1="8" x2="56" y2="324" stroke="rgba(180,160,240,0.03)" stroke-width="0.5" transform="rotate(60 190 190)"/>
-            <line x1="190" y1="8" x2="56" y2="324" stroke="rgba(180,160,240,0.03)" stroke-width="0.5" transform="rotate(120 190 190)"/>
-            <line x1="190" y1="8" x2="56" y2="324" stroke="rgba(180,160,240,0.03)" stroke-width="0.5" transform="rotate(150 190 190)"/>
-            <!-- Glowing orbit -->
-            <circle cx="190" cy="190" r="145" stroke="url(#bigOrbit)" stroke-width="2" stroke-dasharray="12 8" opacity="0.5" style="animation:mandala-spin 90s linear infinite reverse"/>
-            <!-- Palace markers -->
-            <g opacity="0.7">
-              <circle cx="190" cy="33" r="5" fill="rgba(155,132,212,0.8)"/>
-              <circle cx="316" cy="67" r="4" fill="rgba(242,217,122,0.7)"/>
-              <circle cx="352" cy="190" r="4.5" fill="rgba(155,132,212,0.6)"/>
-              <circle cx="316" cy="313" r="4" fill="rgba(196,176,232,0.7)"/>
-              <circle cx="190" cy="347" r="5" fill="rgba(242,217,122,0.5)"/>
-              <circle cx="64" cy="313" r="4" fill="rgba(155,132,212,0.7)"/>
-              <circle cx="28" cy="190" r="4.5" fill="rgba(196,176,232,0.6)"/>
-              <circle cx="64" cy="67" r="4" fill="rgba(242,217,122,0.6)"/>
-            </g>
-            <defs>
-              <linearGradient id="bigOrbit" x1="0" y1="0" x2="380" y2="380" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="rgba(155,132,212,0.8)"/>
-                <stop offset="50%" stop-color="rgba(242,217,122,0.6)"/>
-                <stop offset="100%" stop-color="rgba(155,132,212,0.8)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="big-mandala-center">
-            <div class="bmc-energy">72%</div>
-            <div class="bmc-label">SOUL ENERGY</div>
-            <div class="bmc-theme">放下执着</div>
+          <div style="text-align:center;position:relative;z-index:1;">
+            <div style="font-family:'Noto Serif SC',serif;font-size:44px;font-weight:700;color:var(--lavender);text-shadow:var(--glow-violet);">72%</div>
+            <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;margin-top:6px;">SOUL ENERGY</div>
+            <div style="font-size:14px;color:var(--gold);margin-top:8px;">✦ 放下执着 ✦</div>
           </div>
         </div>
         <div class="chart-detail-panel">
@@ -1344,16 +1367,6 @@ body {
             <div class="pd-star">廉贞 · 化忌</div>
             <div class="pd-desc">感情路上有波折，需要深度沟通和相互理解方能长久。</div>
           </div>
-          <div class="palace-detail-card">
-            <div class="pd-row"><div class="pd-name">迁移宫 · 七杀星</div><div class="pd-score">○ 中等</div></div>
-            <div class="pd-star">七杀 · 火星</div>
-            <div class="pd-desc">出行运略带变动，异地发展有机遇。</div>
-          </div>
-          <div class="palace-detail-card">
-            <div class="pd-row"><div class="pd-name">福德宫 · 天同星</div><div class="pd-score">▲ 吉</div></div>
-            <div class="pd-star">天同 · 天喜</div>
-            <div class="pd-desc">内在富足，享受生活的能力强，精神世界丰盈。</div>
-          </div>
         </div>
       </div>
     </div>
@@ -1376,7 +1389,7 @@ body {
         </div>
         <div class="radio-now-playing">
           <div class="rnp-date">2026年5月7日 · 今日信号</div>
-          <div class="rnp-title">Trust the Pause</div>
+          <div class="rnp-title" id="radioTrackTitle">Trust the Pause</div>
           <div class="rnp-sub">能量 72% · 主题：放下执着 · Letting Go</div>
         </div>
         <div class="radio-big-tags">
@@ -1385,42 +1398,30 @@ body {
           <div class="radio-big-tag">Slow Down</div>
           <div class="radio-big-tag">Inner Peace</div>
         </div>
-        <!-- Waveform -->
-        <div class="waveform" id="waveform">
-        </div>
+        <div class="waveform" id="waveform"></div>
         <div class="radio-big-controls">
-          <div class="rbc">⏮</div>
-          <div class="rbc">⏪</div>
+          <div class="rbc" onclick="prevTrack()">⏮</div>
+          <div class="rbc" onclick="prevSignal()">⏪</div>
           <div class="rbc play-big" id="playBtn" onclick="togglePlay()">▶</div>
-          <div class="rbc">⏩</div>
-          <div class="rbc">⏭</div>
+          <div class="rbc" onclick="nextSignal()">⏩</div>
+          <div class="rbc" onclick="nextTrack()">⏭</div>
         </div>
       </div>
       <div class="radio-history" style="margin:0 auto;">
         <div class="rh-label">PAST SIGNALS · 历史信号</div>
-        <div class="rh-item">
+        <div class="rh-item" onclick="playSignal(0)">
           <div class="rh-num">01</div>
           <div class="rh-info"><div class="rh-name">Trust the Pause</div><div class="rh-date">Apr 28, 2026</div></div>
           <div class="rh-play">▶</div>
         </div>
-        <div class="rh-item">
+        <div class="rh-item" onclick="playSignal(1)">
           <div class="rh-num">02</div>
           <div class="rh-info"><div class="rh-name">Soft Reset</div><div class="rh-date">Apr 27, 2026</div></div>
           <div class="rh-play">▶</div>
         </div>
-        <div class="rh-item">
+        <div class="rh-item" onclick="playSignal(2)">
           <div class="rh-num">03</div>
           <div class="rh-info"><div class="rh-name">Let It Flow</div><div class="rh-date">Apr 26, 2026</div></div>
-          <div class="rh-play">▶</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-num">04</div>
-          <div class="rh-info"><div class="rh-name">Sacred Ground</div><div class="rh-date">Apr 25, 2026</div></div>
-          <div class="rh-play">▶</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-num">05</div>
-          <div class="rh-info"><div class="rh-name">Inner Compass</div><div class="rh-date">Apr 24, 2026</div></div>
           <div class="rh-play">▶</div>
         </div>
       </div>
@@ -1486,6 +1487,8 @@ body {
             <div class="quick-pill" onclick="sendQuick(this)">今年有什么大转变？</div>
             <div class="quick-pill" onclick="sendQuick(this)">我的天赋在哪里？</div>
             <div class="quick-pill" onclick="sendQuick(this)">财运分析</div>
+            <div class="quick-pill" onclick="sendQuick(this)">我该换工作吗</div>
+            <div class="quick-pill" onclick="sendQuick(this)">最近有什么需要注意</div>
           </div>
           <div class="chat-input-row">
             <textarea class="chat-input" id="chatInput" placeholder="向 Aura 提问..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
@@ -1506,7 +1509,7 @@ body {
           <div class="karma-page-title">💫 业力标签 · 关系灵魂分析</div>
           <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">通过命盘对比，洞察关系深层模式与业力功课</div>
         </div>
-        <button class="new-karma-btn">+ 添加新关系</button>
+        <button class="new-karma-btn" onclick="showModal('karma-new')">+ 添加新关系</button>
       </div>
       <div class="karma-grid">
         <div class="karma-big-card featured">
@@ -1529,12 +1532,6 @@ body {
             <div class="kbc-score"><div class="kbc-score-val">34</div><div class="kbc-score-label">长期稳定性</div></div>
             <div class="kbc-score"><div class="kbc-score-val">95</div><div class="kbc-score-label">业力关联度</div></div>
           </div>
-          <div style="margin-top:14px;">
-            <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:8px;">命盘契合度分析</div>
-            <div class="compat-bar-row"><div class="compat-label">情感</div><div class="compat-track"><div class="compat-fill" style="width:87%;background:linear-gradient(90deg,#8E4A8E,var(--lilac));"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">87</div></div>
-            <div class="compat-bar-row"><div class="compat-label">沟通</div><div class="compat-track"><div class="compat-fill" style="width:60%;background:linear-gradient(90deg,var(--amethyst),var(--lilac));animation-delay:0.2s"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">60</div></div>
-            <div class="compat-bar-row"><div class="compat-label">价值观</div><div class="compat-track"><div class="compat-fill" style="width:42%;background:linear-gradient(90deg,var(--violet),var(--dust));animation-delay:0.4s"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">42</div></div>
-          </div>
         </div>
         <div class="karma-big-card">
           <div class="kbc-top">
@@ -1555,21 +1552,14 @@ body {
             <div class="kbc-score"><div class="kbc-score-val">58</div><div class="kbc-score-label">长期稳定性</div></div>
             <div class="kbc-score"><div class="kbc-score-val">78</div><div class="kbc-score-label">业力关联度</div></div>
           </div>
-          <div style="margin-top:14px;">
-            <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:8px;">命盘契合度分析</div>
-            <div class="compat-bar-row"><div class="compat-label">情感</div><div class="compat-track"><div class="compat-fill" style="width:72%;background:linear-gradient(90deg,#8E4A8E,var(--lilac));animation-delay:0.1s"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">72</div></div>
-            <div class="compat-bar-row"><div class="compat-label">沟通</div><div class="compat-track"><div class="compat-fill" style="width:80%;background:linear-gradient(90deg,var(--amethyst),var(--lilac));animation-delay:0.3s"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">80</div></div>
-            <div class="compat-bar-row"><div class="compat-label">价值观</div><div class="compat-track"><div class="compat-fill" style="width:65%;background:linear-gradient(90deg,var(--violet),var(--dust));animation-delay:0.5s"></div></div><div style="font-size:11px;color:var(--text-muted);margin-left:6px;">65</div></div>
-          </div>
         </div>
       </div>
-      <!-- AI Advice Card -->
       <div style="background:linear-gradient(135deg,rgba(78,58,142,0.2),rgba(19,16,43,0.85));border:1px solid rgba(180,160,240,0.2);border-radius:var(--r-xl);padding:24px;">
         <div style="display:flex;align-items:flex-start;gap:16px;">
           <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--amethyst));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:var(--glow-violet);">✦</div>
           <div style="flex:1;">
             <div style="font-family:'Noto Serif SC',serif;font-size:15px;color:var(--lavender);margin-bottom:8px;">AI 关系洞察</div>
-            <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">从你的两段重要关系中，可以看出一个清晰的模式：你倾向于被需要你付出的人吸引，在给予中感受存在感。这背后是对自我价值的不确定。<br><br>真正的疗愈不是找到"对的人"，而是成为一个与自己和平共处的人。当你不再需要从关系中寻找自我，你才能真正拥有爱。</div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;" id="karmaInsight">从你的两段重要关系中，可以看出一个清晰的模式：你倾向于被需要你付出的人吸引，在给予中感受存在感。这背后是对自我价值的不确定。<br><br>真正的疗愈不是找到"对的人"，而是成为一个与自己和平共处的人。当你不再需要从关系中寻找自我，你才能真正拥有爱。</div>
             <button style="margin-top:14px;padding:9px 20px;border-radius:var(--r-full);background:linear-gradient(135deg,var(--violet),var(--amethyst));border:none;color:white;font-size:12px;cursor:pointer;font-family:'Noto Sans SC',sans-serif;box-shadow:var(--glow-violet);" onclick="showPage('chat')">💬 深度对话</button>
           </div>
         </div>
@@ -1579,9 +1569,10 @@ body {
 
 </div><!-- end .app -->
 
-<!-- ══════════════════════════════════════════ -->
-<!--  MODALS                                    -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ── KEYBOARD HINT ──────────────────────── -->
+<div class="keyboard-hint">⌨ 1-5 切换页面 · M 弹窗 · Space 播放</div>
+
+<!-- ── MODALS ─────────────────────────────── -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal" id="modal-content">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1592,8 +1583,10 @@ body {
 <script>
 /* ── Stars ──────────────────────────────── */
 (function(){
-  const cosmos = document.querySelector('.cosmos');
-  for(let i=0;i<120;i++){
+  const cosmos = document.getElementById('cosmos');
+  const isMobile = window.innerWidth < 768;
+  const count = isMobile ? 40 : 80;
+  for(let i=0;i<count;i++){
     const s=document.createElement('div');
     s.className='star';
     const size=Math.random()*2+0.5;
@@ -1613,7 +1606,8 @@ body {
 (function(){
   const wf=document.getElementById('waveform');
   if(!wf)return;
-  for(let i=0;i<48;i++){
+  const count = window.innerWidth < 480 ? 24 : 48;
+  for(let i=0;i<count;i++){
     const b=document.createElement('div');
     b.className='wave-bar';
     const h=Math.sin(i*0.4)*18+22;
@@ -1622,48 +1616,133 @@ body {
   }
 })();
 
+/* ── Greeting time ──────────────────────── */
+(function(){
+  const now=new Date();
+  const h=now.getHours();
+  const greetEl=document.getElementById('greetingName');
+  if(greetEl){
+    const g=h<12?'早安':h<18?'午安':'晚安';
+    greetEl.textContent=g+'，Stella ✦';
+  }
+  const timeEl=document.getElementById('greetingTime');
+  if(timeEl){
+    const y=now.getFullYear();
+    const m=(now.getMonth()+1).toString().padStart(2,'0');
+    const d=now.getDate().toString().padStart(2,'0');
+    const days=['日','一','二','三','四','五','六'];
+    timeEl.textContent=`${y}年${m}月${d}日 · 星期${days[now.getDay()]}`;
+  }
+  const dateEl=document.getElementById('dailyDate');
+  if(dateEl){
+    dateEl.textContent=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+  }
+})();
+
 /* ── Page navigation ────────────────────── */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
+  const page=document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
   document.querySelectorAll('.tab-btn').forEach(b=>{
     if(b.getAttribute('onclick')===`showPage('${id}')`) b.classList.add('active');
   });
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ── Radio play toggle ──────────────────── */
+/* ── Keyboard shortcuts ─────────────────── */
+document.addEventListener('keydown',function(e){
+  const nav={1:'home',2:'chart',3:'radio',4:'chat',5:'karma'};
+  if(e.key in nav) showPage(nav[e.key]);
+  if(e.key==='m'||e.key==='M') showModal('profile');
+  if(e.key===' '){e.preventDefault();togglePlay();}
+});
+
+/* ── Radio ──────────────────────────────── */
 let playing=false;
+const signals=[
+  {title:'Trust the Pause',desc:'在静默中发现力量'},
+  {title:'Soft Reset',desc:'温柔的重新开始'},
+  {title:'Let It Flow',desc:'让能量自然流动'},
+  {title:'Sacred Ground',desc:'守护你的内在边界'},
+  {title:'Inner Compass',desc:'倾听内心的指南针'}
+];
+let currentSignal=0;
+
 function togglePlay(){
   playing=!playing;
   const btn=document.getElementById('playBtn');
   if(btn) btn.textContent=playing?'⏸':'▶';
 }
 
+function playSignal(idx){
+  if(idx<0||idx>=signals.length)return;
+  currentSignal=idx;
+  const sig=signals[idx];
+  const titleEl=document.getElementById('radioTrackTitle');
+  if(titleEl) titleEl.textContent=sig.title;
+  const rnpSub=document.querySelector('.rnp-sub');
+  if(rnpSub) rnpSub.textContent=sig.desc+' · 能量 72%';
+  playing=true;
+  const btn=document.getElementById('playBtn');
+  if(btn) btn.textContent='⏸';
+}
+
+function nextTrack(){currentSignal=(currentSignal+1)%signals.length;playSignal(currentSignal);}
+function prevTrack(){currentSignal=(currentSignal-1+signals.length)%signals.length;playSignal(currentSignal);}
+function nextSignal(){nextTrack();}
+function prevSignal(){prevTrack();}
+
 /* ── Chat ───────────────────────────────── */
 const responses={
   "我的事业运如何？":"你的官禄宫坐天梁化科，这是一个非常好的事业配置。天梁主庇荫与学问，化科增添名声光彩。\n\n今年大运走入官禄宫，是事业上的重要发展期。适合专业技能的深化，或在原有领域建立更高的权威性。贵人运强，主动拓展人脉会有意想不到的机缘。\n\n建议：不必急于求成，踏实积累，厚积薄发是你今年的关键词。",
   "今年有什么大转变？":"2026年是你的重要转折年。流年命宫走入天机，这与你本命盘形成强力共振，意味着内在觉醒与外在变化同步发生。\n\n三月到六月是情感层面的转化期，旧有的关系模式将得到清理与整合。七月后，你会感受到更清晰的自我定位，对未来的方向更有把握。\n\n最重要的转变，发生在你内心。",
   "我的天赋在哪里？":"天机坐命，你的天赋在于：敏锐的洞察力、跨领域整合的能力，以及对人心的深刻理解。\n\n你天生是个「连接者」——能看见不同事物之间的关联，将复杂问题简化，帮助他人找到方向。这在咨询、写作、创意策划等领域尤为突出。\n\n文曲同座，赋予你强烈的艺术感知力和表达能力。将这些天赋用于有意义的事业，你会感到真正的满足。",
-  "财运分析":"财帛宫坐紫微天相，财运整体稳健。紫微代表贵气，天相主守成，这个组合适合稳健型的财务规划。\n\n今年财运：上半年保守为宜，避免大额投资。下半年有贵人引荐，可能出现意外收入或事业机遇带来的财务改善。\n\n你的财富更多来自专业能力和人脉关系，而非投机性收益。建议建立长期的理财习惯。"
+  "财运分析":"财帛宫坐紫微天相，财运整体稳健。紫微代表贵气，天相主守成，这个组合适合稳健型的财务规划。\n\n今年财运：上半年保守为宜，避免大额投资。下半年有贵人引荐，可能出现意外收入或事业机遇带来的财务改善。\n\n你的财富更多来自专业能力和人脉关系，而非投机性收益。建议建立长期的理财习惯。",
+  "我该换工作吗":"这是个重要的职业决策。从命盘来看，天梁化科在官禄宫，意味着你在当前领域仍有上升空间，但需要主动创造变化。\n\n流年大运带动迁移宫，今年夏秋之交是一个合适的时间窗口。\n\n换工作的关键信号：1) 当前工作已无学习空间 2) 身体或情绪长期疲惫 3) 新机会能带来更本质的成长。\n\n不建议裸辞，但可以开始积极留意新机会。",
+  "最近有什么需要注意":"从星象看，近期有几个重要注意点：\n\n1. 健康方面：天机坐命的你容易思虑过度，注意睡眠质量和神经系统疲劳。\n\n2. 人际关系：廉贞化忌在夫妻宫，近期可能会触发一些旧的情感反应，提醒你未完成的功课。\n\n3. 财务方面：不宜冲动消费或投资，偏财运走低。\n\n建议：每天花10分钟静坐，观呼吸。减少社交媒体摄入，增加独处和阅读时间。",
+  "健康":"健康方面需要特别关注的是神经系统和消化系统。天机坐命，思虑过度是常态，容易导致失眠、焦虑和肠胃问题。\n\n建议作息规律，适当运动。今年秋冬季需要特别注意免疫力的维护。",
+  "感情":"廉贞化忌坐夫妻宫，感情是你此生最重要的修行功课。\n\n你的感情模式：容易过度付出，在爱中寻找自我价值。真正的亲密关系建立在两个完整自我之间的平等相遇。\n\n未来3-6个月，你可能会遇到一个让你重新定义爱的人。前提是你已经准备好了。"
 };
-function sendQuick(el){document.getElementById('chatInput').value=el.textContent;sendMsg();}
+
+function sendQuick(el){
+  document.getElementById('chatInput').value=el.textContent;
+  sendMsg();
+}
+
 function sendMsg(){
   const input=document.getElementById('chatInput');
   const text=input.value.trim();
   if(!text)return;
   const msgs=document.getElementById('chatMessages');
-  // User bubble
-  msgs.innerHTML+=`<div class="msg user"><div class="msg-avatar">S</div><div><div class="msg-bubble">${text}</div><div class="msg-time">刚刚</div></div></div>`;
+  msgs.innerHTML+=`<div class="msg user"><div class="msg-avatar">S</div><div><div class="msg-bubble">${escapeHtml(text)}</div><div class="msg-time">刚刚</div></div></div>`;
   input.value='';
-  // AI response
-  const reply=responses[text]||"这是一个很好的问题。根据你的命盘，天机坐命的你具有天生的洞察力。关于「"+text+"」，你的星盘显示此刻正是内省与整合的时机。不妨安静下来，聆听内心的声音——答案往往在宁静中自然浮现。";
+  const reply=responses[text]||responses[text.replace(/[？?]/g,'')]||generateReply(text);
   setTimeout(()=>{
     msgs.innerHTML+=`<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">${reply.replace(/\n/g,'<br>')}</div><div class="msg-time">刚刚</div></div></div>`;
     msgs.scrollTop=msgs.scrollHeight;
   },900);
   msgs.scrollTop=msgs.scrollHeight;
+}
+
+function escapeHtml(s){
+  const d=document.createElement('div');
+  d.textContent=s;
+  return d.innerHTML;
+}
+
+function generateReply(text){
+  const keywords={
+    '工作|事业|职业|换工作|跳槽':"从你的命盘来看，天梁化科在官禄宫，你在事业上有很好的发展潜力。当前运程显示，今年夏秋之交是重要的职业转折窗口。关键不在于「要不要换」，而在于「往哪个方向换」。建议你列出三个最让你有成就感的事情，答案正在其中。",
+    '感情|爱情|恋爱|伴侣|关系|前任':"你的夫妻宫坐廉贞化忌，感情是你最重要的功课。你在关系中容易过度付出，用自我牺牲换取安全感。这不是因为你不值得被爱，而是你还在学习如何爱自己。建议你此刻先停下来，不再追逐爱情，而是让爱情找到完整的你。",
+    '健康|身体|睡眠|疲惫':"天机坐命者思虑易过，需要注意身心平衡。近期能量偏向内省，正是调整作息、建立健康习惯的好时机。建议从每天10分钟的静坐开始，慢慢增加运动量。身体是你最忠诚的伴侣——好好照顾它。",
+    '财运|金钱|投资|收入':"你的财帛宫紫微天相，财运以稳健见长。今年偏财运走弱，正财运平稳。建议建立长期理财计划，避免短期投机。你的财富增长将在中年后更加明显，踏实积累就是最好的策略。"
+  };
+  for(const [pattern,reply] of Object.entries(keywords)){
+    if(new RegExp(pattern).test(text)) return reply;
+  }
+  return "这是一个好问题。根据你的命盘，天机坐命的你具有天生的洞察力。关于「"+text+"」，你的星盘显示此刻正是内省与整合的时机。不妨安静下来，聆听内心的声音——答案往往在宁静中自然浮现。";
 }
 
 /* ── Modals ─────────────────────────────── */
@@ -1672,8 +1751,10 @@ const modalContent={
   'palace-cai':{title:'财帛宫 · 紫微星',sub:'财帛宫代表你与金钱、物质资源的关系',body:'<p>紫微天相同坐财帛宫，这是一个相对稳健的财运配置。紫微代表贵气与领导力，意味着你的财富往往与地位、专业能力相连。</p><div class="modal-highlight">「财富来自专业，贵人相助多，适合稳健理财，长线思维。」</div><p>天相主守成，不宜冒进。建议建立规律的储蓄习惯，财富在中年后逐步积累增厚。</p>'},
   'palace-guan':{title:'官禄宫 · 天梁星',sub:'官禄宫代表事业运势与社会地位',body:'<p>天梁化科坐官禄宫，这是极好的事业格局。天梁主庇荫与学问，化科增添名声。你在专业领域具有天然权威感，适合教育、咨询、医疗、法律等需要专业知识与信任感的行业。</p><div class="modal-highlight">「官禄宫吉，事业有成，名声渐著，贵人提携，晚年成就更显。」</div>'},
   'palace-fu':{title:'夫妻宫 · 廉贞化忌',sub:'夫妻宫代表你的感情缘分与伴侣特质',body:'<p>廉贞化忌坐夫妻宫，是感情路上最需要关注的位置。廉贞代表深情与执着，化忌意味着在情感中容易产生纠结、内耗。</p><div class="modal-highlight">「感情中的执着是双刃剑——它让你深爱，也让你深陷。学会放手，是此生感情的核心功课。」</div><p>建议：先完善自己，从内向外建立自信与安全感，而非从伴侣身上寻找完整感。当你足够完整，才能遇见真正合适的关系。</p>'},
-  'profile':{title:'Stella 的命盘',sub:'1990年6月15日 · 巳时 · 甲午年',body:'<p><strong style="color:var(--lavender)">命宫</strong>：天机 — 聪慧灵动，善于谋划<br><strong style="color:var(--lavender)">财帛</strong>：紫微天相 — 稳健财运<br><strong style="color:var(--lavender)">官禄</strong>：天梁化科 — 事业有成<br><strong style="color:var(--lavender)">夫妻</strong>：廉贞化忌 — 感情需疗愈</p><div class="modal-highlight">今日能量 72% · 主题：放下执着<br>大运：走入官禄宫，事业转型期</div><p>此刻是你人生重要的觉醒窗口。内在的转化正在发生，相信这个过程。</p>'}
+  'profile':{title:'Stella 的命盘',sub:'1990年6月15日 · 巳时 · 甲午年',body:'<p><strong style="color:var(--lavender)">命宫</strong>：天机 — 聪慧灵动，善于谋划<br><strong style="color:var(--lavender)">财帛</strong>：紫微天相 — 稳健财运<br><strong style="color:var(--lavender)">官禄</strong>：天梁化科 — 事业有成<br><strong style="color:var(--lavender)">夫妻</strong>：廉贞化忌 — 感情需疗愈</p><div class="modal-highlight">今日能量 72% · 主题：放下执着<br>大运：走入官禄宫，事业转型期</div><p>此刻是你人生重要的觉醒窗口。内在的转化正在发生，相信这个过程。</p>'},
+  'karma-new':{title:'添加新关系',sub:'输入对方的出生信息进行命盘对比分析',body:'<p>请准备好以下信息：</p><p>• 对方姓名<br>• 出生日期（年/月/日）<br>• 出生时辰（如有）<br>• 与你的关系类型</p><div class="modal-highlight">命盘对比需要双方出生信息越精确，分析越准确。</div><p>后续版本将支持直接输入比较。目前可前往 Ask Aura 页面输入对方信息进行深度对话分析。</p>'}
 };
+
 function showModal(key){
   const c=modalContent[key];if(!c)return;
   document.getElementById('modal-inner').innerHTML=`<div class="modal-title">${c.title}</div><div class="modal-sub">${c.sub}</div><div class="modal-body">${c.body}</div>`;
