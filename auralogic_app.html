@@ -1025,123 +1025,190 @@ body {
 .divider { height:1px; background:rgba(212,197,232,0.15); margin:8px 0; }
 .section-label { font-size:10px; letter-spacing:2px; color:var(--text-ghost); margin-bottom:8px; }
 
-/* ─── ASTROLOGY / 排盘 PAGE ────────────── */
-.astro-page { padding:28px 32px; max-width:1000px; margin:0 auto; }
+/* ─── ASTROLOGY / 排盘 (测测风格) ───────── */
+/* Morandi palette */
+.astro-page {
+  padding:28px 32px; max-width:1040px; margin:0 auto;
+  --morandi-bg:     #F2EFEC;
+  --morandi-card:   rgba(248,244,240,0.92);
+  --morandi-border: rgba(180,170,160,0.2);
+  --morandi-text:   #5D5350;
+  --morandi-muted:  #9C9184;
+  --morandi-light:  #BDB2A4;
+  --morandi-accent: #B5A48E;
+  --morandi-bg2:    #EDE8E4;
+  --morandi-bg3:    rgba(200,190,180,0.08);
+  --morandi-shadow: 0 4px 24px rgba(120,110,100,0.07);
+  --morandi-hover:  0 8px 32px rgba(120,110,100,0.10);
+  --morandi-blue:   #A8B8C0;
+  --morandi-warm:   #D4C5B5;
+}
 .astro-header { margin-bottom:24px; }
-.astro-title { font-family:'Noto Serif SC',serif; font-size:22px; color:var(--text-primary); }
-.astro-sub { font-size:12px; color:var(--text-secondary); margin-top:4px; }
+.astro-title { font-family:'Noto Sans SC',sans-serif; font-size:20px; font-weight:500; letter-spacing:2px; color:var(--morandi-text); }
+.astro-sub { font-size:12px; color:var(--morandi-muted); letter-spacing:1px; margin-top:6px; }
 
-/* Birth form */
+/* Birth form - clean morandi */
 .astro-form {
-  background: rgba(248,244,252,0.6);
+  background: var(--morandi-card);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212,197,232,0.2);
-  border-radius:var(--r-xl); padding:24px;
-  box-shadow: 0 4px 20px rgba(139,123,181,0.06);
-  margin-bottom:20px;
+  border: 1px solid var(--morandi-border);
+  border-radius:16px; padding:24px;
+  box-shadow: var(--morandi-shadow);
+  margin-bottom:24px;
 }
 .astro-form-grid { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; }
 .astro-field { display:flex; flex-direction:column; gap:6px; }
-.astro-field label { font-size:11px; color:var(--text-secondary); letter-spacing:1px; }
+.astro-field label { font-size:11px; color:var(--morandi-muted); letter-spacing:1.5px; font-weight:400; }
 .astro-field select, .astro-field input {
-  padding:9px 14px; border-radius:var(--r-full);
-  border:1px solid rgba(212,197,232,0.25);
-  background:rgba(248,244,252,0.7);
+  padding:10px 16px; border-radius:12px;
+  border:1px solid var(--morandi-border);
+  background:rgba(248,244,240,0.6);
   font-family:'Noto Sans SC',sans-serif; font-size:13px;
-  color:var(--text-primary); outline:none;
-  transition:all 0.2s; cursor:pointer;
+  color:var(--morandi-text); outline:none;
+  transition:all 0.25s ease; cursor:pointer; min-width:140px;
 }
-.astro-field select:hover, .astro-field input:hover { border-color:rgba(201,168,76,0.3); }
-.astro-field select:focus, .astro-field input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,0.1); }
+.astro-field select:hover, .astro-field input:hover { border-color:var(--morandi-light); }
+.astro-field select:focus, .astro-field input:focus { border-color:var(--morandi-accent); box-shadow:0 0 0 3px rgba(181,164,142,0.15); }
 .astro-submit-btn {
-  padding:9px 28px; border:none; border-radius:var(--r-full);
-  background:linear-gradient(135deg,var(--gold),var(--amber));
-  color:white; font-size:13px; font-weight:500;
+  padding:10px 32px; border:none; border-radius:12px;
+  background:var(--morandi-accent);
+  color:#fff; font-size:13px; font-weight:500;
   font-family:'Noto Sans SC',sans-serif; cursor:pointer;
-  box-shadow:0 4px 16px rgba(201,168,76,0.25);
-  transition:all 0.25s; position:relative; overflow:hidden;
+  box-shadow:0 4px 16px rgba(181,164,142,0.25);
+  transition:all 0.25s ease; letter-spacing:1px;
   -webkit-tap-highlight-color: transparent;
 }
-.astro-submit-btn::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.05) 50%,transparent 70%);
-  border-radius:inherit; pointer-events:none;
-}
-.astro-submit-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(201,168,76,0.35); }
+.astro-submit-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(181,164,142,0.35); }
 
-/* Bazi 2x4 grid */
-.bazi-section { margin-bottom:24px; }
-.bazi-section-title { font-family:'Noto Serif SC',serif; font-size:16px; color:var(--text-primary); margin-bottom:14px; letter-spacing:1px; }
+/* Bazi - Cece style: big chars + ten gods + hidden stems */
+.bazi-section { margin-bottom:28px; }
+.bazi-section-title { font-size:12px; color:var(--morandi-muted); font-weight:400; letter-spacing:2px; margin-bottom:16px; }
 .bazi-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
-  max-width:500px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+  max-width:520px;
 }
 .bazi-cell {
-  text-align:center; padding:12px 6px;
-  border-radius:var(--r-md);
-  border:1px solid rgba(212,197,232,0.15);
-  background:rgba(248,244,252,0.4);
-  transition:all 0.3s;
+  text-align:center; padding:16px 8px 12px;
+  border-radius:12px;
+  border:1px solid var(--morandi-border);
+  background:var(--morandi-card);
+  box-shadow: var(--morandi-shadow);
+  transition:all 0.3s; position:relative; cursor:default;
 }
-.bazi-cell-label { font-size:9px; color:var(--text-muted); letter-spacing:1px; margin-bottom:6px; }
-.bazi-cell-text { font-size:18px; font-weight:600; font-family:'Noto Serif SC',serif; }
-.bazi-cell-wuxing { font-size:10px; margin-top:4px; letter-spacing:0.5px; }
-.bazi-cell.wood { border-color:#A8E6CF; box-shadow:0 0 12px rgba(168,230,207,0.25); background:rgba(168,230,207,0.08); }
-.bazi-cell.wood .bazi-cell-text { color:#5CB892; }
-.bazi-cell.wood .bazi-cell-wuxing { color:#7DC4A3; }
-.bazi-cell.fire { border-color:#FFD3B6; box-shadow:0 0 12px rgba(255,211,182,0.25); background:rgba(255,211,182,0.08); }
-.bazi-cell.fire .bazi-cell-text { color:#E8946A; }
-.bazi-cell.fire .bazi-cell-wuxing { color:#E8A882; }
-.bazi-cell.earth { border-color:#FFF5BA; box-shadow:0 0 12px rgba(255,245,186,0.25); background:rgba(255,245,186,0.08); }
-.bazi-cell.earth .bazi-cell-text { color:#C4A84C; }
-.bazi-cell.earth .bazi-cell-wuxing { color:#D4B860; }
-.bazi-cell.metal { border-color:rgba(255,255,255,0.6); box-shadow:0 0 12px rgba(200,200,220,0.2); background:rgba(240,240,255,0.08); }
-.bazi-cell.metal .bazi-cell-text { color:#8B8BA8; }
-.bazi-cell.metal .bazi-cell-wuxing { color:#A0A0B8; }
-.bazi-cell.water { border-color:#A8DADC; box-shadow:0 0 12px rgba(168,218,220,0.25); background:rgba(168,218,220,0.08); }
-.bazi-cell.water .bazi-cell-text { color:#5CA8AA; }
-.bazi-cell.water .bazi-cell-wuxing { color:#7DB8BA; }
+.bazi-cell:hover {
+  box-shadow: var(--morandi-hover);
+  border-color:var(--morandi-light);
+}
+/* Ten god label */
+.bazi-cell-shen { font-size:10px; color:var(--morandi-muted); letter-spacing:0.5px; margin-bottom:8px; font-weight:400; }
+/* Main gan-zhi text - big */
+.bazi-cell-text { font-size:28px; font-weight:400; font-family:'Noto Sans SC',sans-serif; color:var(--morandi-text); letter-spacing:2px; line-height:1.3; }
+/* Hidden stems */
+.bazi-cell-cang { font-size:9px; color:var(--morandi-light); letter-spacing:0.5px; margin-top:6px; }
+/* Wuxing indicator dot */
+.bazi-dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:3px; vertical-align:middle; }
+.bazi-dot.wood-dot { background:#B5C8B0; }
+.bazi-dot.fire-dot { background:#D4B5A8; }
+.bazi-dot.earth-dot { background:#D4C8A0; }
+.bazi-dot.metal-dot { background:#C0C0C8; }
+.bazi-dot.water-dot { background:#A8B8C0; }
 
-/* Zi Wei 12-palace grid */
+/* Tooltip on hover */
+.bazi-cell-tip {
+  position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:rgba(80,70,65,0.92); color:#f0ece8; font-size:11px;
+  padding:6px 12px; border-radius:8px; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity 0.2s; z-index:10;
+}
+.bazi-cell:hover .bazi-cell-tip { opacity:1; }
+
+/* Zi Wei - Cece 4x4 grid */
 .ziwei-section { margin-bottom:24px; }
 .ziwei-grid {
   display:grid;
   grid-template-columns:repeat(4,1fr);
   grid-template-rows:repeat(4,1fr);
-  gap:4px; max-width:480px; aspect-ratio:1;
+  gap:3px; max-width:540px; aspect-ratio:1;
   margin:0 auto;
+  background:rgba(248,244,240,0.3);
+  border-radius:12px; padding:3px;
 }
 .ziwei-palace {
-  background:rgba(248,244,252,0.4);
-  border:1px solid rgba(212,197,232,0.15);
-  border-radius:var(--r-sm);
-  padding:6px; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  text-align:center; position:relative;
-  transition:all 0.25s; min-height:80px;
+  background:var(--morandi-card);
+  border:1px solid var(--morandi-border);
+  border-radius:8px;
+  padding:5px; display:flex; flex-direction:column;
+  position:relative; transition:all 0.2s;
+  min-height:72px; overflow:hidden;
 }
-.ziwei-palace:hover { border-color:rgba(201,168,76,0.25); background:rgba(248,244,252,0.6); }
+.ziwei-palace:hover { border-color:var(--morandi-light); box-shadow:var(--morandi-shadow); }
+.ziwei-palace-inner {
+  flex:1; display:flex; flex-direction:column;
+  position:relative;
+}
+.ziwei-palace-name {
+  font-size:9px; color:var(--morandi-muted); font-weight:500;
+  letter-spacing:1px; position:absolute; bottom:4px; left:6px;
+}
+/* Main stars on the left */
+.ziwei-main-stars {
+  display:flex; flex-direction:column; gap:1px;
+  padding-right:2px;
+}
+.ziwei-main-star {
+  font-size:10px; font-weight:600; color:var(--morandi-text);
+  letter-spacing:0.3px; line-height:1.3;
+}
+.ziwei-main-star.major { font-size:11px; }
+.ziwei-main-star.ziwei-color { color:#B08570; }
+.ziwei-main-star.tianfu-color { color:#7A9A9A; }
+.ziwei-main-star.sha-color { color:#B08080; }
+.ziwei-main-star.qu-color { color:#8A8AB0; }
+/* Minor stars on the right */
+.ziwei-minor-stars {
+  position:absolute; top:4px; right:4px;
+  display:flex; flex-direction:column; align-items:flex-end; gap:1px;
+}
+.ziwei-minor-star { font-size:7px; color:var(--morandi-light); letter-spacing:0; line-height:1.2; }
+.ziwei-minor-star.auspicious { color:#A8B8A0; }
+.ziwei-minor-star.inauspicious { color:#C8A8A0; }
+
+/* Palace markings */
+.ziwei-palace.ming-palace {
+  background:rgba(181,164,142,0.06);
+  border-color:rgba(181,164,142,0.25);
+}
+.ziwei-palace.ming-palace .ziwei-palace-name { color:var(--morandi-accent); font-weight:600; }
+.ziwei-palace.shen-palace {
+  background:rgba(168,184,192,0.06);
+  border-color:rgba(168,184,192,0.25);
+}
+.ziwei-palace.shen-palace .ziwei-palace-name { color:var(--morandi-blue); font-weight:600; }
+
+/* Palace role names */
+.ziwei-role-name {
+  font-size:8px; color:var(--morandi-light);
+  position:absolute; bottom:4px; right:6px; letter-spacing:0.5px;
+}
+
+/* Center info area */
 .ziwei-center {
   grid-column:2/4; grid-row:2/4;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   text-align:center;
-  background:linear-gradient(145deg,rgba(201,168,76,0.06),rgba(248,244,252,0.4));
-  border:1px solid rgba(201,168,76,0.12);
-  border-radius:var(--r-md);
+  background:rgba(248,244,240,0.5);
+  border:1px solid var(--morandi-border);
+  border-radius:8px; padding:12px;
 }
-.ziwei-center-text { font-family:'Noto Serif SC',serif; font-size:14px; color:var(--text-secondary); line-height:1.8; }
-.ziwei-center-text strong { color:var(--gold); font-weight:600; }
-.ziwei-palace-name { font-size:10px; color:var(--lavender); font-weight:600; letter-spacing:1px; }
-.ziwei-palace-star { font-size:9px; color:var(--text-muted); margin-top:2px; }
-.ziwei-palace.ming { border-color:rgba(201,168,76,0.35); background:rgba(201,168,76,0.08); }
-.ziwei-palace.ming .ziwei-palace-name { color:var(--gold); }
-.ziwei-palace.shen { border-color:rgba(168,218,220,0.35); background:rgba(168,218,220,0.08); }
-.ziwei-palace.shen .ziwei-palace-name { color:#5CA8AA; }
+.ziwei-center-text { font-size:12px; color:var(--morandi-muted); line-height:1.8; letter-spacing:0.5px; }
+.ziwei-center-text strong { color:var(--morandi-accent); font-weight:500; }
+.ziwei-center-bazi { font-size:18px; color:var(--morandi-text); font-weight:400; letter-spacing:3px; margin-bottom:4px; }
 
-/* Result area */
 .astro-result { animation:fade-result 0.5s ease; }
-@keyframes fade-result { from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);} }
+@keyframes fade-result { from {opacity:0;transform:translateY(12px);} to {opacity:1;transform:translateY(0);} }
+
+/* ─── RESPONSIVE ──────────────────────────── */
 
 /* ─── RESPONSIVE ──────────────────────────── */
 @media (max-width: 1100px) {
@@ -1187,8 +1254,11 @@ body {
   .sub-page { padding:16px; }
   .astro-page { padding:16px; }
   .astro-form-grid { flex-direction:column; gap:10px; }
-  .bazi-grid { max-width:100%; }
+  .bazi-grid { max-width:100%; gap:6px; }
+  .bazi-cell-text { font-size:22px; }
   .ziwei-grid { max-width:100%; aspect-ratio:unset; min-height:320px; }
+  .ziwei-main-star { font-size:9px; }
+  .ziwei-minor-star { display:none; }
 }
 @media (max-width: 480px) {
   .home-layout { padding:12px 10px; gap:10px; }
@@ -2091,12 +2161,12 @@ body {
     </div>
   </div>
 
-  <!-- ── PAGE 7: 排盘 ───────────────────── -->
+  <!-- ── PAGE 7: 排盘 (测测风格) ────────── -->
   <div id="page-astrology" class="page">
     <div class="astro-page">
       <div class="astro-header">
-        <div class="astro-title">🔮 生辰八字 & 紫微斗数</div>
-        <div class="astro-sub">输入出生信息，开启东方命理排盘</div>
+        <div class="astro-title">生辰八字 · 紫微斗数</div>
+        <div class="astro-sub">输入出生信息 · 开启东方命理排盘</div>
       </div>
 
       <div class="astro-form" id="astroForm">
@@ -2108,18 +2178,18 @@ body {
           <div class="astro-field">
             <label>出生时辰</label>
             <select id="astroHour">
-              <option value="0">子时 23:00-00:59</option>
-              <option value="1">丑时 01:00-02:59</option>
-              <option value="2">寅时 03:00-04:59</option>
-              <option value="3">卯时 05:00-06:59</option>
-              <option value="4">辰时 07:00-08:59</option>
-              <option value="5">巳时 09:00-10:59</option>
-              <option value="6">午时 11:00-12:59</option>
-              <option value="7">未时 13:00-14:59</option>
-              <option value="8">申时 15:00-16:59</option>
-              <option value="9">酉时 17:00-18:59</option>
-              <option value="10">戌时 19:00-20:59</option>
-              <option value="11" selected>亥时 21:00-22:59</option>
+              <option value="0">子时 23:00–00:59</option>
+              <option value="1">丑时 01:00–02:59</option>
+              <option value="2">寅时 03:00–04:59</option>
+              <option value="3">卯时 05:00–06:59</option>
+              <option value="4">辰时 07:00–08:59</option>
+              <option value="5">巳时 09:00–10:59</option>
+              <option value="6">午时 11:00–12:59</option>
+              <option value="7">未时 13:00–14:59</option>
+              <option value="8">申时 15:00–16:59</option>
+              <option value="9">酉时 17:00–18:59</option>
+              <option value="10">戌时 19:00–20:59</option>
+              <option value="11" selected>亥时 21:00–22:59</option>
             </select>
           </div>
           <div class="astro-field">
@@ -2134,37 +2204,37 @@ body {
       </div>
 
       <div id="astroResult" style="display:none;" class="astro-result">
-        <!-- Bazi Section -->
+        <!-- Bazi Section: Cece style -->
         <div class="bazi-section">
-          <div class="bazi-section-title">📜 八字四柱</div>
+          <div class="bazi-section-title">八字四柱</div>
           <div class="bazi-grid" id="baziGrid">
-            <div class="bazi-cell"><div class="bazi-cell-label">年柱</div><div class="bazi-cell-text" id="bzYearG">—</div><div class="bazi-cell-wuxing" id="bzYearW">—</div></div>
-            <div class="bazi-cell"><div class="bazi-cell-label">月柱</div><div class="bazi-cell-text" id="bzMonthG">—</div><div class="bazi-cell-wuxing" id="bzMonthW">—</div></div>
-            <div class="bazi-cell"><div class="bazi-cell-label">日柱</div><div class="bazi-cell-text" id="bzDayG">—</div><div class="bazi-cell-wuxing" id="bzDayW">—</div></div>
-            <div class="bazi-cell"><div class="bazi-cell-label">时柱</div><div class="bazi-cell-text" id="bzHourG">—</div><div class="bazi-cell-wuxing" id="bzHourW">—</div></div>
+            <div class="bazi-cell" id="bzCell0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-cell-cang"></div><div class="bazi-cell-tip"></div></div>
+            <div class="bazi-cell" id="bzCell1"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-cell-cang"></div><div class="bazi-cell-tip"></div></div>
+            <div class="bazi-cell" id="bzCell2"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-cell-cang"></div><div class="bazi-cell-tip"></div></div>
+            <div class="bazi-cell" id="bzCell3"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-cell-cang"></div><div class="bazi-cell-tip"></div></div>
           </div>
         </div>
 
         <!-- Zi Wei Section -->
         <div class="ziwei-section">
-          <div class="bazi-section-title">⭐ 紫微斗数十二宫</div>
+          <div class="bazi-section-title">紫微斗数十二宫</div>
           <div class="ziwei-grid" id="ziweiGrid">
-            <div class="ziwei-palace" data-palace="0" style="grid-area:1/1"><div class="ziwei-palace-name">巳</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="1" style="grid-area:1/2"><div class="ziwei-palace-name">午</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="2" style="grid-area:1/3"><div class="ziwei-palace-name">未</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="3" style="grid-area:1/4"><div class="ziwei-palace-name">申</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="4" style="grid-area:2/1"><div class="ziwei-palace-name">辰</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="5" style="grid-area:3/1"><div class="ziwei-palace-name">卯</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="6" style="grid-area:4/1"><div class="ziwei-palace-name">寅</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="7" style="grid-area:4/2"><div class="ziwei-palace-name">丑</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="8" style="grid-area:4/3"><div class="ziwei-palace-name">子</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="9" style="grid-area:4/4"><div class="ziwei-palace-name">亥</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="10" style="grid-area:3/4"><div class="ziwei-palace-name">戌</div><div class="ziwei-palace-star"></div></div>
-            <div class="ziwei-palace" data-palace="11" style="grid-area:2/4"><div class="ziwei-palace-name">酉</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-branch="5" style="grid-area:1/1"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">巳</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="6" style="grid-area:1/2"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">午</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="7" style="grid-area:1/3"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">未</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="8" style="grid-area:1/4"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">申</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="4" style="grid-area:2/1"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">辰</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="3" style="grid-area:3/1"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">卯</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="2" style="grid-area:4/1"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">寅</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="1" style="grid-area:4/2"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">丑</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="0" style="grid-area:4/3"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">子</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="11" style="grid-area:4/4"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">亥</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="10" style="grid-area:3/4"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">戌</div><div class="ziwei-role-name"></div></div></div>
+            <div class="ziwei-palace" data-branch="9" style="grid-area:2/4"><div class="ziwei-palace-inner"><div class="ziwei-main-stars"></div><div class="ziwei-minor-stars"></div><div class="ziwei-palace-name">酉</div><div class="ziwei-role-name"></div></div></div>
             <div class="ziwei-center">
               <div class="ziwei-center-text" id="ziweiCenterText">
-                <strong>命盘信息</strong><br>
-                <span id="ziweiCenterDetail">点击"开始排盘"查看</span>
+                <div class="ziwei-center-bazi" id="zwCenterBazi">—</div>
+                <span id="ziweiCenterDetail">点击开始排盘查看</span>
               </div>
             </div>
           </div>
@@ -2566,144 +2636,256 @@ function showToast(msg,type){
 /* ── Animated Counter ────────────────────── */
 function animateCounters(){}
 
-/* ── Astrology: 八字 & 紫微斗数 ──────────── */
+/* ── Astrology 测测风格 ──────────────────── */
 const TIAN_GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
 const DI_ZHI   = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-const WU_XING  = ['wood','wood','fire','fire','earth','earth','metal','metal','water','water'];
 const WX_NAMES = ['木','木','火','火','土','土','金','金','水','水'];
+const WU_XING_CLASS = ['wood','wood','fire','fire','earth','earth','metal','metal','water','water'];
+const WX_COLORS = { wood:'#B5C8B0', fire:'#D4B5A8', earth:'#D4C8A0', metal:'#C0C0C8', water:'#A8B8C0' };
+// 地支对应宫位序号 寅0→丑11
 const ZI_WEI_PALACES = ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'];
+// 地支branch序号 子0→亥11
+const BRANCH_TO_PALACE = {'子':10,'丑':9,'寅':0,'卯':1,'辰':2,'巳':3,'午':4,'未':5,'申':6,'酉':7,'戌':8,'亥':11};
+// 十二宫名称 (命宫起逆时针)
+const PALACE_NAMES = ['命宫','兄弟宫','夫妻宫','子女宫','财帛宫','疾厄宫','迁移宫','交友宫','官禄宫','田宅宫','福德宫','父母宫'];
+// 十四主星
+const ALL_MAIN_STARS = ['紫微','天机','太阳','武曲','天同','廉贞','天府','太阴','贪狼','巨门','天相','天梁','七杀','破军'];
+// 六吉星
+const SIX_GOOD = ['文昌','文曲','左辅','右弼','天魁','天钺'];
+// 六煞星
+const SIX_BAD = ['擎羊','陀罗','火星','铃星','地空','地劫'];
+// 紫微→天府 lookup (by palace index)
+const ZI_TO_TIANFU = [2,1,0,11,10,9,8,7,6,5,4,3];
+// 十神名称生成表
+const SHI_SHEN_GAN = [
+  ['比肩','劫财','食神','伤官','偏财','正财','七杀','正官','偏印','正印'],
+  ['劫财','比肩','伤官','食神','正财','偏财','正官','七杀','正印','偏印'],
+  ['食神','伤官','比肩','劫财','偏印','正印','偏财','正财','七杀','正官'],
+  ['伤官','食神','劫财','比肩','正印','偏印','正财','偏财','正官','七杀'],
+  ['偏财','正财','偏印','正印','比肩','劫财','食神','伤官','偏财','正财'],
+  ['正财','偏财','正印','偏印','劫财','比肩','伤官','食神','正财','偏财'],
+  ['七杀','正官','偏财','正财','食神','伤官','比肩','劫财','偏印','正印'],
+  ['正官','七杀','正财','偏财','伤官','食神','劫财','比肩','正印','偏印'],
+  ['偏印','正印','七杀','正官','偏财','正财','食神','伤官','比肩','劫财'],
+  ['正印','偏印','正官','七杀','正财','偏财','伤官','食神','劫财','比肩']
+];
+// 藏干
+const CANG_GAN = {
+  '子':['癸'],'丑':['己','癸','辛'],'寅':['甲','丙','戊'],
+  '卯':['乙'],'辰':['戊','乙','癸'],'巳':['丙','庚','戊'],
+  '午':['丁','己'],'未':['己','丁','乙'],'申':['庚','壬','戊'],
+  '酉':['辛'],'戌':['戊','辛','丁'],'亥':['壬','甲']
+};
 
-/* Days since 1900-01-01 (reference for day pillar) */
 function daysFrom1900(y,m,d){
-  const ref=new Date(1900,0,1);
-  const cur=new Date(y,m-1,d);
-  return Math.round((cur-ref)/86400000);
+  return Math.round((new Date(y,m-1,d)-new Date(1900,0,1))/86400000);
 }
-
-/* 年柱 */
 function getYearPillar(y){
-  const s=(y-4)%10; const b=(y-4)%12;
-  return [s<0?s+10:s, b<0?b+12:b];
+  return [((y-4)%10+10)%10, ((y-4)%12+12)%12];
 }
-
-/* 月柱 (五虎遁: year stem → month 1 stem) */
 function getMonthPillar(y,m){
   const yStem=((y-4)%10+10)%10;
-  // 甲己→丙(2),乙庚→戊(4),丙辛→庚(6),丁壬→壬(8),戊癸→甲(0)
   const offset=[2,4,6,8,0][yStem%5];
-  // month N earthly branch: 1→寅(2), 2→卯(3), ... 12→丑(1)
-  const monthBranch=(m+1)%12;
-  const stem=(offset+m-1)%10;
-  return [stem,monthBranch];
+  return [(offset+m-1)%10, (m+1)%12];
 }
-
-/* 日柱 */
 function getDayPillar(y,m,d){
   const days=daysFrom1900(y,m,d);
-  // 1900-01-01 is 甲戌 (stem 0, branch 10)
-  const stem=(days+0)%10;
-  const branch=(days+10)%12;
-  return [stem<0?stem+10:stem, branch<0?branch+12:branch];
+  return [(days%10+10)%10, (days%12+12)%12];
 }
-
-/* 时柱 (using day stem) */
 function getHourPillar(dStem, hourIdx){
-  const start=[0,2,4,6,8][dStem%5];
-  const stem=(start+hourIdx)%10;
-  return [stem, hourIdx];
+  return [([0,2,4,6,8][dStem%5]+hourIdx)%10, hourIdx];
+}
+/* 十神 */
+function calcShiShen(dayStem, pillarStem){
+  return SHI_SHEN_GAN[dayStem][pillarStem];
+}
+/* 藏干字符串 */
+function getCangGan(branchIdx){
+  return CANG_GAN[DI_ZHI[branchIdx]].map(g=>g).join(' ');
 }
 
-/* 安命宫 & 安身宫 */
+/* 安命宫/身宫 */
 function calcMingShen(lunarMonth, hourIdx){
-  // Start from 寅 (index 0 in ZI_WEI_PALACES), count forward to birth month
-  const monthPos=(lunarMonth-1)%12;
-  const ming=(monthPos-hourIdx+120)%12;
-  const shen=(monthPos+hourIdx)%12;
-  return { ming: ZI_WEI_PALACES[ming], shen: ZI_WEI_PALACES[shen], mingIdx: ming, shenIdx: shen };
+  const mp=(lunarMonth-1)%12;
+  return { mingIdx:(mp-hourIdx+120)%12, shenIdx:(mp+hourIdx)%12 };
 }
 
-/* Render 八字 */
-function renderBazi(pillars){
-  const labels=['bzYearG','bzMonthG','bzDayG','bzHourG'];
-  const wlabels=['bzYearW','bzMonthW','bzDayW','bzHourW'];
-  const cells=document.querySelectorAll('#baziGrid .bazi-cell');
+/* 纳音五局 → 局数 */
+const NAYIN_TABLE = [
+  '金','火','木','土','金','火','水','土','金','木',
+  '火','水','土','火','木','金','火','木','土','金',
+  '火','水','土','金','木','水','金','火','木','水'
+];
+const BUREAU_NUM = {金:4,木:3,水:2,火:6,土:5};
+
+function calcBureau(yearStem, yearBranch){
+  const g = Math.floor(yearStem/2);
+  const b = Math.floor(yearBranch/2);
+  const idx = (g*6 + b) % 30;
+  const wx = NAYIN_TABLE[idx];
+  return BUREAU_NUM[wx] || 5;
+}
+
+/* 紫微星位置 (在ZI_WEI_PALACES中的序号) */
+function calcZiWeiPos(bureau, lunarDay){
+  const q = Math.ceil(lunarDay / bureau);
+  return Math.min(Math.max(q-1, 0), 11);
+}
+
+/* 主星布局 */
+function calcStarPositions(zwPos, tianfuPos){
+  const stars = {};
+  // 紫微系 (relative to 紫微 in palace order)
+  const ZI_OFFSETS = {'紫微':0,'天机':1,'太阳':3,'武曲':4,'天同':5,'廉贞':7};
+  for(const [name, off] of Object.entries(ZI_OFFSETS)){
+    stars[name] = (zwPos + off) % 12;
+  }
+  // 天府系
+  const TF_OFFSETS = {'天府':0,'太阴':1,'贪狼':2,'巨门':3,'天相':4,'天梁':5,'七杀':6,'破军':7};
+  for(const [name, off] of Object.entries(TF_OFFSETS)){
+    stars[name] = (tianfuPos + off) % 12;
+  }
+  return stars;
+}
+
+/* 紫微主星颜色分类 */
+const STAR_COLORS = {};
+'紫微天机'.split('').forEach(s=>STAR_COLORS[s]='ziwei');
+'天府太阴贪狼巨门天相天梁'.split('').forEach(s=>STAR_COLORS[s]='tianfu');
+'七杀破军'.split('').forEach(s=>STAR_COLORS[s]='sha');
+'太阳武曲天同廉贞'.split('').forEach(s=>STAR_COLORS[s]='qu');
+
+/* Render 八字 (测测: 十神+大字+藏干+tooltip) */
+function renderBazi(pillars, dayStem){
+  const cells = document.querySelectorAll('#baziGrid .bazi-cell');
+  const labels = ['年柱','月柱','日柱','时柱'];
   pillars.forEach(([stem,branch],i)=>{
-    const gan=TIAN_GAN[stem]; const zhi=DI_ZHI[branch];
-    // Combine stem+branch
-    cells[i].querySelector('.bazi-cell-text').textContent=gan+zhi;
-    cells[i].querySelector('.bazi-cell-wuxing').textContent=WX_NAMES[stem];
-    // Remove existing wuxing classes
-    cells[i].classList.remove('wood','fire','earth','metal','water');
-    cells[i].classList.add(WU_XING[stem]);
+    const cell = cells[i];
+    const gan = TIAN_GAN[stem];
+    const zhi = DI_ZHI[branch];
+    cell.querySelector('.bazi-cell-shen').textContent = calcShiShen(dayStem, stem);
+    cell.querySelector('.bazi-cell-text').textContent = gan+zhi;
+    const cang = getCangGan(branch);
+    cell.querySelector('.bazi-cell-cang').innerHTML = '<span class="bazi-dot '+WU_XING_CLASS[stem]+'-dot"></span>'+cang;
+    // Tooltip
+    cell.querySelector('.bazi-cell-tip').textContent = labels[i]+' · '+WX_NAMES[stem]+' · '+gan+zhi;
+    cell.className = 'bazi-cell '+WU_XING_CLASS[stem];
   });
 }
 
-/* Render 紫微斗数 */
-function renderZiWei(mingShen, gender, lunarData){
-  // Reset all palaces
-  document.querySelectorAll('.ziwei-palace').forEach(p=>{
-    p.classList.remove('ming','shen');
-    p.querySelector('.ziwei-palace-star').textContent='';
-  });
+/* Render 紫微斗数 (测测风格) */
+function renderZiWei(mingShen, starPos, bureau, gender, lunarDay, lunarMonth, yP, mP, dP, hP){
+  // Build palace → stars map
+  const palStars={};
+  for(let i=0;i<12;i++) palStars[i]={main:[], minor:[]};
 
-  // Mark 命宫 and 身宫
-  document.querySelectorAll('.ziwei-palace').forEach(p=>{
-    const name=p.querySelector('.ziwei-palace-name').textContent;
-    if(name===mingShen.ming){ p.classList.add('ming'); p.querySelector('.ziwei-palace-star').textContent='命主'; }
-    if(name===mingShen.shen){ p.classList.add('shen'); p.querySelector('.ziwei-palace-star').textContent='身主'; }
-  });
-
-  // Update center info
-  const genderText=gender==='male'?'男':'女';
-  const mingBranch=mingShen.ming;
-  const shenBranch=mingShen.shen;
-
-  let extra='';
-  if(lunarData){
-    try{
-      extra=' · '+lunarData.getYearInGanZhi()+'年';
-    }catch(e){}
+  // Main stars
+  for(const [name, pos] of Object.entries(starPos)){
+    palStars[pos].main.push(name);
   }
 
-  document.getElementById('ziweiCenterDetail').innerHTML=
-    genderText+'命 · 命宫在<strong>'+mingBranch+'</strong> · 身宫在<strong>'+shenBranch+'</strong>';
+  // 六吉星 (simplified placement)
+  const goodPos = {0:5,4:7,6:9,10:11};
+  const gk = Object.keys(goodPos);
+  SIX_GOOD.forEach((star,i)=>{
+    const pos = goodPos[gk[i%gk.length]] || (i*3+4)%12;
+    palStars[pos].minor.push({name:star,type:'g'});
+  });
+
+  // 六煞星 (based on 命宫, simplified)
+  const mingP = mingShen.mingIdx;
+  const badPos = [(mingP+1)%12, (mingP+11)%12, (mingP+3)%12, (mingP+9)%12, (mingP+4)%12, (mingP+8)%12];
+  SIX_BAD.forEach((star,i)=>{
+    palStars[badPos[i] || (mingP+7)%12].minor.push({name:star,type:'b'});
+  });
+
+  // 命宫 marked
+  document.querySelectorAll('.ziwei-palace').forEach(p=>{
+    p.classList.remove('ming-palace','shen-palace');
+  });
+
+  // Each palace
+  const palDivs = document.querySelectorAll('.ziwei-palace');
+  palDivs.forEach(p=>{
+    const branch = parseInt(p.dataset.branch);
+    // Map branch(0-11子丑..) to palace idx(0-11寅卯..)
+    // branch 子0→palace 10, 丑1→9, 寅2→0, ...
+    let pidx;
+    if(branch >= 2) pidx = branch - 2;
+    else pidx = branch + 10;
+
+    const mainDiv = p.querySelector('.ziwei-main-stars');
+    const minorDiv = p.querySelector('.ziwei-minor-stars');
+    mainDiv.innerHTML = '';
+    minorDiv.innerHTML = '';
+
+    // Main stars
+    palStars[pidx].main.forEach(sname=>{
+      const sp = document.createElement('div');
+      sp.className = 'ziwei-main-star major';
+      const c = STAR_COLORS[sname]||'';
+      if(c) sp.classList.add(c+'-color');
+      sp.textContent = sname;
+      mainDiv.appendChild(sp);
+    });
+
+    // Minor stars (max 6)
+    const minArr = palStars[pidx].minor.slice(0,6);
+    minArr.forEach(({name,type})=>{
+      const sp = document.createElement('div');
+      sp.className = 'ziwei-minor-star '+(type==='g'?'auspicious':'inauspicious');
+      sp.textContent = name;
+      minorDiv.appendChild(sp);
+    });
+
+    // Role name (十二宫)
+    const roleIdx = (pidx - mingShen.mingIdx + 12) % 12;
+    const roleSpan = p.querySelector('.ziwei-role-name');
+    if(roleSpan) roleSpan.textContent = PALACE_NAMES[roleIdx];
+
+    // Mark ming/shen
+    if(pidx === mingShen.mingIdx) p.classList.add('ming-palace');
+    if(pidx === mingShen.shenIdx) p.classList.add('shen-palace');
+  });
+
+  // Center info
+  const genderTxt = gender==='male'?'男':'女';
+  const mingName = ZI_WEI_PALACES[mingShen.mingIdx];
+  const shenName = ZI_WEI_PALACES[mingShen.shenIdx];
+  const baziStr = TIAN_GAN[yP[0]]+DI_ZHI[yP[1]]+' '+TIAN_GAN[mP[0]]+DI_ZHI[mP[1]]+' '+TIAN_GAN[dP[0]]+DI_ZHI[dP[1]]+' '+TIAN_GAN[hP[0]]+DI_ZHI[hP[1]];
+  const bureauNames = {2:'水二局',3:'木三局',4:'金四局',5:'土五局',6:'火六局'};
+  document.getElementById('zwCenterBazi').textContent = baziStr;
+  document.getElementById('ziweiCenterDetail').innerHTML =
+    genderTxt+'命 · '+bureauNames[bureau]+' · 命宫<strong>'+mingName+'</strong> 身宫<strong>'+shenName+'</strong>';
 }
 
-/* Main calculation entry */
+/* Main */
 function calculateAstrology(){
   const dateInput=document.getElementById('astroBirthDate').value;
   const hourIdx=parseInt(document.getElementById('astroHour').value);
   const gender=document.getElementById('astroGender').value;
-
   if(!dateInput){ showToast('请选择出生日期','error'); return; }
-
   const [y,m,d]=dateInput.split('-').map(Number);
 
-  // Try lunar-javascript
   let lunarData=null;
   if(typeof Solar !== 'undefined'){
-    try{
-      const solar=Solar.fromYmd(y,m,d);
-      lunarData=solar.getLunar();
-    }catch(e){}
+    try{ const s=Solar.fromYmd(y,m,d); lunarData=s.getLunar(); }catch(e){}
   }
 
-  // Calculate pillars
-  const yP=getYearPillar(y);
-  const mP=getMonthPillar(y,m);
-  const dP=getDayPillar(y,m,d);
-  const hP=getHourPillar(dP[0], hourIdx);
+  const yP=getYearPillar(y), mP=getMonthPillar(y,m), dP=getDayPillar(y,m,d), hP=getHourPillar(dP[0], hourIdx);
+  renderBazi([yP,mP,dP,hP], dP[0]);
 
-  renderBazi([yP,mP,dP,hP]);
-
-  // For Zi Wei, we need lunar month (or use solar month as fallback)
-  let lunarMonth=m;
+  let lunarMonth=m, lunarDay=d;
   if(lunarData){
-    try{ lunarMonth=lunarData.getMonth(); }catch(e){}
+    try{ lunarMonth=lunarData.getMonth(); lunarDay=lunarData.getDay(); }catch(e){}
   }
 
-  const mingShen=calcMingShen(lunarMonth, hourIdx);
-  renderZiWei(mingShen, gender, lunarData);
+  const bureau = calcBureau(yP[0], yP[1]);
+  const ms = calcMingShen(lunarMonth, hourIdx);
+  const zwPos = calcZiWeiPos(bureau, lunarDay);
+  const tfPos = ZI_TO_TIANFU[zwPos];
+  const starPos = calcStarPositions(zwPos, tfPos);
+  renderZiWei(ms, starPos, bureau, gender, lunarDay, lunarMonth, yP, mP, dP, hP);
 
   document.getElementById('astroResult').style.display='block';
   document.getElementById('astroResult').scrollIntoView({behavior:'smooth',block:'start'});
