@@ -2351,6 +2351,11 @@ function updateUIFromProfile(p) {
 
 /* ── Page init ──────────────────────────── */
 (function(){
+  // Clear old invalid API key from localStorage
+  const oldKey = (function(){try{return localStorage.getItem('auraDifyApiKey')}catch(e){return null}})();
+  if (oldKey && !oldKey.startsWith('app-')) {
+    try{localStorage.removeItem('auraDifyApiKey')}catch(e){}
+  }
   // Load saved profile
   if (userProfile) {
     updateUIFromProfile(userProfile);
@@ -2517,6 +2522,7 @@ function saveDifyApiKey() {
 async function sendDifyMessage(text) {
   const token = getDifyApiKey();
   const url = 'https://api.dify.ai/v1/chat-messages';
+  console.log('Dify API token (first 10):', token.substring(0,10)+'...');
 
   // Build context from user profile
   const p = userProfile;
