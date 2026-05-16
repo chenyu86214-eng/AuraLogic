@@ -9,7 +9,7 @@
 /* ─── DESIGN TOKENS ─────────────────────────────────── */
 :root {
   --void:        #F5F0FA;
-  --deep:        #F0EBF5;
+  --deep:        #EDE5F5;
   --surface:     #E8DFF5;
   --overlay:     #D4C5E8;
   --rim:         #C4B0D8;
@@ -26,7 +26,7 @@
   --amber:       #E2C97E;
   --cream:       #FCF7ED;
 
-  --text-primary:   #3D3566;
+  --text-primary:   #3D2E6B;
   --text-secondary: #6B5F90;
   --text-muted:     #9B8DB5;
   --text-ghost:     #C4B8D8;
@@ -63,11 +63,11 @@ body {
 .cosmos-base {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 15% 15%, rgba(212,197,232,0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 85% 75%, rgba(226,201,126,0.15) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 40% at 50% 10%, rgba(232,223,245,0.5) 0%, transparent 50%),
-    radial-gradient(ellipse 35% 30% at 65% 45%, rgba(201,168,76,0.08) 0%, transparent 45%),
-    linear-gradient(170deg, #F8F4FC 0%, #F0EBF5 40%, #F5F0FA 100%);
+    radial-gradient(ellipse 60% 50% at 15% 15%, rgba(212,197,232,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 75%, rgba(226,201,126,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 50% 10%, rgba(232,223,245,0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 35% 30% at 65% 45%, rgba(201,168,76,0.04) 0%, transparent 45%),
+    linear-gradient(170deg, #F5F0FA 0%, #EDE5F5 50%, #F0E8F8 100%);
 }
 .star { position: absolute; border-radius: 50%; background: rgba(201,168,76,0.5); animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s); will-change: opacity, transform; }
 @keyframes twinkle {
@@ -147,6 +147,12 @@ body {
   background: linear-gradient(135deg, var(--gold), var(--amber));
   color: white;
   box-shadow: var(--glow-gold);
+  position: relative; overflow: hidden;
+}
+.tab-btn.active::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  border-radius: inherit; pointer-events:none;
 }
 
 .topnav-right { display: flex; align-items: center; gap: 12px; }
@@ -172,6 +178,12 @@ body {
   font-size: 14px; color: white;
   box-shadow: var(--glow-gold);
   transition: transform 0.2s;
+  position: relative; overflow: hidden;
+}
+.avatar-btn::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  border-radius: inherit; pointer-events:none;
 }
 .avatar-btn:hover { transform: scale(1.08); }
 
@@ -201,8 +213,8 @@ body {
 }
 
 .greeting-card {
-  background: linear-gradient(145deg, rgba(248,244,252,0.9), rgba(240,235,245,0.8));
-  border: 1px solid rgba(212,197,232,0.3);
+  background: linear-gradient(145deg, rgba(248,244,252,0.75), rgba(240,235,245,0.55));
+  border: 1px solid rgba(212,197,232,0.2);
   border-radius: var(--r-xl);
   padding: 28px;
   backdrop-filter: blur(20px);
@@ -260,19 +272,25 @@ body {
 
 .view-chart-btn {
   width: 100%; padding: 12px;
-  background: linear-gradient(135deg, var(--gold), var(--amber));
-  border: none;
+  background: linear-gradient(135deg, var(--gold), var(--amber), rgba(255,248,230,0.95));
+  border: 1px solid rgba(201,168,76,0.2);
   border-radius: var(--r-full); cursor: pointer;
   color: white; font-size: 13px; font-weight: 500;
   font-family: 'Noto Sans SC', sans-serif;
   transition: all 0.3s ease;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+  position: relative; overflow: hidden;
   -webkit-tap-highlight-color: transparent;
 }
+.view-chart-btn::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 40%, transparent 60%);
+  border-radius: inherit; pointer-events:none;
+}
 .view-chart-btn:hover {
-  background: linear-gradient(135deg, var(--amber), var(--gold));
-  box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+  background: linear-gradient(135deg, var(--amber), var(--gold), rgba(255,248,230,0.95));
+  box-shadow: 0 6px 24px rgba(201,168,76,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
   transform: translateY(-1px);
 }
 
@@ -314,7 +332,7 @@ body {
 
 /* Chart Mandala */
 .chart-card {
-  background: rgba(248,244,252,0.85);
+  background: rgba(248,244,252,0.65);
   border: 1px solid rgba(212,197,232,0.25);
   border-radius: var(--r-xl);
   padding: 28px;
@@ -406,8 +424,8 @@ body {
 
 /* Radio Mini Player */
 .radio-mini {
-  background: linear-gradient(145deg, rgba(248,244,252,0.9), rgba(240,235,245,0.85));
-  border: 1px solid rgba(212,197,232,0.25);
+  background: linear-gradient(145deg, rgba(248,244,252,0.65), rgba(240,235,245,0.45));
+  border: 1px solid rgba(212,197,232,0.2);
   border-radius: var(--r-xl); padding: 20px;
   position: relative; overflow: hidden;
   cursor: pointer; transition: all 0.3s ease;
@@ -476,12 +494,18 @@ body {
   width:40px; height:40px;
   background: linear-gradient(135deg, var(--gold), var(--amber));
   box-shadow: 0 4px 16px rgba(201,168,76,0.3); font-size:14px; color:white;
+  position: relative; overflow: hidden;
+}
+.radio-ctrl.play::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  border-radius: inherit; pointer-events:none;
 }
 .radio-ctrl.play:hover { transform: scale(1.05); }
 
 /* Karma Card */
 .karma-card {
-  background: rgba(248,244,252,0.85);
+  background: rgba(248,244,252,0.65);
   border: 1px solid rgba(212,197,232,0.25);
   border-radius: var(--r-xl); padding: 20px;
   box-shadow: 0 4px 20px rgba(139,123,181,0.08);
@@ -538,7 +562,7 @@ body {
 
 /* Daily Luck */
 .daily-card {
-  background: rgba(248,244,252,0.85);
+  background: rgba(248,244,252,0.65);
   border: 1px solid rgba(212,197,232,0.25);
   border-radius: var(--r-xl); padding: 20px;
   box-shadow: 0 4px 20px rgba(139,123,181,0.08);
@@ -585,7 +609,7 @@ body {
 .theme-actions { display:flex; gap:8px; margin-top:14px; }
 .theme-action-btn {
   flex:1; padding:9px;
-  border-radius:var(--r-sm);
+  border-radius:var(--r-full);
   font-size:12px; font-weight:500;
   cursor:pointer; border:none;
   font-family:'Noto Sans SC',sans-serif;
@@ -596,6 +620,12 @@ body {
   background: linear-gradient(135deg, var(--gold), var(--amber));
   color:white;
   box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  position: relative; overflow: hidden;
+}
+.theme-action-btn.primary::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 50%, transparent 70%);
+  border-radius: inherit; pointer-events:none;
 }
 .theme-action-btn.primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(201,168,76,0.4); }
 .theme-action-btn.secondary {
@@ -624,7 +654,7 @@ body {
 .chart-page-grid { display:grid; grid-template-columns:1fr 380px; gap:20px; }
 
 .big-mandala-wrap {
-  background: rgba(248,244,252,0.85);
+  background: rgba(248,244,252,0.65);
   border:1px solid rgba(212,197,232,0.25);
   border-radius:var(--r-xl);
   display:flex; align-items:center; justify-content:center;
@@ -968,7 +998,7 @@ body {
 }
 .modal-overlay.show { display:flex; }
 .modal {
-  background:rgba(248,244,252,0.98);
+  background:rgba(248,244,252,0.8); border:1px solid rgba(212,197,232,0.25);
   border:1px solid rgba(212,197,232,0.3);
   border-radius:var(--r-xl); padding:32px;
   max-width:480px; width:90%;
@@ -1133,15 +1163,15 @@ body {
 .sub-toggle-btn.active { background:linear-gradient(135deg,var(--gold),var(--amber)); color:white; box-shadow:0 4px 16px rgba(201,168,76,0.25); }
 .sub-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
 .sub-card {
-  background:rgba(248,244,252,0.85); border:1px solid rgba(212,197,232,0.25);
+  background:rgba(248,244,252,0.65); border:1px solid rgba(212,197,232,0.2);
   border-radius:var(--r-xl); padding:28px; text-align:center;
   transition:all 0.3s; position:relative; overflow:hidden;
   box-shadow: 0 4px 20px rgba(139,123,181,0.08);
 }
 .sub-card:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(139,123,181,0.12); border-color:rgba(201,168,76,0.25); }
 .sub-card.featured {
-  background:linear-gradient(145deg,rgba(201,168,76,0.08),rgba(248,244,252,0.9));
-  border-color:rgba(201,168,76,0.25); box-shadow:0 4px 20px rgba(201,168,76,0.1), 0 8px 30px rgba(139,123,181,0.08);
+  background:linear-gradient(145deg,rgba(201,168,76,0.06),rgba(248,244,252,0.7));
+  border-color:rgba(201,168,76,0.2); box-shadow:0 4px 20px rgba(201,168,76,0.1), 0 8px 30px rgba(139,123,181,0.08);
 }
 .sub-card.featured::before { content:'最受欢迎'; position:absolute; top:14px; right:-28px; background:linear-gradient(135deg,var(--gold),var(--amber)); color:white; font-size:10px; padding:3px 30px; transform:rotate(45deg); letter-spacing:1px; }
 .sub-card-icon { font-size:36px; margin-bottom:12px; }
@@ -1159,7 +1189,8 @@ body {
   font-size:13px; font-weight:500; cursor:pointer;
   font-family:'Noto Sans SC',sans-serif; transition:all 0.25s;
 }
-.sub-card-btn.primary { background:linear-gradient(135deg,var(--gold),var(--amber)); color:white; box-shadow:0 4px 16px rgba(201,168,76,0.25); }
+.sub-card-btn.primary { background:linear-gradient(135deg,var(--gold),var(--amber)); color:white; box-shadow:0 4px 16px rgba(201,168,76,0.25); position:relative; overflow:hidden; }
+.sub-card-btn.primary::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.05) 50%,transparent 70%); border-radius:inherit; pointer-events:none; }
 .sub-card-btn.primary:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(201,168,76,0.35); }
 .sub-card-btn.secondary { background:rgba(212,197,232,0.15); color:var(--text-secondary); border:1px solid rgba(212,197,232,0.2); }
 .sub-card-btn.secondary:hover { background:rgba(212,197,232,0.3); color:var(--lavender); }
@@ -1950,21 +1981,22 @@ body {
 </div>
 
 <script>
-/* ── Stars ──────────────────────────────── */
+/* ── Stars (subtle sparkle) ───────────── */
 (function(){
   const cosmos = document.getElementById('cosmos');
   const isMobile = window.innerWidth < 768;
-  const count = isMobile ? 40 : 80;
+  const count = isMobile ? 15 : 30;
   for(let i=0;i<count;i++){
     const s=document.createElement('div');
     s.className='star';
-    const size=Math.random()*2+0.5;
+    const size=Math.random()*1.5+0.5;
     s.style.cssText=`
       width:${size}px;height:${size}px;
       top:${Math.random()*100}%;left:${Math.random()*100}%;
-      --min-op:${Math.random()*0.2+0.1};
-      --max-op:${Math.random()*0.5+0.5};
-      --dur:${Math.random()*4+2}s;
+      background:rgba(212,197,232,0.4);
+      --min-op:0.1;
+      --max-op:0.5;
+      --dur:${Math.random()*3+3}s;
       --delay:${Math.random()*5}s;
     `;
     cosmos.appendChild(s);
