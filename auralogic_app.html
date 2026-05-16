@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AuraLogic 灵觉星盘</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.2.2/dist/lunar.min.js"></script>
 <style>
 /* ─── DESIGN TOKENS ─────────────────────────────────── */
 :root {
@@ -1024,6 +1025,124 @@ body {
 .divider { height:1px; background:rgba(212,197,232,0.15); margin:8px 0; }
 .section-label { font-size:10px; letter-spacing:2px; color:var(--text-ghost); margin-bottom:8px; }
 
+/* ─── ASTROLOGY / 排盘 PAGE ────────────── */
+.astro-page { padding:28px 32px; max-width:1000px; margin:0 auto; }
+.astro-header { margin-bottom:24px; }
+.astro-title { font-family:'Noto Serif SC',serif; font-size:22px; color:var(--text-primary); }
+.astro-sub { font-size:12px; color:var(--text-secondary); margin-top:4px; }
+
+/* Birth form */
+.astro-form {
+  background: rgba(248,244,252,0.6);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212,197,232,0.2);
+  border-radius:var(--r-xl); padding:24px;
+  box-shadow: 0 4px 20px rgba(139,123,181,0.06);
+  margin-bottom:20px;
+}
+.astro-form-grid { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; }
+.astro-field { display:flex; flex-direction:column; gap:6px; }
+.astro-field label { font-size:11px; color:var(--text-secondary); letter-spacing:1px; }
+.astro-field select, .astro-field input {
+  padding:9px 14px; border-radius:var(--r-full);
+  border:1px solid rgba(212,197,232,0.25);
+  background:rgba(248,244,252,0.7);
+  font-family:'Noto Sans SC',sans-serif; font-size:13px;
+  color:var(--text-primary); outline:none;
+  transition:all 0.2s; cursor:pointer;
+}
+.astro-field select:hover, .astro-field input:hover { border-color:rgba(201,168,76,0.3); }
+.astro-field select:focus, .astro-field input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,0.1); }
+.astro-submit-btn {
+  padding:9px 28px; border:none; border-radius:var(--r-full);
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  color:white; font-size:13px; font-weight:500;
+  font-family:'Noto Sans SC',sans-serif; cursor:pointer;
+  box-shadow:0 4px 16px rgba(201,168,76,0.25);
+  transition:all 0.25s; position:relative; overflow:hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.astro-submit-btn::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.05) 50%,transparent 70%);
+  border-radius:inherit; pointer-events:none;
+}
+.astro-submit-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(201,168,76,0.35); }
+
+/* Bazi 2x4 grid */
+.bazi-section { margin-bottom:24px; }
+.bazi-section-title { font-family:'Noto Serif SC',serif; font-size:16px; color:var(--text-primary); margin-bottom:14px; letter-spacing:1px; }
+.bazi-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
+  max-width:500px;
+}
+.bazi-cell {
+  text-align:center; padding:12px 6px;
+  border-radius:var(--r-md);
+  border:1px solid rgba(212,197,232,0.15);
+  background:rgba(248,244,252,0.4);
+  transition:all 0.3s;
+}
+.bazi-cell-label { font-size:9px; color:var(--text-muted); letter-spacing:1px; margin-bottom:6px; }
+.bazi-cell-text { font-size:18px; font-weight:600; font-family:'Noto Serif SC',serif; }
+.bazi-cell-wuxing { font-size:10px; margin-top:4px; letter-spacing:0.5px; }
+.bazi-cell.wood { border-color:#A8E6CF; box-shadow:0 0 12px rgba(168,230,207,0.25); background:rgba(168,230,207,0.08); }
+.bazi-cell.wood .bazi-cell-text { color:#5CB892; }
+.bazi-cell.wood .bazi-cell-wuxing { color:#7DC4A3; }
+.bazi-cell.fire { border-color:#FFD3B6; box-shadow:0 0 12px rgba(255,211,182,0.25); background:rgba(255,211,182,0.08); }
+.bazi-cell.fire .bazi-cell-text { color:#E8946A; }
+.bazi-cell.fire .bazi-cell-wuxing { color:#E8A882; }
+.bazi-cell.earth { border-color:#FFF5BA; box-shadow:0 0 12px rgba(255,245,186,0.25); background:rgba(255,245,186,0.08); }
+.bazi-cell.earth .bazi-cell-text { color:#C4A84C; }
+.bazi-cell.earth .bazi-cell-wuxing { color:#D4B860; }
+.bazi-cell.metal { border-color:rgba(255,255,255,0.6); box-shadow:0 0 12px rgba(200,200,220,0.2); background:rgba(240,240,255,0.08); }
+.bazi-cell.metal .bazi-cell-text { color:#8B8BA8; }
+.bazi-cell.metal .bazi-cell-wuxing { color:#A0A0B8; }
+.bazi-cell.water { border-color:#A8DADC; box-shadow:0 0 12px rgba(168,218,220,0.25); background:rgba(168,218,220,0.08); }
+.bazi-cell.water .bazi-cell-text { color:#5CA8AA; }
+.bazi-cell.water .bazi-cell-wuxing { color:#7DB8BA; }
+
+/* Zi Wei 12-palace grid */
+.ziwei-section { margin-bottom:24px; }
+.ziwei-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(4,1fr);
+  gap:4px; max-width:480px; aspect-ratio:1;
+  margin:0 auto;
+}
+.ziwei-palace {
+  background:rgba(248,244,252,0.4);
+  border:1px solid rgba(212,197,232,0.15);
+  border-radius:var(--r-sm);
+  padding:6px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; position:relative;
+  transition:all 0.25s; min-height:80px;
+}
+.ziwei-palace:hover { border-color:rgba(201,168,76,0.25); background:rgba(248,244,252,0.6); }
+.ziwei-center {
+  grid-column:2/4; grid-row:2/4;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center;
+  background:linear-gradient(145deg,rgba(201,168,76,0.06),rgba(248,244,252,0.4));
+  border:1px solid rgba(201,168,76,0.12);
+  border-radius:var(--r-md);
+}
+.ziwei-center-text { font-family:'Noto Serif SC',serif; font-size:14px; color:var(--text-secondary); line-height:1.8; }
+.ziwei-center-text strong { color:var(--gold); font-weight:600; }
+.ziwei-palace-name { font-size:10px; color:var(--lavender); font-weight:600; letter-spacing:1px; }
+.ziwei-palace-star { font-size:9px; color:var(--text-muted); margin-top:2px; }
+.ziwei-palace.ming { border-color:rgba(201,168,76,0.35); background:rgba(201,168,76,0.08); }
+.ziwei-palace.ming .ziwei-palace-name { color:var(--gold); }
+.ziwei-palace.shen { border-color:rgba(168,218,220,0.35); background:rgba(168,218,220,0.08); }
+.ziwei-palace.shen .ziwei-palace-name { color:#5CA8AA; }
+
+/* Result area */
+.astro-result { animation:fade-result 0.5s ease; }
+@keyframes fade-result { from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);} }
+
 /* ─── RESPONSIVE ──────────────────────────── */
 @media (max-width: 1100px) {
   .home-layout { grid-template-columns: 300px 1fr; }
@@ -1066,6 +1185,10 @@ body {
   .sub-grid { grid-template-columns:1fr; }
   .soul-profile { flex-direction:column; text-align:center; padding:16px; }
   .sub-page { padding:16px; }
+  .astro-page { padding:16px; }
+  .astro-form-grid { flex-direction:column; gap:10px; }
+  .bazi-grid { max-width:100%; }
+  .ziwei-grid { max-width:100%; aspect-ratio:unset; min-height:320px; }
 }
 @media (max-width: 480px) {
   .home-layout { padding:12px 10px; gap:10px; }
@@ -1314,6 +1437,7 @@ body {
       <button class="tab-btn" role="tab" onclick="showPage('chat')">✨ Ask Aura</button>
       <button class="tab-btn" role="tab" onclick="showPage('karma')">💫 业力标签</button>
       <button class="tab-btn" role="tab" onclick="showPage('subscription')">👑 会员</button>
+      <button class="tab-btn" role="tab" onclick="showPage('astrology')">🔮 排盘</button>
     </div>
     <div class="topnav-right">
       <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
@@ -1967,10 +2091,92 @@ body {
     </div>
   </div>
 
+  <!-- ── PAGE 7: 排盘 ───────────────────── -->
+  <div id="page-astrology" class="page">
+    <div class="astro-page">
+      <div class="astro-header">
+        <div class="astro-title">🔮 生辰八字 & 紫微斗数</div>
+        <div class="astro-sub">输入出生信息，开启东方命理排盘</div>
+      </div>
+
+      <div class="astro-form" id="astroForm">
+        <div class="astro-form-grid">
+          <div class="astro-field">
+            <label>出生日期</label>
+            <input type="date" id="astroBirthDate" value="1990-01-01">
+          </div>
+          <div class="astro-field">
+            <label>出生时辰</label>
+            <select id="astroHour">
+              <option value="0">子时 23:00-00:59</option>
+              <option value="1">丑时 01:00-02:59</option>
+              <option value="2">寅时 03:00-04:59</option>
+              <option value="3">卯时 05:00-06:59</option>
+              <option value="4">辰时 07:00-08:59</option>
+              <option value="5">巳时 09:00-10:59</option>
+              <option value="6">午时 11:00-12:59</option>
+              <option value="7">未时 13:00-14:59</option>
+              <option value="8">申时 15:00-16:59</option>
+              <option value="9">酉时 17:00-18:59</option>
+              <option value="10">戌时 19:00-20:59</option>
+              <option value="11" selected>亥时 21:00-22:59</option>
+            </select>
+          </div>
+          <div class="astro-field">
+            <label>性别</label>
+            <select id="astroGender">
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+          </div>
+          <button class="astro-submit-btn" onclick="calculateAstrology()">开始排盘</button>
+        </div>
+      </div>
+
+      <div id="astroResult" style="display:none;" class="astro-result">
+        <!-- Bazi Section -->
+        <div class="bazi-section">
+          <div class="bazi-section-title">📜 八字四柱</div>
+          <div class="bazi-grid" id="baziGrid">
+            <div class="bazi-cell"><div class="bazi-cell-label">年柱</div><div class="bazi-cell-text" id="bzYearG">—</div><div class="bazi-cell-wuxing" id="bzYearW">—</div></div>
+            <div class="bazi-cell"><div class="bazi-cell-label">月柱</div><div class="bazi-cell-text" id="bzMonthG">—</div><div class="bazi-cell-wuxing" id="bzMonthW">—</div></div>
+            <div class="bazi-cell"><div class="bazi-cell-label">日柱</div><div class="bazi-cell-text" id="bzDayG">—</div><div class="bazi-cell-wuxing" id="bzDayW">—</div></div>
+            <div class="bazi-cell"><div class="bazi-cell-label">时柱</div><div class="bazi-cell-text" id="bzHourG">—</div><div class="bazi-cell-wuxing" id="bzHourW">—</div></div>
+          </div>
+        </div>
+
+        <!-- Zi Wei Section -->
+        <div class="ziwei-section">
+          <div class="bazi-section-title">⭐ 紫微斗数十二宫</div>
+          <div class="ziwei-grid" id="ziweiGrid">
+            <div class="ziwei-palace" data-palace="0" style="grid-area:1/1"><div class="ziwei-palace-name">巳</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="1" style="grid-area:1/2"><div class="ziwei-palace-name">午</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="2" style="grid-area:1/3"><div class="ziwei-palace-name">未</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="3" style="grid-area:1/4"><div class="ziwei-palace-name">申</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="4" style="grid-area:2/1"><div class="ziwei-palace-name">辰</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="5" style="grid-area:3/1"><div class="ziwei-palace-name">卯</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="6" style="grid-area:4/1"><div class="ziwei-palace-name">寅</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="7" style="grid-area:4/2"><div class="ziwei-palace-name">丑</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="8" style="grid-area:4/3"><div class="ziwei-palace-name">子</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="9" style="grid-area:4/4"><div class="ziwei-palace-name">亥</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="10" style="grid-area:3/4"><div class="ziwei-palace-name">戌</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-palace" data-palace="11" style="grid-area:2/4"><div class="ziwei-palace-name">酉</div><div class="ziwei-palace-star"></div></div>
+            <div class="ziwei-center">
+              <div class="ziwei-center-text" id="ziweiCenterText">
+                <strong>命盘信息</strong><br>
+                <span id="ziweiCenterDetail">点击"开始排盘"查看</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- end .app -->
 
 <!-- ── KEYBOARD HINT ──────────────────────── -->
-<div class="keyboard-hint">⌨ 1-6 切换页面 · M 弹窗 · Space 播放 · Lang 中/EN</div>
+<div class="keyboard-hint">⌨ 1-7 切换页面 · M 弹窗 · Space 播放 · Lang 中/EN</div>
 
 <!-- ── MODALS ─────────────────────────────── -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
@@ -2054,7 +2260,7 @@ function showPage(id){
 
 /* ── Keyboard shortcuts ─────────────────── */
 document.addEventListener('keydown',function(e){
-  const nav={1:'home',2:'chart',3:'radio',4:'chat',5:'karma',6:'subscription'};
+  const nav={1:'home',2:'chart',3:'radio',4:'chat',5:'karma',6:'subscription',7:'astrology'};
   if(e.key in nav) showPage(nav[e.key]);
   if(e.key==='m'||e.key==='M') showModal('profile');
   if(e.key===' '){e.preventDefault();togglePlay();}
@@ -2359,6 +2565,149 @@ function showToast(msg,type){
 
 /* ── Animated Counter ────────────────────── */
 function animateCounters(){}
+
+/* ── Astrology: 八字 & 紫微斗数 ──────────── */
+const TIAN_GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const DI_ZHI   = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const WU_XING  = ['wood','wood','fire','fire','earth','earth','metal','metal','water','water'];
+const WX_NAMES = ['木','木','火','火','土','土','金','金','水','水'];
+const ZI_WEI_PALACES = ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑'];
+
+/* Days since 1900-01-01 (reference for day pillar) */
+function daysFrom1900(y,m,d){
+  const ref=new Date(1900,0,1);
+  const cur=new Date(y,m-1,d);
+  return Math.round((cur-ref)/86400000);
+}
+
+/* 年柱 */
+function getYearPillar(y){
+  const s=(y-4)%10; const b=(y-4)%12;
+  return [s<0?s+10:s, b<0?b+12:b];
+}
+
+/* 月柱 (五虎遁: year stem → month 1 stem) */
+function getMonthPillar(y,m){
+  const yStem=((y-4)%10+10)%10;
+  // 甲己→丙(2),乙庚→戊(4),丙辛→庚(6),丁壬→壬(8),戊癸→甲(0)
+  const offset=[2,4,6,8,0][yStem%5];
+  // month N earthly branch: 1→寅(2), 2→卯(3), ... 12→丑(1)
+  const monthBranch=(m+1)%12;
+  const stem=(offset+m-1)%10;
+  return [stem,monthBranch];
+}
+
+/* 日柱 */
+function getDayPillar(y,m,d){
+  const days=daysFrom1900(y,m,d);
+  // 1900-01-01 is 甲戌 (stem 0, branch 10)
+  const stem=(days+0)%10;
+  const branch=(days+10)%12;
+  return [stem<0?stem+10:stem, branch<0?branch+12:branch];
+}
+
+/* 时柱 (using day stem) */
+function getHourPillar(dStem, hourIdx){
+  const start=[0,2,4,6,8][dStem%5];
+  const stem=(start+hourIdx)%10;
+  return [stem, hourIdx];
+}
+
+/* 安命宫 & 安身宫 */
+function calcMingShen(lunarMonth, hourIdx){
+  // Start from 寅 (index 0 in ZI_WEI_PALACES), count forward to birth month
+  const monthPos=(lunarMonth-1)%12;
+  const ming=(monthPos-hourIdx+120)%12;
+  const shen=(monthPos+hourIdx)%12;
+  return { ming: ZI_WEI_PALACES[ming], shen: ZI_WEI_PALACES[shen], mingIdx: ming, shenIdx: shen };
+}
+
+/* Render 八字 */
+function renderBazi(pillars){
+  const labels=['bzYearG','bzMonthG','bzDayG','bzHourG'];
+  const wlabels=['bzYearW','bzMonthW','bzDayW','bzHourW'];
+  const cells=document.querySelectorAll('#baziGrid .bazi-cell');
+  pillars.forEach(([stem,branch],i)=>{
+    const gan=TIAN_GAN[stem]; const zhi=DI_ZHI[branch];
+    // Combine stem+branch
+    cells[i].querySelector('.bazi-cell-text').textContent=gan+zhi;
+    cells[i].querySelector('.bazi-cell-wuxing').textContent=WX_NAMES[stem];
+    // Remove existing wuxing classes
+    cells[i].classList.remove('wood','fire','earth','metal','water');
+    cells[i].classList.add(WU_XING[stem]);
+  });
+}
+
+/* Render 紫微斗数 */
+function renderZiWei(mingShen, gender, lunarData){
+  // Reset all palaces
+  document.querySelectorAll('.ziwei-palace').forEach(p=>{
+    p.classList.remove('ming','shen');
+    p.querySelector('.ziwei-palace-star').textContent='';
+  });
+
+  // Mark 命宫 and 身宫
+  document.querySelectorAll('.ziwei-palace').forEach(p=>{
+    const name=p.querySelector('.ziwei-palace-name').textContent;
+    if(name===mingShen.ming){ p.classList.add('ming'); p.querySelector('.ziwei-palace-star').textContent='命主'; }
+    if(name===mingShen.shen){ p.classList.add('shen'); p.querySelector('.ziwei-palace-star').textContent='身主'; }
+  });
+
+  // Update center info
+  const genderText=gender==='male'?'男':'女';
+  const mingBranch=mingShen.ming;
+  const shenBranch=mingShen.shen;
+
+  let extra='';
+  if(lunarData){
+    try{
+      extra=' · '+lunarData.getYearInGanZhi()+'年';
+    }catch(e){}
+  }
+
+  document.getElementById('ziweiCenterDetail').innerHTML=
+    genderText+'命 · 命宫在<strong>'+mingBranch+'</strong> · 身宫在<strong>'+shenBranch+'</strong>';
+}
+
+/* Main calculation entry */
+function calculateAstrology(){
+  const dateInput=document.getElementById('astroBirthDate').value;
+  const hourIdx=parseInt(document.getElementById('astroHour').value);
+  const gender=document.getElementById('astroGender').value;
+
+  if(!dateInput){ showToast('请选择出生日期','error'); return; }
+
+  const [y,m,d]=dateInput.split('-').map(Number);
+
+  // Try lunar-javascript
+  let lunarData=null;
+  if(typeof Solar !== 'undefined'){
+    try{
+      const solar=Solar.fromYmd(y,m,d);
+      lunarData=solar.getLunar();
+    }catch(e){}
+  }
+
+  // Calculate pillars
+  const yP=getYearPillar(y);
+  const mP=getMonthPillar(y,m);
+  const dP=getDayPillar(y,m,d);
+  const hP=getHourPillar(dP[0], hourIdx);
+
+  renderBazi([yP,mP,dP,hP]);
+
+  // For Zi Wei, we need lunar month (or use solar month as fallback)
+  let lunarMonth=m;
+  if(lunarData){
+    try{ lunarMonth=lunarData.getMonth(); }catch(e){}
+  }
+
+  const mingShen=calcMingShen(lunarMonth, hourIdx);
+  renderZiWei(mingShen, gender, lunarData);
+
+  document.getElementById('astroResult').style.display='block';
+  document.getElementById('astroResult').scrollIntoView({behavior:'smooth',block:'start'});
+}
 </script>
 </body>
 </html>
