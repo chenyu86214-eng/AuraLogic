@@ -1071,14 +1071,31 @@ body {
 .astro-field select:focus, .astro-field input:focus { border-color:var(--morandi-accent); box-shadow:0 0 0 3px rgba(181,164,142,0.15); }
 .astro-submit-btn {
   padding:10px 32px; border:none; border-radius:12px;
-  background:var(--morandi-accent);
+  background:linear-gradient(135deg,var(--violet)0%,var(--amethyst)100%);
   color:#fff; font-size:13px; font-weight:500;
   font-family:'Noto Sans SC',sans-serif; cursor:pointer;
-  box-shadow:0 4px 16px rgba(181,164,142,0.25);
+  box-shadow:0 0 30px rgba(139,123,181,0.4);
   transition:all 0.25s ease; letter-spacing:1px;
   -webkit-tap-highlight-color: transparent;
+  animation:astro-glow 3s ease-in-out infinite;
 }
-.astro-submit-btn:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(181,164,142,0.35); }
+@keyframes astro-glow {
+  0%,100% { box-shadow:0 0 20px rgba(139,123,181,0.3); }
+  50%      { box-shadow:0 0 50px rgba(139,123,181,0.7); }
+}
+.astro-submit-btn:hover { transform:translateY(-1px); box-shadow:0 0 60px rgba(139,123,181,0.8); }
+
+/* 公历/农历切换 */
+.astro-cal-toggle { display:flex; gap:4px; background:rgba(200,190,180,0.08); border-radius:999px; padding:3px; }
+.cal-toggle-btn {
+  padding:6px 18px; border-radius:999px; border:none; cursor:pointer;
+  font-size:12px; font-family:'Noto Sans SC',sans-serif;
+  color:var(--morandi-muted); background:transparent; transition:all 0.2s ease;
+}
+.cal-toggle-btn.active {
+  background:var(--morandi-card); color:var(--morandi-text);
+  box-shadow:0 2px 8px rgba(120,110,100,0.1);
+}
 
 /* Bazi - Cece style: big chars + ten gods + hidden stems */
 .bazi-section { margin-bottom:28px; }
@@ -2158,9 +2175,21 @@ body {
 
       <div class="astro-form" id="astroForm">
         <div class="astro-form-grid">
-          <div class="astro-field">
-            <label>出生日期</label>
+          <div class="astro-field" style="flex:0 0 100%;">
+            <label>历法选择</label>
+            <div class="astro-cal-toggle" id="calToggle">
+              <button class="cal-toggle-btn active" data-cal="solar">公历</button>
+              <button class="cal-toggle-btn" data-cal="lunar">农历</button>
+            </div>
+          </div>
+          <div class="astro-field" id="astroDateField">
+            <label id="astroDateLabel">出生日期</label>
             <input type="date" id="astroBirthDate" value="1990-01-01">
+            <div id="astroLunarDate" style="display:none;gap:8px;">
+              <select id="astroLunarYear" style="flex:2;"></select>
+              <select id="astroLunarMonth" style="flex:1;"></select>
+              <select id="astroLunarDay" style="flex:1;"></select>
+            </div>
           </div>
           <div class="astro-field">
             <label>出生时辰</label>
@@ -2349,6 +2378,65 @@ function updateUIFromProfile(p) {
   }
 })();
 
+/* ── 初始化农历选择器 ───────────────── */
+function initLunarSelects(){
+  const ySel=document.getElementById('astroLunarYear');
+  const mSel=document.getElementById('astroLunarMonth');
+  const dSel=document.getElementById('astroLunarDay');
+  if(!ySel)return;
+  const cy=new Date().getFullYear();
+  ySel.innerHTML='';
+  for(let i=cy-80;i<=cy-10;i++){
+    const o=document.createElement('option');o.value=i;o.textContent=i+'年';
+    if(i===1990)o.selected=true;ySel.appendChild(o);
+  }
+  mSel.innerHTML='';
+  for(let i=1;i<=12;i++){
+    const o=document.createElement('option');o.value=i;o.textContent=i+'月';
+    if(i===1)o.selected=true;mSel.appendChild(o);
+  }
+  updateLunarDays();
+  mSel.addEventListener('change',updateLunarDays);
+  ySel.addEventListener('change',updateLunarDays);
+}
+function updateLunarDays(){
+  const y=parseInt(document.getElementById('astroLunarYear').value)||1990;
+  const m=parseInt(document.getElementById('astroLunarMonth').value)||1;
+  const dSel=document.getElementById('astroLunarDay');
+  if(!dSel)return;
+  dSel.innerHTML='';
+  // Lunar months are 29 or 30 days; use 30 as safe max
+  const days=(m%2===1||m===12)?30:29;
+  for(let i=1;i<=days;i++){
+    const o=document.createElement('option');o.value=i;o.textContent=i+'日';
+    if(i===1)o.selected=true;dSel.appendChild(o);
+  }
+}
+
+// Calendar toggle
+function initCalToggle(){
+  const btns=document.querySelectorAll('.cal-toggle-btn');
+  btns.forEach(b=>{
+    b.addEventListener('click',function(){
+      btns.forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');
+      const cal=this.dataset.cal;
+      const solarInput=document.getElementById('astroBirthDate');
+      const lunarDiv=document.getElementById('astroLunarDate');
+      const label=document.getElementById('astroDateLabel');
+      if(cal==='lunar'){
+        solarInput.style.display='none';
+        lunarDiv.style.display='flex';
+        label.textContent='农历日期';
+      } else {
+        solarInput.style.display='';
+        lunarDiv.style.display='none';
+        label.textContent='出生日期';
+      }
+    });
+  });
+}
+
 /* ── Page init ──────────────────────────── */
 (function(){
   // Clear old invalid API key from localStorage
@@ -2371,6 +2459,10 @@ function updateUIFromProfile(p) {
     // Auto-calculate astrology on load
     setTimeout(() => calculateAstrology(true), 100);
   }
+
+  // Init lunar calendar & toggle
+  initLunarSelects();
+  initCalToggle();
 
   const now=new Date();
   const h=now.getHours();
@@ -3122,26 +3214,48 @@ function renderZiWei(mingShen, starPos, bureau, gender, lunarDay, lunarMonth, yP
     if(pidx === mingShen.shenIdx) p.classList.add('shen-palace');
   });
 
-  // Center info
+  // Center info with 命主/身主
   const genderTxt = gender==='male'?'男':'女';
   const mingName = ZI_WEI_PALACES[mingShen.mingIdx];
   const shenName = ZI_WEI_PALACES[mingShen.shenIdx];
   const baziStr = TIAN_GAN[yP[0]]+DI_ZHI[yP[1]]+' '+TIAN_GAN[mP[0]]+DI_ZHI[mP[1]]+' '+TIAN_GAN[dP[0]]+DI_ZHI[dP[1]]+' '+TIAN_GAN[hP[0]]+DI_ZHI[hP[1]];
   const bureauNames = {2:'水二局',3:'木三局',4:'金四局',5:'土五局',6:'火六局'};
+  // 命主 by 命宫地支, 身主 by 生年支
+  const MING_ZHU = ['贪狼','巨门','禄存','文曲','廉贞','武曲','破军','武曲','廉贞','文曲','禄存','巨门'];
+  const SHEN_ZHU = ['火星','天相','天梁','天同','文昌','天机','火星','天相','天梁','天同','文昌','天机'];
+  const birthBranch = yP[1];
+  const mingZhu = MING_ZHU[mingShen.mingIdx];
+  const shenZhu = SHEN_ZHU[birthBranch];
   document.getElementById('zwCenterBazi').textContent = baziStr;
   document.getElementById('ziweiCenterDetail').innerHTML =
-    genderTxt+'命 · '+bureauNames[bureau]+' · 命宫<strong>'+mingName+'</strong> 身宫<strong>'+shenName+'</strong>';
+    genderTxt+'命 · '+bureauNames[bureau]+'<br>命宫<strong>'+mingName+'</strong> 身宫<strong>'+shenName+'</strong><br>命主<strong>'+mingZhu+'</strong> 身主<strong>'+shenZhu+'</strong>';
 }
 
 /* Main */
 function calculateAstrology(confirmed){
-  const dateInput=document.getElementById('astroBirthDate').value;
   const hourIdx=parseInt(document.getElementById('astroHour').value);
   const gender=document.getElementById('astroGender').value;
   const nameInput=document.getElementById('astroName');
   const userName=nameInput?nameInput.value.trim():'';
-  if(!dateInput){ showToast('请选择出生日期','error'); return; }
-  const [y,m,d]=dateInput.split('-').map(Number);
+
+  // Check if lunar mode is active
+  const activeCal=document.querySelector('.cal-toggle-btn.active');
+  const isLunar=activeCal && activeCal.dataset.cal==='lunar';
+  let y,m,d,dateInput;
+  if(isLunar){
+    y=parseInt(document.getElementById('astroLunarYear').value);
+    m=parseInt(document.getElementById('astroLunarMonth').value);
+    d=parseInt(document.getElementById('astroLunarDay').value);
+    dateInput=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    // Convert lunar to solar for calculations
+    if(typeof Lunar !== 'undefined'){
+      try{ const lu=Lunar.fromYmd(y,m,d); const sol=lu.getSolar(); y=sol.getYear(); m=sol.getMonth(); d=sol.getDay(); }catch(e){}
+    }
+  } else {
+    dateInput=document.getElementById('astroBirthDate').value;
+    if(!dateInput){ showToast('请选择出生日期','error'); return; }
+    [y,m,d]=dateInput.split('-').map(Number);
+  }
 
   // If not confirmed, show confirmation dialog first
   if(!confirmed){
