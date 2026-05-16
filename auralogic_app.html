@@ -1512,7 +1512,7 @@ body {
     <div class="topnav-right">
       <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
       <div class="energy-pill"><div class="energy-dot"></div>能量 <span id="energyDisplay">72</span>%</div>
-      <div class="avatar-btn" onclick="showModal('profile')">S</div>
+      <div class="avatar-btn" onclick="showModal('profile')" id="avatarBtn">S</div>
     </div>
   </nav>
 
@@ -1528,8 +1528,8 @@ body {
         <div class="soul-profile">
           <div class="soul-profile-icon">✦</div>
           <div class="soul-profile-meta">
-            <div class="soul-profile-name">Stella</div>
-            <div class="soul-profile-dob">1990年6月15日 · 巳时 · 天机坐命</div>
+            <div class="soul-profile-name" id="soulProfileName">Stella</div>
+            <div class="soul-profile-dob" id="soulProfileDob">1990年6月15日 · 巳时 · 天机坐命</div>
             <div class="soul-profile-tags">
               <span class="soul-profile-tag">♈ 太阳狮子</span>
               <span class="soul-profile-tag">☽ 月亮双鱼</span>
@@ -1540,7 +1540,7 @@ body {
         </div>
         <div class="greeting-card">
           <div class="greeting-time" id="greetingTime">Loading...</div>
-          <div class="greeting-name" id="greetingName">早安，Stella ✦</div>
+          <div class="greeting-name" id="greetingName">早安 ✦</div>
           <div class="greeting-sub">你的星盘正在共鸣</div>
           <div class="energy-meter-wrap">
             <div class="energy-header">
@@ -1950,9 +1950,9 @@ body {
     <div class="chat-page">
       <div class="chat-sidebar">
         <div class="chat-profile">
-          <div class="chat-avatar">S</div>
-          <div class="chat-profile-name">Stella</div>
-          <div class="chat-profile-info">1990年6月15日 · 巳时</div>
+          <div class="chat-avatar" id="chatAvatar">S</div>
+          <div class="chat-profile-name" id="chatProfileName">Stella</div>
+          <div class="chat-profile-info" id="chatProfileInfo">1990年6月15日 · 巳时</div>
           <div class="chat-status"><div class="energy-dot"></div>命盘已激活</div>
         </div>
         <div class="chat-context">
@@ -1977,22 +1977,8 @@ body {
           <div class="msg ai">
             <div class="msg-avatar">✦</div>
             <div>
-              <div class="msg-bubble">你好，Stella。我已读取你的命盘。<br><br>天机坐命，你生来聪慧敏感，善于洞察人心。今日能量处于72%的内省模式，是深度对话的好时机。<br><br>你想探索哪个领域？感情、事业、人生方向，还是有什么具体困惑想聊？</div>
-              <div class="msg-time">今天 10:24</div>
-            </div>
-          </div>
-          <div class="msg user">
-            <div class="msg-avatar">S</div>
-            <div>
-              <div class="msg-bubble">我的爱情运势怎么样？</div>
-              <div class="msg-time">今天 10:25</div>
-            </div>
-          </div>
-          <div class="msg ai">
-            <div class="msg-avatar">✦</div>
-            <div>
-              <div class="msg-bubble">你夫妻宫坐廉贞化忌，这是一个需要特别关注的宫位。<br><br>廉贞本身代表深情与执着，化忌意味着在感情中容易产生纠结与内耗。你对感情的付出往往超过对方所能回应的。<br><br>今年流年走进夫妻宫，是一个关键转折点——旧有的感情模式正在被瓦解，新的关系可能性正在酝酿。<br><br>建议：先向内疗愈，厘清自己真正需要的是什么，而非依赖他人来填补内在的空洞。</div>
-              <div class="msg-time">今天 10:25</div>
+              <div class="msg-bubble" id="chatGreetingMsg">你好，我是 Aura。请先到「排盘」页面输入你的出生信息，然后可以向我提问任何人生问题。</div>
+              <div class="msg-time">现在</div>
             </div>
           </div>
         </div>
@@ -2257,6 +2243,71 @@ body {
 </div>
 
 <script>
+/* ── User Profile ─────────────────────────── */
+let userProfile = loadUserProfile();
+const DEFAULT_PROFILE = { name:'访客', year:1990, month:1, day:1, hourIdx:5, gender:'male', birthDate:'1990-01-01' };
+
+function getDefaultProfile() {
+  return { ...DEFAULT_PROFILE };
+}
+
+function loadUserProfile() {
+  try {
+    const saved = localStorage.getItem('auraUserProfile');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return null;
+}
+
+function saveUserProfile(profile) {
+  try {
+    localStorage.setItem('auraUserProfile', JSON.stringify(profile));
+  } catch(e) {}
+}
+
+function updateUIFromProfile(p) {
+  if (!p) { p = userProfile; }
+  if (!p) return;
+  const name = p.name || '访客';
+  const y = p.year, m = p.month, d = p.day;
+  const hourNames = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+  const hourStr = hourNames[p.hourIdx] || '';
+  const genderText = p.gender === 'male' ? '' : '';
+  const dateStr = y+'年'+m+'月'+d+'日';
+
+  // Soul profile
+  const sn = document.getElementById('soulProfileName');
+  if (sn) sn.textContent = name;
+  const sd = document.getElementById('soulProfileDob');
+  if (sd) sd.textContent = dateStr + ' · ' + hourStr;
+
+  // Greeting
+  const gn = document.getElementById('greetingName');
+  if (gn) {
+    const hr = new Date().getHours();
+    const greet = hr < 12 ? '早安' : hr < 18 ? '午安' : '晚安';
+    gn.textContent = greet + '，' + name + ' ✦';
+  }
+
+  // Chat profile
+  const cp = document.getElementById('chatProfileName');
+  if (cp) cp.textContent = name;
+  const ci = document.getElementById('chatProfileInfo');
+  if (ci) ci.textContent = dateStr + ' · ' + hourStr;
+  const ca = document.getElementById('chatAvatar');
+  if (ca) ca.textContent = name.charAt(0);
+
+  // Avatar button
+  const ab = document.getElementById('avatarBtn');
+  if (ab) ab.textContent = name.charAt(0);
+
+  // Chat greeting
+  const cg = document.getElementById('chatGreetingMsg');
+  if (cg) {
+    cg.innerHTML = '你好，'+name+'。我已读取你的命盘信息。<br><br>你可以向我提问任何人生问题——感情、事业、人生方向，我都会基于你的星盘给予指引。<br><br>你现在想探索哪个领域？';
+  }
+}
+
 /* ── Stars (subtle sparkle) ───────────── */
 (function(){
   const cosmos = document.getElementById('cosmos');
@@ -2293,14 +2344,27 @@ body {
   }
 })();
 
-/* ── Greeting time ──────────────────────── */
+/* ── Page init ──────────────────────────── */
 (function(){
+  // Load saved profile
+  if (userProfile) {
+    updateUIFromProfile(userProfile);
+    // Auto-fill astrology form
+    const dateInput = document.getElementById('astroBirthDate');
+    if (dateInput && userProfile.birthDate) dateInput.value = userProfile.birthDate;
+    const hourSelect = document.getElementById('astroHour');
+    if (hourSelect && userProfile.hourIdx !== undefined) hourSelect.value = userProfile.hourIdx;
+    const genderSelect = document.getElementById('astroGender');
+    if (genderSelect && userProfile.gender) genderSelect.value = userProfile.gender;
+  }
+
   const now=new Date();
   const h=now.getHours();
   const greetEl=document.getElementById('greetingName');
   if(greetEl){
     const g=h<12?'早安':h<18?'午安':'晚安';
-    greetEl.textContent=g+'，Stella ✦';
+    const name = (userProfile && userProfile.name) ? userProfile.name : '访客';
+    greetEl.textContent=g+'，'+name+' ✦';
   }
   const timeEl=document.getElementById('greetingTime');
   if(timeEl){
@@ -2422,54 +2486,106 @@ function nextTrack(){if(progressInterval){clearInterval(progressInterval);progre
 function prevTrack(){if(progressInterval){clearInterval(progressInterval);progressInterval=null;}currentSignal=(currentSignal-1+signals.length)%signals.length;playSignal(currentSignal);}
 function nextSignal(){nextTrack();}
 function prevSignal(){prevTrack();}
-const responses={
-  "我的事业运如何？":"你的官禄宫坐天梁化科，这是一个非常好的事业配置。天梁主庇荫与学问，化科增添名声光彩。\n\n今年大运走入官禄宫，是事业上的重要发展期。适合专业技能的深化，或在原有领域建立更高的权威性。贵人运强，主动拓展人脉会有意想不到的机缘。\n\n建议：不必急于求成，踏实积累，厚积薄发是你今年的关键词。",
-  "今年有什么大转变？":"2026年是你的重要转折年。流年命宫走入天机，这与你本命盘形成强力共振，意味着内在觉醒与外在变化同步发生。\n\n三月到六月是情感层面的转化期，旧有的关系模式将得到清理与整合。七月后，你会感受到更清晰的自我定位，对未来的方向更有把握。\n\n最重要的转变，发生在你内心。",
-  "我的天赋在哪里？":"天机坐命，你的天赋在于：敏锐的洞察力、跨领域整合的能力，以及对人心的深刻理解。\n\n你天生是个「连接者」——能看见不同事物之间的关联，将复杂问题简化，帮助他人找到方向。这在咨询、写作、创意策划等领域尤为突出。\n\n文曲同座，赋予你强烈的艺术感知力和表达能力。将这些天赋用于有意义的事业，你会感到真正的满足。",
-  "财运分析":"财帛宫坐紫微天相，财运整体稳健。紫微代表贵气，天相主守成，这个组合适合稳健型的财务规划。\n\n今年财运：上半年保守为宜，避免大额投资。下半年有贵人引荐，可能出现意外收入或事业机遇带来的财务改善。\n\n你的财富更多来自专业能力和人脉关系，而非投机性收益。建议建立长期的理财习惯。",
-  "我该换工作吗":"这是个重要的职业决策。从命盘来看，天梁化科在官禄宫，意味着你在当前领域仍有上升空间，但需要主动创造变化。\n\n流年大运带动迁移宫，今年夏秋之交是一个合适的时间窗口。\n\n换工作的关键信号：1) 当前工作已无学习空间 2) 身体或情绪长期疲惫 3) 新机会能带来更本质的成长。\n\n不建议裸辞，但可以开始积极留意新机会。",
-  "最近有什么需要注意":"从星象看，近期有几个重要注意点：\n\n1. 健康方面：天机坐命的你容易思虑过度，注意睡眠质量和神经系统疲劳。\n\n2. 人际关系：廉贞化忌在夫妻宫，近期可能会触发一些旧的情感反应，提醒你未完成的功课。\n\n3. 财务方面：不宜冲动消费或投资，偏财运走低。\n\n建议：每天花10分钟静坐，观呼吸。减少社交媒体摄入，增加独处和阅读时间。",
-  "健康":"健康方面需要特别关注的是神经系统和消化系统。天机坐命，思虑过度是常态，容易导致失眠、焦虑和肠胃问题。\n\n建议作息规律，适当运动。今年秋冬季需要特别注意免疫力的维护。",
-  "感情":"廉贞化忌坐夫妻宫，感情是你此生最重要的修行功课。\n\n你的感情模式：容易过度付出，在爱中寻找自我价值。真正的亲密关系建立在两个完整自我之间的平等相遇。\n\n未来3-6个月，你可能会遇到一个让你重新定义爱的人。前提是你已经准备好了。"
-};
+/* ── Dify AI Chat ─────────────────────────── */
+let difyConversationId = '';
+
+async function sendDifyMessage(text) {
+  const token = 'oEz7rOYCE4gEloeK';
+  const url = 'https://udify.app/v1/chat-messages';
+
+  // Build context from user profile
+  const p = userProfile;
+  const hourNames = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+  const birthInfo = p ? p.year+'年'+p.month+'月'+p.day+'日 '+hourNames[p.hourIdx] : '未知';
+
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer '+token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        inputs: { birth_info: birthInfo, gender: p ? p.gender : 'unknown', name: p ? p.name||'访客' : '访客' },
+        query: text,
+        response_mode: 'streaming',
+        conversation_id: difyConversationId || '',
+        user: 'aura-user'
+      })
+    });
+
+    if (!resp.ok) { throw new Error('API error: '+resp.status); }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let fullAnswer = '';
+    const msgs = document.getElementById('chatMessages');
+
+    // Create AI message bubble
+    const aiMsgDiv = document.createElement('div');
+    aiMsgDiv.className = 'msg ai';
+    aiMsgDiv.innerHTML = '<div class="msg-avatar">✦</div><div><div class="msg-bubble" id="streamingBubble"></div><div class="msg-time">刚刚</div></div>';
+    msgs.appendChild(aiMsgDiv);
+    const bubble = document.getElementById('streamingBubble');
+    bubble.id = ''; // remove id after reference
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.event === 'message') {
+              fullAnswer += data.answer;
+              bubble.innerHTML = fullAnswer.replace(/\n/g,'<br>');
+              msgs.scrollTop = msgs.scrollHeight;
+            } else if (data.event === 'message_end') {
+              difyConversationId = data.conversation_id || difyConversationId;
+            } else if (data.event === 'error') {
+              bubble.innerHTML = '抱歉，Aura 暂时无法回应。请稍后再试。';
+            }
+          } catch(e) { /* partial JSON */ }
+        }
+      }
+    }
+
+    if (!fullAnswer) {
+      bubble.innerHTML = '抱歉，Aura 暂时无法回应。请稍后再试。';
+    }
+
+    msgs.scrollTop = msgs.scrollHeight;
+  } catch(e) {
+    console.error('Dify API error:', e);
+    const msgs = document.getElementById('chatMessages');
+    msgs.innerHTML += `<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">抱歉，Aura 暂时无法连接。请稍后再试。</div><div class="msg-time">刚刚</div></div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
 
 function sendQuick(el){
-  document.getElementById('chatInput').value=el.textContent;
+  document.getElementById('chatInput').value = el.textContent;
   sendMsg();
 }
 
 function sendMsg(){
-  const input=document.getElementById('chatInput');
-  const text=input.value.trim();
-  if(!text)return;
-  const msgs=document.getElementById('chatMessages');
-  msgs.innerHTML+=`<div class="msg user"><div class="msg-avatar">S</div><div><div class="msg-bubble">${escapeHtml(text)}</div><div class="msg-time">刚刚</div></div></div>`;
-  input.value='';
-  const reply=responses[text]||responses[text.replace(/[？?]/g,'')]||generateReply(text);
-  setTimeout(()=>{
-    msgs.innerHTML+=`<div class="msg ai"><div class="msg-avatar">✦</div><div><div class="msg-bubble">${reply.replace(/\n/g,'<br>')}</div><div class="msg-time">刚刚</div></div></div>`;
-    msgs.scrollTop=msgs.scrollHeight;
-  },900);
-  msgs.scrollTop=msgs.scrollHeight;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const msgs = document.getElementById('chatMessages');
+  const avatar = (userProfile && userProfile.name) ? userProfile.name.charAt(0) : 'U';
+  msgs.innerHTML += `<div class="msg user"><div class="msg-avatar">${escapeHtml(avatar)}</div><div><div class="msg-bubble">${escapeHtml(text)}</div><div class="msg-time">刚刚</div></div></div>`;
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+  sendDifyMessage(text);
 }
 
 function escapeHtml(s){
-  const d=document.createElement('div');
-  d.textContent=s;
+  const d = document.createElement('div');
+  d.textContent = s;
   return d.innerHTML;
-}
-
-function generateReply(text){
-  const keywords={
-    '工作|事业|职业|换工作|跳槽':"从你的命盘来看，天梁化科在官禄宫，你在事业上有很好的发展潜力。当前运程显示，今年夏秋之交是重要的职业转折窗口。关键不在于「要不要换」，而在于「往哪个方向换」。建议你列出三个最让你有成就感的事情，答案正在其中。",
-    '感情|爱情|恋爱|伴侣|关系|前任':"你的夫妻宫坐廉贞化忌，感情是你最重要的功课。你在关系中容易过度付出，用自我牺牲换取安全感。这不是因为你不值得被爱，而是你还在学习如何爱自己。建议你此刻先停下来，不再追逐爱情，而是让爱情找到完整的你。",
-    '健康|身体|睡眠|疲惫':"天机坐命者思虑易过，需要注意身心平衡。近期能量偏向内省，正是调整作息、建立健康习惯的好时机。建议从每天10分钟的静坐开始，慢慢增加运动量。身体是你最忠诚的伴侣——好好照顾它。",
-    '财运|金钱|投资|收入':"你的财帛宫紫微天相，财运以稳健见长。今年偏财运走弱，正财运平稳。建议建立长期理财计划，避免短期投机。你的财富增长将在中年后更加明显，踏实积累就是最好的策略。"
-  };
-  for(const [pattern,reply] of Object.entries(keywords)){
-    if(new RegExp(pattern).test(text)) return reply;
-  }
-  return "这是一个好问题。根据你的命盘，天机坐命的你具有天生的洞察力。关于「"+text+"」，你的星盘显示此刻正是内省与整合的时机。不妨安静下来，聆听内心的声音——答案往往在宁静中自然浮现。";
 }
 
 /* ── Modals ─────────────────────────────── */
@@ -2860,12 +2976,32 @@ function renderZiWei(mingShen, starPos, bureau, gender, lunarDay, lunarMonth, yP
 }
 
 /* Main */
-function calculateAstrology(){
+function calculateAstrology(confirmed){
   const dateInput=document.getElementById('astroBirthDate').value;
   const hourIdx=parseInt(document.getElementById('astroHour').value);
   const gender=document.getElementById('astroGender').value;
   if(!dateInput){ showToast('请选择出生日期','error'); return; }
   const [y,m,d]=dateInput.split('-').map(Number);
+
+  // If not confirmed, show confirmation dialog first
+  if(!confirmed){
+    const existing = loadUserProfile();
+    if(existing && existing.year===y && existing.month===m && existing.day===d && existing.hourIdx===hourIdx && existing.gender===gender){
+      // Already saved, proceed
+    } else {
+      // Ask to confirm
+      const msg = '是否将以下信息保存为你的命盘？\n\n'+
+        y+'年'+m+'月'+d+'日 · '+['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'][hourIdx]+
+        ' · '+(gender==='male'?'男':'女');
+      if(!confirm(msg)) return;
+      // Save
+      const profile = { name:'', year:y, month:m, day:d, hourIdx, gender, birthDate:dateInput };
+      saveUserProfile(profile);
+      userProfile = profile;
+      updateUIFromProfile(profile);
+      showToast('✅ 命盘信息已保存','success');
+    }
+  }
 
   let lunarData=null;
   if(typeof Solar !== 'undefined'){
