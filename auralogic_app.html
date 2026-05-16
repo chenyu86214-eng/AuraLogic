@@ -1972,6 +1972,7 @@ body {
             <div class="chat-header-title">Ask Aura · 灵性问答</div>
             <div class="chat-header-sub">基于你的命盘，提问任何人生问题</div>
           </div>
+          <button onclick="showModal('api-settings')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(212,197,232,0.2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary);flex-shrink:0;" title="API 设置">⚙</button>
         </div>
         <div class="chat-messages" id="chatMessages">
           <div class="msg ai">
@@ -2499,8 +2500,22 @@ let difyConversationId = '';
 let gMingZhuXing = '';  // 命宫主星 (set by calculateAstrology)
 let gTodayEnergy = '65%'; // 今日能量 (set by calculateAstrology)
 
+function getDifyApiKey() {
+  try { return localStorage.getItem('auraDifyApiKey') || 'oEz7rOYCE4gEloeK'; } catch(e){ return 'oEz7rOYCE4gEloeK'; }
+}
+
+function saveDifyApiKey() {
+  const input = document.getElementById('difyApiKeyInput');
+  if (!input) return;
+  const key = input.value.trim();
+  if (!key) { showToast('请输入有效的 API 密钥','error'); return; }
+  try { localStorage.setItem('auraDifyApiKey', key); } catch(e){}
+  showToast('✅ API 密钥已保存','success');
+  closeModal();
+}
+
 async function sendDifyMessage(text) {
-  const token = 'oEz7rOYCE4gEloeK';
+  const token = getDifyApiKey();
   const url = 'https://udify.app/api/chat-messages';
 
   // Build context from user profile
@@ -2610,7 +2625,8 @@ const modalContent={
   'palace-guan':{title:'官禄宫 · 天梁星',sub:'官禄宫代表事业运势与社会地位',body:'<p>天梁化科坐官禄宫，这是极好的事业格局。天梁主庇荫与学问，化科增添名声。你在专业领域具有天然权威感，适合教育、咨询、医疗、法律等需要专业知识与信任感的行业。</p><div class="modal-highlight">「官禄宫吉，事业有成，名声渐著，贵人提携，晚年成就更显。」</div>'},
   'palace-fu':{title:'夫妻宫 · 廉贞化忌',sub:'夫妻宫代表你的感情缘分与伴侣特质',body:'<p>廉贞化忌坐夫妻宫，是感情路上最需要关注的位置。廉贞代表深情与执着，化忌意味着在情感中容易产生纠结、内耗。</p><div class="modal-highlight">「感情中的执着是双刃剑——它让你深爱，也让你深陷。学会放手，是此生感情的核心功课。」</div><p>建议：先完善自己，从内向外建立自信与安全感，而非从伴侣身上寻找完整感。当你足够完整，才能遇见真正合适的关系。</p>'},
   'profile':{title:'Stella 的命盘',sub:'1990年6月15日 · 巳时 · 甲午年',body:'<p><strong style="color:var(--lavender)">命宫</strong>：天机 — 聪慧灵动，善于谋划<br><strong style="color:var(--lavender)">财帛</strong>：紫微天相 — 稳健财运<br><strong style="color:var(--lavender)">官禄</strong>：天梁化科 — 事业有成<br><strong style="color:var(--lavender)">夫妻</strong>：廉贞化忌 — 感情需疗愈</p><div class="modal-highlight">今日能量 72% · 主题：放下执着<br>大运：走入官禄宫，事业转型期</div><p>此刻是你人生重要的觉醒窗口。内在的转化正在发生，相信这个过程。</p>'},
-  'karma-new':{title:'添加新关系',sub:'输入 ta 的出生信息进行命盘对比分析',body:'<div class="birthday-form"><div class="bf-row"><div class="bf-group"><label class="bf-label">姓名</label><input class="bf-input" id="bfName" placeholder="输入姓名" style="grid-column:1/-1;"></div></div><div class="bf-row"><div class="bf-group"><label class="bf-label">年份</label><select class="bf-select" id="bfYear"></select></div><div class="bf-group"><label class="bf-label">月份</label><select class="bf-select" id="bfMonth"></select></div><div class="bf-group"><label class="bf-label">日期</label><select class="bf-select" id="bfDay"></select></div></div><div class="bf-group"><label class="bf-label" style="margin-bottom:6px;">出生时辰（选填）</label><div class="bf-time-row" id="bfTimeRow"><button class="bf-time-btn" data-time="">-- 未知 --</button><button class="bf-time-btn" data-time="子时">子时 23-01</button><button class="bf-time-btn" data-time="丑时">丑时 01-03</button><button class="bf-time-btn" data-time="寅时">寅时 03-05</button><button class="bf-time-btn" data-time="卯时">卯时 05-07</button><button class="bf-time-btn" data-time="辰时">辰时 07-09</button><button class="bf-time-btn" data-time="巳时">巳时 09-11</button><button class="bf-time-btn" data-time="午时">午时 11-13</button><button class="bf-time-btn" data-time="未时">未时 13-15</button><button class="bf-time-btn" data-time="申时">申时 15-17</button><button class="bf-time-btn" data-time="酉时">酉时 17-19</button><button class="bf-time-btn" data-time="戌时">戌时 19-21</button><button class="bf-time-btn" data-time="亥时">亥时 21-23</button></div></div><button class="bf-submit" onclick="submitBirthdayForm()">✦ 开启命盘对比</button><div class="bf-result" id="bfResult"><div class="bf-result-name" id="bfResultName"></div><div class="bf-result-info" id="bfResultInfo"></div><div class="bf-result-badge" id="bfResultBadge">灵魂契合度分析</div></div></div>'}
+  'karma-new':{title:'添加新关系',sub:'输入 ta 的出生信息进行命盘对比分析',body:'<div class="birthday-form"><div class="bf-row"><div class="bf-group"><label class="bf-label">姓名</label><input class="bf-input" id="bfName" placeholder="输入姓名" style="grid-column:1/-1;"></div></div><div class="bf-row"><div class="bf-group"><label class="bf-label">年份</label><select class="bf-select" id="bfYear"></select></div><div class="bf-group"><label class="bf-label">月份</label><select class="bf-select" id="bfMonth"></select></div><div class="bf-group"><label class="bf-label">日期</label><select class="bf-select" id="bfDay"></select></div></div><div class="bf-group"><label class="bf-label" style="margin-bottom:6px;">出生时辰（选填）</label><div class="bf-time-row" id="bfTimeRow"><button class="bf-time-btn" data-time="">-- 未知 --</button><button class="bf-time-btn" data-time="子时">子时 23-01</button><button class="bf-time-btn" data-time="丑时">丑时 01-03</button><button class="bf-time-btn" data-time="寅时">寅时 03-05</button><button class="bf-time-btn" data-time="卯时">卯时 05-07</button><button class="bf-time-btn" data-time="辰时">辰时 07-09</button><button class="bf-time-btn" data-time="巳时">巳时 09-11</button><button class="bf-time-btn" data-time="午时">午时 11-13</button><button class="bf-time-btn" data-time="未时">未时 13-15</button><button class="bf-time-btn" data-time="申时">申时 15-17</button><button class="bf-time-btn" data-time="酉时">酉时 17-19</button><button class="bf-time-btn" data-time="戌时">戌时 19-21</button><button class="bf-time-btn" data-time="亥时">亥时 21-23</button></div></div><button class="bf-submit" onclick="submitBirthdayForm()">✦ 开启命盘对比</button><div class="bf-result" id="bfResult"><div class="bf-result-name" id="bfResultName"></div><div class="bf-result-info" id="bfResultInfo"></div><div class="bf-result-badge" id="bfResultBadge">灵魂契合度分析</div></div></div>'},
+  'api-settings':{title:'AI 设置',sub:'配置 Dify API 密钥',body:'<p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">请从你的 Dify App 的「API 访问」页面复制 API 密钥并粘贴到下方：</p><input type="text" id="difyApiKeyInput" placeholder="粘贴你的 Dify API 密钥" style="width:100%;padding:12px 16px;border:1px solid var(--morandi-accent);border-radius:10px;background:var(--morandi-card);font-size:14px;box-sizing:border-box;margin-bottom:12px;" value=""><p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">1. 打开 <a href="https://udify.app/apps" target="_blank" style="color:var(--lavender);">udify.app</a> → 你的 App → API 访问<br>2. 点击「生成新的密钥」<br>3. 复制并以 <code style="background:rgba(180,160,240,0.1);padding:2px 5px;border-radius:4px;">app-</code> 开头的密钥粘贴到上方</p><button class="bf-submit" onclick="saveDifyApiKey()" style="width:100%;">保存密钥</button>'}
 };
 
 function showModal(key){
@@ -2679,6 +2695,10 @@ const origShowModal=window.showModal;
 window.showModal=function(key){
   origShowModal(key);
   if(key==='karma-new') setTimeout(initBirthdayForm,50);
+  if(key==='api-settings') setTimeout(()=>{
+    const input=document.getElementById('difyApiKeyInput');
+    if(input) input.value=getDifyApiKey();
+  },50);
 };
 
 
