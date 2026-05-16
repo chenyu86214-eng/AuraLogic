@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AuraLogic 灵觉星盘 · 你的灵性伙伴</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: #0D0A1A;
+  color: #EDE8F8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 星空背景 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(78,58,142,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 70%, rgba(112,85,184,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 10%, rgba(155,132,212,0.15) 0%, transparent 50%),
+    linear-gradient(170deg, #0D0A1A 0%, #13102B 50%, #0F0D22 100%);
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 24px 120px;
+  text-align: center;
+}
+
+/* Logo */
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+.logo-gem {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, #7055B8, #4E3A8E);
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 30px rgba(112,85,184,0.5);
+}
+.logo-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #EDE8F8;
+  letter-spacing: 1px;
+}
+.logo-sub {
+  font-size: 11px;
+  color: #6B5F90;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+/* 标签 */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,197,226,0.08);
+  border: 1px solid rgba(180,160,240,0.15);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #9B84D4;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+/* 主标题 */
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #C4B0E8, #F2D97A, #C4B0E8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: #A899CC;
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 48px;
+}
+
+/* 核心特性 */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.feature {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(180,160,240,0.1);
+  border-radius: 16px;
+  padding: 20px 16px;
+}
+.feature-icon { font-size: 24px; margin-bottom: 10px; }
+.feature-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #C4B0E8;
+  margin-bottom: 6px;
+}
+.feature-desc {
+  font-size: 12px;
+  color: #6B5F90;
+  line-height: 1.6;
+}
+
+/* CTA */
+.cta-wrap { margin-bottom: 56px; }
+.cta-label {
+  font-size: 13px;
+  color: #6B5F90;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #7055B8, #4E3A8E);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(112,85,184,0.5);
+  cursor: pointer;
+  border: none;
+  font-family: 'Noto Sans SC', sans-serif;
+  transition: all 0.3s ease;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(112,85,184,0.7);
+}
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 30px rgba(112,85,184,0.4); }
+  50%      { box-shadow: 0 0 60px rgba(112,85,184,0.7); }
+}
+
+/* 引言 */
+.quote-section {
+  margin-bottom: 56px;
+  padding: 28px 32px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(180,160,240,0.1);
+  border-radius: 20px;
+  position: relative;
+}
+.quote-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  color: #C4B0E8;
+  line-height: 2;
+  font-style: italic;
+}
+.quote-author {
+  font-size: 12px;
+  color: #6B5F90;
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+
+/* 使用步骤 */
+.steps-section { margin-bottom: 56px; }
+.steps-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  color: #C4B0E8;
+  margin-bottom: 24px;
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(180,160,240,0.08);
+  border-radius: 14px;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(112,85,184,0.4), rgba(78,58,142,0.3));
+  border: 1px solid rgba(180,160,240,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: #9B84D4;
+  flex-shrink: 0;
+}
+.step-text { font-size: 13px; color: #A899CC; line-height: 1.6; padding-top: 4px; }
+.step-text strong { color: #C4B0E8; font-weight: 500; }
+
+/* 底部 */
+.footer {
+  font-size: 12px;
+  color: #3D3460;
+  letter-spacing: 2px;
+  margin-top: 40px;
+}
+
+/* 星星 */
+.star {
+  position: fixed;
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+  z-index: 0;
+  animation: twinkle var(--dur) ease-in-out infinite var(--delay);
+}
+@keyframes twinkle {
+  0%,100% { opacity: var(--min); }
+  50%      { opacity: var(--max); }
+}
+
+/* 弹窗覆盖提示 */
+.chat-hint {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  background: rgba(28,24,56,0.95);
+  border: 1px solid rgba(180,160,240,0.2);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #9B84D4;
+  z-index: 999;
+  animation: hint-in 0.5s ease 2s both;
+  pointer-events: none;
+}
+@keyframes hint-in {
+  from { opacity:0; transform: translateY(10px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.chat-hint::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 20px;
+  width: 12px; height: 12px;
+  background: rgba(28,24,56,0.95);
+  border-right: 1px solid rgba(180,160,240,0.2);
+  border-bottom: 1px solid rgba(180,160,240,0.2);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 600px) {
+  .features { grid-template-columns: 1fr; }
+  .container { padding: 40px 20px 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 星星 -->
+<div id="stars"></div>
+
+<div class="container">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <div class="logo-gem">✦</div>
+    <div>
+      <div class="logo-text">AuraLogic 灵觉星盘</div>
+      <div class="logo-sub">Eastern Wisdom · AI Insight · Spiritual Guidance</div>
+    </div>
+  </div>
+
+  <!-- 标签 -->
+  <div class="eyebrow">✦ 东方智慧 · AI解读 · 灵性指引 ✦</div>
+
+  <!-- 主标题 -->
+  <h1 class="hero-title">
+    你的人生，<br>有一张隐藏的蓝图
+  </h1>
+
+  <p class="hero-sub">
+    不是算命，而是帮你与自己相遇。<br>
+    用东方命理的智慧，AI 感知你此刻的能量状态，<br>
+    给你一个向内看的入口。
+  </p>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <div class="cta-label">↓ 点击右下角，开始你的灵性对话</div>
+    <button class="cta-btn" onclick="document.getElementById('dify-chatbot-bubble-button')?.click()">
+      ✦ 立刻体验
+    </button>
+  </div>
+
+  <!-- 引言 -->
+  <div class="quote-section">
+    <div class="quote-text">
+      "你不是在问他爱不爱你，<br>
+      你是在问自己，值不值得被爱。"
+    </div>
+    <div class="quote-author">— AuraLogic · 灵觉星盘</div>
+  </div>
+
+  <!-- 核心特性 -->
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">⭕</div>
+      <div class="feature-name">命盘解读</div>
+      <div class="feature-desc">基于你的出生信息，感知内在天赋与人生主题</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📻</div>
+      <div class="feature-name">Aura Radio</div>
+      <div class="feature-desc">每日专属灵性电台，AI 为你生成今日能量信号</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💫</div>
+      <div class="feature-name">情感洞察</div>
+      <div class="feature-desc">看见关系背后的模式，帮你疗愈与成长</div>
+    </div>
+  </div>
+
+  <!-- 使用步骤 -->
+  <div class="steps-section">
+    <div class="steps-title">✦ 如何开始</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">点击右下角的<strong>对话气泡</strong>，打开 AuraLogic</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">输入你的<strong>出生日期</strong>，告诉它你今天想探索什么</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">感受它如何用<strong>温柔而深刻的语言</strong>，帮你看见自己</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Your Life's Secret Blueprint · Awaken · Insight · Balance
+  </div>
+
+</div>
+
+<!-- 提示气泡 -->
+<div class="chat-hint">👆 点这里开始对话</div>
+
+<!-- ── Dify 嵌入代码 ── -->
+<script>
+ window.difyChatbotConfig = {
+  token: 'oEz7rOYCE4gEloeK',
+  inputs: {},
+  systemVariables: {},
+  userVariables: {},
+ }
+</script>
+<script
+ src="https://udify.app/embed.min.js"
+ id="oEz7rOYCE4gEloeK"
+ defer>
+</script>
+<style>
+  #dify-chatbot-bubble-button {
+    background: linear-gradient(135deg, #7055B8, #4E3A8E) !important;
+    box-shadow: 0 0 30px rgba(112,85,184,0.6) !important;
+  }
+  #dify-chatbot-bubble-window {
+    width: 26rem !important;
+    height: 42rem !important;
+  }
+</style>
+
+<!-- 星星生成 -->
+<script>
+const wrap = document.getElementById('stars');
+for(let i = 0; i < 100; i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2 + 0.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    top:${Math.random()*100}%; left:${Math.random()*100}%;
+    --min:${Math.random()*0.2+0.1};
+    --max:${Math.random()*0.6+0.4};
+    --dur:${Math.random()*4+2}s;
+    --delay:${Math.random()*5}s;
+  `;
+  wrap.appendChild(s);
+}
+</script>
+
+</body>
+</html>
