@@ -2488,10 +2488,12 @@ function nextSignal(){nextTrack();}
 function prevSignal(){prevTrack();}
 /* ── Dify AI Chat ─────────────────────────── */
 let difyConversationId = '';
+let gMingZhuXing = '';  // 命宫主星 (set by calculateAstrology)
+let gTodayEnergy = '65%'; // 今日能量 (set by calculateAstrology)
 
 async function sendDifyMessage(text) {
   const token = 'oEz7rOYCE4gEloeK';
-  const url = 'https://udify.app/v1/chat-messages';
+  const url = 'https://udify.app/api/chat-messages';
 
   // Build context from user profile
   const p = userProfile;
@@ -2503,7 +2505,7 @@ async function sendDifyMessage(text) {
       method: 'POST',
       headers: { 'Authorization': 'Bearer '+token, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        inputs: { birth_info: birthInfo, gender: p ? p.gender : 'unknown', name: p ? p.name||'访客' : '访客' },
+        inputs: { birth_info: birthInfo, gender: p ? p.gender : 'unknown', name: p ? p.name||'访客' : '访客', ming_gong_zhu_xing: gMingZhuXing, today_energy: gTodayEnergy },
         query: text,
         response_mode: 'streaming',
         conversation_id: difyConversationId || '',
@@ -3021,6 +3023,12 @@ function calculateAstrology(confirmed){
   const zwPos = calcZiWeiPos(bureau, lunarDay);
   const tfPos = ZI_TO_TIANFU[zwPos];
   const starPos = calcStarPositions(zwPos, tfPos);
+  // Store 命宫主星 for Dify context
+  const mingStars = Object.entries(starPos).filter(([,pos])=>pos===ms.mingIdx).map(([name])=>name);
+  gMingZhuXing = mingStars.length > 0 ? mingStars.join('、') : '无主星';
+  // Compute 今日能量 (deterministic from day pillar)
+  const energyBase = (dP[0]*7 + dP[1]*13 + yP[0]*3 + mP[0]*5) % 31;
+  gTodayEnergy = (55 + energyBase) + '%';
   renderZiWei(ms, starPos, bureau, gender, lunarDay, lunarMonth, yP, mP, dP, hP);
 
   document.getElementById('astroResult').style.display='block';
