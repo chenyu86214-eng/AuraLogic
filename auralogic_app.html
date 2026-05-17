@@ -56,17 +56,17 @@
   --r-lg:  20px;
   --r-xl:  28px;
 
-  /* Phase 16: 五行色 */
-  --element-wood:   #34d399;
-  --element-fire:   #f87171;
-  --element-earth:  #fbbf24;
-  --element-metal:  #e5e7eb;
-  --element-water:  #60a5fa;
-  --element-wood-bg:   rgba(52,211,153,0.15);
-  --element-fire-bg:   rgba(248,113,113,0.15);
-  --element-earth-bg:  rgba(251,191,36,0.15);
-  --element-metal-bg:  rgba(229,231,235,0.15);
-  --element-water-bg:  rgba(96,165,250,0.15);
+  /* Phase 16: 五行色 (Redesign v2) */
+  --element-wood:   #52A055;
+  --element-fire:   #E05C5C;
+  --element-earth:  #C49A3C;
+  --element-metal:  #9B84D4;
+  --element-water:  #4A7FA5;
+  --element-wood-bg:   rgba(82,160,85,0.12);
+  --element-fire-bg:   rgba(224,92,92,0.12);
+  --element-earth-bg:  rgba(196,154,60,0.12);
+  --element-metal-bg:  rgba(155,132,212,0.12);
+  --element-water-bg:  rgba(74,127,165,0.12);
   --r-full: 999px;
 }
 
@@ -1535,6 +1535,312 @@ body {
   .bazi-detail-row { font-size:6px; }
   .bazi-cell-xunkong { display:none; }
   .bazi-cell-relations { display:none; }
+}
+
+/* ══════════════════════════════════════════════════
+   REDESIGN v2 — Bazi Tab: breathing space & elegant layout
+   ══════════════════════════════════════════════════ */
+
+/* Global layout: bazi tab container */
+.bz-page {
+  max-width: 900px; margin: 0 auto; padding: 0 16px 40px;
+  background: #FAF8FF;
+}
+
+/* Section */
+.bz-section { margin-bottom: 40px; }
+
+/* Section title */
+.bz-section-title {
+  font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lavender); font-weight: 400; margin-bottom: 20px;
+  padding: 0 4px;
+}
+.bz-section-title em { font-style: normal; color: var(--gold); }
+
+/* ── Block 1: Four Pillar Cards ── */
+.bz-pillar-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px; max-width: 900px;
+}
+.bz-pillar-card {
+  min-width: 0; position: relative;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(180,160,240,0.12);
+  border-radius: 20px; padding: 24px 16px 20px;
+  text-align: center; cursor: default;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+}
+.bz-pillar-card:hover {
+  border-color: rgba(180,160,240,0.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+/* Day pillar gold highlight */
+.bz-pillar-card.day-pillar {
+  border-color: rgba(201,168,76,0.35);
+  box-shadow: 0 2px 16px rgba(201,168,76,0.08), inset 0 0 0 1px rgba(201,168,76,0.08);
+}
+
+/* Pillar header name */
+.bz-pillar-header {
+  font-size: 11px; color: var(--text-muted);
+  letter-spacing: 2px; margin-bottom: 14px;
+  font-weight: 400; text-transform: uppercase;
+}
+
+/* Gan & Zhi (64px) */
+.bz-pillar-gan, .bz-pillar-zhi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 64px; line-height: 1; font-weight: 400;
+  transition: all 0.3s;
+}
+.bz-pillar-gan { margin-bottom: 2px; }
+.bz-pillar-zhi { margin-bottom: 16px; }
+
+/* Canggan row */
+.bz-pillar-canggan {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; flex-wrap: wrap;
+  font-size: 12px; color: var(--text-muted);
+  font-family: 'Noto Serif SC', serif;
+}
+.bz-cg-item {
+  display: flex; align-items: center; gap: 4px;
+}
+.bz-cg-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  display: inline-block;
+}
+
+/* Pillar detail info (ten gods, nayin, etc) — hidden by default, shown on hover */
+.bz-pillar-details {
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: rgba(40,36,72,0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(180,160,240,0.15);
+  border-radius: 12px; padding: 10px 14px;
+  font-size: 10px; line-height: 1.6;
+  color: rgba(240,236,248,0.9);
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  z-index: 20;
+}
+.bz-pillar-card:hover .bz-pillar-details { opacity: 1; }
+
+/* Pillar detail elements */
+.bz-dt-row { display: flex; gap: 6px; align-items: center; }
+.bz-dt-label { color: var(--gold); letter-spacing: 1px; }
+.bz-dt-shishen { color: #B8B0D0; }
+.bz-dt-nayin { color: #9B8DB5; }
+.bz-dt-dishi { color: #A0C4A0; }
+.bz-dt-shensha { color: #D4A0B0; }
+.bz-dt-xunkong { color: #C8A090; }
+
+/* ── Block 2: Five Wuxing Bubbles ── */
+.bz-wx-bubbles-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; padding: 20px 0;
+}
+.bz-wx-bubble {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  position: relative; z-index: 2;
+}
+.bz-wx-bubble-circle {
+  width: 100px; height: 100px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 600;
+  font-family: 'Noto Serif SC', serif;
+  color: white; opacity: 0.85;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08), inset 0 -2px 8px rgba(0,0,0,0.08);
+  position: relative;
+}
+.bz-wx-bubble-circle::after {
+  content: ''; position: absolute; inset: 3px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.bz-wx-bubble:hover .bz-wx-bubble-circle {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12), inset 0 -2px 8px rgba(0,0,0,0.08);
+}
+.bz-wx-bubble-label {
+  font-size: 11px; color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.bz-wx-bubble-pct {
+  font-size: 10px; color: var(--text-ghost);
+  font-weight: 400;
+}
+/* SVG connecting lines */
+.bz-wx-svg-lines {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+
+/* ── Block 3: Daily Spiritual Dynamic Card ── */
+.bz-aura-card {
+  display: flex; background: linear-gradient(135deg, rgba(245,240,255,0.8), rgba(230,220,250,0.5));
+  border: 1px solid rgba(180,160,240,0.12);
+  border-radius: 20px; overflow: hidden;
+  padding: 0; transition: all 0.3s;
+}
+.bz-aura-card:hover {
+  border-color: rgba(201,168,76,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+.bz-aura-left-line {
+  width: 4px; flex-shrink: 0;
+  background: linear-gradient(180deg, var(--gold), rgba(201,168,76,0.3));
+  border-radius: 0 2px 2px 0;
+}
+.bz-aura-content {
+  flex: 1; padding: 24px 28px;
+}
+.bz-aura-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+}
+.bz-aura-icon {
+  font-size: 16px; color: var(--gold);
+}
+.bz-aura-title {
+  font-size: 13px; letter-spacing: 2px;
+  color: var(--text-secondary); font-weight: 400;
+  text-transform: uppercase;
+}
+.bz-aura-pillar {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px; color: var(--gold);
+  font-weight: 500; letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.bz-aura-advice {
+  font-size: 16px; line-height: 1.7;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.bz-aura-tags {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.bz-aura-tag {
+  display: inline-block;
+  font-size: 11px; padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(180,160,240,0.15);
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.5);
+}
+
+/* ── Block 4: Dayun Timeline ── */
+.bz-dayun-row {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding: 8px 4px 12px; justify-content: flex-start;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-ghost) transparent;
+}
+.bz-dayun-row::-webkit-scrollbar { height: 4px; }
+.bz-dayun-row::-webkit-scrollbar-thumb { background: var(--text-ghost); border-radius: 2px; }
+.bz-dayun-card {
+  flex: 0 0 auto; width: 80px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(180,160,240,0.1);
+  border-radius: 14px; padding: 14px 10px 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.bz-dayun-card:hover {
+  border-color: rgba(180,160,240,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+/* Current dayun highlighted gold */
+.bz-dayun-card.current {
+  border-color: rgba(201,168,76,0.35);
+  background: rgba(201,168,76,0.04);
+  box-shadow: 0 2px 12px rgba(201,168,76,0.08);
+}
+.bz-dayun-card .dz-gan {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px; font-weight: 500; color: var(--text-primary);
+  line-height: 1.2;
+}
+.bz-dayun-card .dz-zhi {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px; color: var(--text-secondary);
+  line-height: 1.3; margin-bottom: 4px;
+}
+.bz-dayun-card .dz-age {
+  font-size: 10px; color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+.bz-dayun-card .dz-year {
+  font-size: 10px; color: var(--text-ghost);
+}
+.bz-dayun-card.current .dz-gan,
+.bz-dayun-card.current .dz-zhi { color: var(--gold); }
+
+/* ── Body Strength Badge ── */
+.bz-strength-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap; margin-top: 8px;
+}
+.bz-strength-badge {
+  display: inline-block;
+  font-size: 12px; letter-spacing: 1px;
+  padding: 6px 20px; border-radius: 999px;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.15);
+  color: var(--gold);
+}
+
+/* ── Shensha Row (keep compact) ── */
+.bz-shensha-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: center; margin-top: 20px;
+}
+.bz-shensha-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; padding: 4px 12px; border-radius: 999px;
+  border: 1px solid rgba(180,160,240,0.12);
+  background: rgba(255,255,255,0.5);
+  color: var(--text-muted);
+  cursor: help; transition: all 0.2s;
+}
+.bz-shensha-tag:hover {
+  border-color: rgba(201,168,76,0.3);
+  color: var(--gold);
+}
+
+/* ── Wuxing ring (legacy compat in overview tab) ── */
+.bz-ring-svg { display: block; margin: 0 auto; }
+
+/* ── Responsive ── */
+@media (max-width: 700px){
+  .bz-pillar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .bz-pillar-gan, .bz-pillar-zhi { font-size: 48px; }
+  .bz-pillar-card { padding: 18px 12px 16px; }
+  .bz-wx-bubbles-wrap { gap: 12px; flex-wrap: wrap; }
+  .bz-wx-bubble-circle { width: 76px; height: 76px; font-size: 17px; }
+  .bz-aura-content { padding: 18px 16px; }
+  .bz-aura-advice { font-size: 14px; }
+  .bz-dayun-card { width: 68px; padding: 10px 8px; }
+  .bz-dayun-card .dz-gan { font-size: 17px; }
+  .bz-dayun-card .dz-zhi { font-size: 15px; }
+}
+@media (max-width: 420px){
+  .bz-pillar-gan, .bz-pillar-zhi { font-size: 40px; }
+  .bz-wx-bubble-circle { width: 60px; height: 60px; font-size: 14px; }
 }
 
 /* Zi Wei - Cece 4x4 grid */
@@ -3763,80 +4069,86 @@ body {
 
         </div>
 
-        <!-- ── 八字精排 ── -->
-        <div class="astro-tab-content" id="tabBazi">
-          <div class="bazi-section">
-            <div class="bazi-section-title">✦ 八字四柱</div>
-            <div class="bazi-grid-wrap">
-              <div class="bazi-grid" id="baziGrid">
-                <div class="bazi-cell" id="bzCell0" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-                <div class="bazi-cell" id="bzCell1" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-                <div class="bazi-cell" id="bzCell2" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-                <div class="bazi-cell" id="bzCell3" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+        <!-- ── 八字精排 · REDESIGN v2 ── -->
+        <div class="astro-tab-content bz-page" id="tabBazi">
+
+          <!-- Block 1: 四柱卡片 -->
+          <div class="bz-section">
+            <div class="bz-section-title">✦ 八字四柱</div>
+            <div class="bz-pillar-grid" id="bzPillarGrid">
+              <div class="bz-pillar-card" id="bzPillar0">
+                <div class="bz-pillar-header">年柱</div>
+                <div class="bz-pillar-gan" id="bzGan0"></div>
+                <div class="bz-pillar-zhi" id="bzZhi0"></div>
+                <div class="bz-pillar-canggan" id="bzCanggan0"></div>
+                <div class="bz-pillar-details"></div>
+              </div>
+              <div class="bz-pillar-card" id="bzPillar1">
+                <div class="bz-pillar-header">月柱</div>
+                <div class="bz-pillar-gan" id="bzGan1"></div>
+                <div class="bz-pillar-zhi" id="bzZhi1"></div>
+                <div class="bz-pillar-canggan" id="bzCanggan1"></div>
+                <div class="bz-pillar-details"></div>
+              </div>
+              <div class="bz-pillar-card day-pillar" id="bzPillar2">
+                <div class="bz-pillar-header">日柱</div>
+                <div class="bz-pillar-gan" id="bzGan2"></div>
+                <div class="bz-pillar-zhi" id="bzZhi2"></div>
+                <div class="bz-pillar-canggan" id="bzCanggan2"></div>
+                <div class="bz-pillar-details"></div>
+              </div>
+              <div class="bz-pillar-card" id="bzPillar3">
+                <div class="bz-pillar-header">时柱</div>
+                <div class="bz-pillar-gan" id="bzGan3"></div>
+                <div class="bz-pillar-zhi" id="bzZhi3"></div>
+                <div class="bz-pillar-canggan" id="bzCanggan3"></div>
+                <div class="bz-pillar-details"></div>
               </div>
             </div>
-            <!-- 神煞栏 -->
-            <div class="shensha-row" id="shenshaRow"></div>
-            <!-- 三垣 -->
-            <div class="sanyuan-section" id="sanyuanSection">
-              <div class="sanyuan-item"><span class="sanyuan-label">胎元</span><span class="sanyuan-val" id="sanyuanTaiYuan">—</span></div>
-              <div class="sanyuan-item"><span class="sanyuan-label">命宫</span><span class="sanyuan-val" id="sanyuanMingGong">—</span></div>
-              <div class="sanyuan-item"><span class="sanyuan-label">身宫</span><span class="sanyuan-val" id="sanyuanShenGong">—</span></div>
-            </div>
-            <!-- 生克关系 SVG -->
-            <svg class="bazi-relation-svg" id="baziRelationSvg"></svg>
-            <!-- 身强身弱 -->
-            <div class="bazi-body-strength" id="baziBodyStrength"></div>
-            <!-- 大运 (Phase 14) -->
-            <div class="dayun-section" id="dayunSection">
-              <div class="dayun-title">大运</div>
-              <div class="dayun-info" id="dayunInfo"></div>
-              <div class="dayun-row" id="dayunRow"></div>
+            <!-- 神煞 & 身强身弱 -->
+            <div class="bz-shensha-row" id="bzShenshaRow"></div>
+            <div class="bz-strength-row" id="bzStrengthRow"></div>
+          </div>
+
+          <!-- Block 2: 五行能量气泡 -->
+          <div class="bz-section">
+            <div class="bz-section-title">✦ <em>五行</em> 能量</div>
+            <div class="bz-wx-bubbles-wrap" id="bzWxBubbles">
+              <svg class="bz-wx-svg-lines" id="bzWxSvgLines"></svg>
+              <div class="bz-wx-bubble" data-wx="wood"><div class="bz-wx-bubble-circle" id="bzWxWood"></div><div class="bz-wx-bubble-pct" id="bzWxWoodPct"></div></div>
+              <div class="bz-wx-bubble" data-wx="fire"><div class="bz-wx-bubble-circle" id="bzWxFire"></div><div class="bz-wx-bubble-pct" id="bzWxFirePct"></div></div>
+              <div class="bz-wx-bubble" data-wx="earth"><div class="bz-wx-bubble-circle" id="bzWxEarth"></div><div class="bz-wx-bubble-pct" id="bzWxEarthPct"></div></div>
+              <div class="bz-wx-bubble" data-wx="metal"><div class="bz-wx-bubble-circle" id="bzWxMetal"></div><div class="bz-wx-bubble-pct" id="bzWxMetalPct"></div></div>
+              <div class="bz-wx-bubble" data-wx="water"><div class="bz-wx-bubble-circle" id="bzWxWater"></div><div class="bz-wx-bubble-pct" id="bzWxWaterPct"></div></div>
             </div>
           </div>
 
-          <div class="wuxing-section">
-            <div class="bazi-section-title">五行能量分布</div>
-            <div class="wuxing-bars" id="wuxingBars">
-              <div class="wx-bar"><span class="wx-label">木</span><div class="wx-track"><div class="wx-fill" id="wxWood" style="width:0%"></div></div><span class="wx-val" id="wxWoodVal">0</span></div>
-              <div class="wx-bar"><span class="wx-label">火</span><div class="wx-track"><div class="wx-fill wx-fire" id="wxFire" style="width:0%"></div></div><span class="wx-val" id="wxFireVal">0</span></div>
-              <div class="wx-bar"><span class="wx-label">土</span><div class="wx-track"><div class="wx-fill wx-earth" id="wxEarth" style="width:0%"></div></div><span class="wx-val" id="wxEarthVal">0</span></div>
-              <div class="wx-bar"><span class="wx-label">金</span><div class="wx-track"><div class="wx-fill wx-metal" id="wxMetal" style="width:0%"></div></div><span class="wx-val" id="wxMetalVal">0</span></div>
-              <div class="wx-bar"><span class="wx-label">水</span><div class="wx-track"><div class="wx-fill wx-water" id="wxWater" style="width:0%"></div></div><span class="wx-val" id="wxWaterVal">0</span></div>
+          <!-- Block 3: 今日灵性动态 -->
+          <div class="bz-section">
+            <div class="bz-aura-card" id="bzAuraCard">
+              <div class="bz-aura-left-line"></div>
+              <div class="bz-aura-content">
+                <div class="bz-aura-header">
+                  <div class="bz-aura-icon">✦</div>
+                  <div class="bz-aura-title">今日灵性动态</div>
+                </div>
+                <div class="bz-aura-pillar" id="bzAuraPillar">—</div>
+                <div class="bz-aura-advice" id="bzAuraAdvice">等待命盘解读后自动生成今日指引...</div>
+                <div class="bz-aura-tags">
+                  <span class="bz-aura-tag" id="bzAuraTag"></span>
+                  <span class="bz-aura-tag" id="bzAuraDate"></span>
+                </div>
+              </div>
             </div>
-            <!-- 五行雷达图 -->
-            <div class="wuxing-radar-wrap">
-              <canvas id="wxRadarCanvas" width="180" height="180" class="wuxing-radar-canvas"></canvas>
-            </div>
-            <!-- 本源评价 -->
-            <div class="wuxing-source-eval" id="wuxingSourceEval"></div>
           </div>
-        </div>
 
-        <!-- ── 命理解读 ── -->
-        <div class="bazi-reading" id="baziReading" style="display:none;">
-          <div class="bazi-section-title">✦ 命理解读</div>
-          <div class="reading-grid">
-            <div class="reading-card">
-              <div class="reading-card-label">日主</div>
-              <div class="reading-card-value" id="readingDayMaster">—</div>
-              <div class="reading-card-sub" id="readingDayMasterDesc"></div>
-            </div>
-            <div class="reading-card">
-              <div class="reading-card-label">喜用神</div>
-              <div class="reading-card-value" id="readingFavorable">—</div>
-              <div class="reading-card-sub">平衡五行能量</div>
-            </div>
-            <div class="reading-card">
-              <div class="reading-card-label">幸运颜色</div>
-              <div class="reading-colors" id="readingColors"></div>
-            </div>
-            <div class="reading-card">
-              <div class="reading-card-label">幸运数字</div>
-              <div class="reading-card-value" id="readingLuckyNum">—</div>
-              <div class="reading-card-sub">今日能量数字</div>
-            </div>
+          <!-- Block 4: 大运 -->
+          <div class="bz-section">
+            <div class="bz-section-title">✦ 大运</div>
+            <div class="bz-dayun-info" id="bzDayunInfo"></div>
+            <div class="bz-dayun-row" id="bzDayunRow"></div>
           </div>
+
         </div>
 
         <!-- ── 紫微大盘 ── -->
@@ -4881,7 +5193,7 @@ function getCangGanQI(branchName){
 }
 
 /* ── Phase 16: 五行色彩映射函数 ── */
-const WX_COLORS_MAP = {0:'#4CAF50',1:'#4CAF50',2:'#F44336',3:'#F44336',4:'#FF9800',5:'#FF9800',6:'#FFC107',7:'#FFC107',8:'#2196F3',9:'#2196F3'};
+const WX_COLORS_MAP = {0:'#52A055',1:'#52A055',2:'#E05C5C',3:'#E05C5C',4:'#C49A3C',5:'#C49A3C',6:'#9B84D4',7:'#9B84D4',8:'#4A7FA5',9:'#4A7FA5'};
 const WX_NAMES_FULL = ['甲木','乙木','丙火','丁火','戊土','己土','庚金','辛金','壬水','癸水'];
 function colorByElement(stemIdx){
   return WX_COLORS_MAP[stemIdx] || '#6B5F90';
@@ -5048,126 +5360,105 @@ let _gDayunData = null;
 let _gMingIdx = -1;
 
 function renderBazi(pillars, dayStem){
-  const cells = document.querySelectorAll('#baziGrid .bazi-cell');
   const labels = ['年柱','月柱','日柱','时柱'];
   _baziDayStem = dayStem;
+  const xunKongBranches = calcXunKong(pillars[2][0], pillars[2][1]);
+
+  // New pillar card structure
+  const WX_KEYS = ['wood','fire','earth','metal','water'];
+  const ELEM_COLORS = {'wood':'#52A055','fire':'#E05C5C','earth':'#C49A3C','metal':'#9B84D4','water':'#4A7FA5'};
   const STEM_WX = [0,0,1,1,2,2,3,3,4,4];
-  const allHiddenShen = [];
-  // 旬空: pre-calc for day pillar
-  const xunKongBranches = calcXunKong(pillars[2][0], pillars[2][1]); // day stem+branch
+  const WX_KEYS_ARR = ['wood','fire','earth','metal','water'];
 
   pillars.forEach(([stem,branch],i)=>{
-    const cell = cells[i];
     const gan = TIAN_GAN[stem];
     const zhi = DI_ZHI[branch];
-    cell.dataset.stem = stem;
-    cell.dataset.branch = branch;
-    cell.dataset.gan = gan;
-    cell.dataset.zhi = zhi;
+    const ganEl = document.getElementById('bzGan'+i);
+    const zhiEl = document.getElementById('bzZhi'+i);
+    const cgEl = document.getElementById('bzCanggan'+i);
+    const card = document.getElementById('bzPillar'+i);
+    if(!ganEl) return;
+
+    // Color gan and zhi by element
+    const wxIdx = STEM_WX[stem];
+    const wxColor = ELEM_COLORS[WX_KEYS_ARR[wxIdx]];
+    ganEl.textContent = gan;
+    ganEl.style.color = wxColor;
+
+    // Branch color by branch's element
+    const BRANCH_WX = [5,2,0,0,2,1,1,2,3,3,2,5]; // index into WX_KEYS
+    const bWxIdx = BRANCH_WX[branch] === 5 ? 2 : BRANCH_WX[branch]; // fallback
+    const bWx = WX_KEYS_ARR[bWxIdx] || 'earth';
+    zhiEl.textContent = zhi;
+    zhiEl.style.color = ELEM_COLORS[bWx];
+
+    // 藏干 with dot separators
+    const cangQI = getCangGanQI(zhi);
+    if(cgEl){
+      cgEl.innerHTML = cangQI.map(({gan:c,qi}) => {
+        const cIdx = TIAN_GAN.indexOf(c);
+        return '<span class="bz-cg-item"><span class="bz-cg-dot" style="background:'+colorByElement(cIdx)+'"></span>'+c+'</span>';
+      }).join('');
+    }
+
+    // Store data attributes for AI
+    if(card){
+      card.dataset.gan = gan;
+      card.dataset.zhi = zhi;
+      card.dataset.stem = stem;
+      card.dataset.branch = branch;
+      card.dataset.pillar = labels[i];
+    }
 
     // 十神
     const shenName = calcShiShen(dayStem, stem);
-    const shenEl = cell.querySelector('.bazi-cell-shen');
-    shenEl.textContent = shenName;
-    shenEl.style.color = colorByElement(stem);
-    const psych = SHI_SHEN_PSYCHOLOGY[shenName];
-    if(psych){
-      shenEl.dataset.psych = psych.psych;
-      shenEl.dataset.growth = psych.growth;
-    } else {
-      shenEl.dataset.psych = '';
-      shenEl.dataset.growth = '';
-    }
 
-    // 天干地支大字（五行上色）
-    cell.querySelector('.bazi-cell-text').textContent = gan+zhi;
-
-    // 藏干+本中余气+十神
-    const cangQI = getCangGanQI(zhi);
-    const cangganEl = cell.querySelector('.bazi-cell-canggan');
-    cangganEl.innerHTML = '<span class="dr-label">藏</span> ' + cangQI.map(({gan:c,qi}) => {
-      const cIdx = TIAN_GAN.indexOf(c);
-      const ss = cIdx >= 0 ? calcShiShen(dayStem, cIdx) : '';
-      return '<span style="color:'+colorByElement(cIdx)+'">'+c+'<span class="cq-qi">('+qi+'·'+ss+')</span></span>';
-    }).join(' ');
-
-    // 纳音
-    const nayinEl = cell.querySelector('.bazi-cell-nayin');
-    if(nayinEl) nayinEl.innerHTML = '<span class="dr-label">纳</span> ' + calcNayinName(stem, branch);
-
-    // 空亡
-    const xkEl = cell.querySelector('.bazi-cell-xunkong');
-    if(xkEl){
-      if(xunKongBranches.includes(branch)){
-        xkEl.innerHTML = '<span class="dr-label">空</span> ' + xunKongBranches.map(b=>DI_ZHI[b]).join('、');
-      } else {
-        xkEl.innerHTML = '<span class="dr-label">空</span> —';
-      }
-    }
-
-    // 地势/长生十二神
-    const dsEl = cell.querySelector('.bazi-cell-dishi');
-    if(dsEl){
+    // Build hidden detail tooltip
+    const detailEl = card ? card.querySelector('.bz-pillar-details') : null;
+    if(detailEl){
+      // 纳音
+      const nayinName = calcNayinName(stem, branch);
+      // 地势/长生
       const csName = SHI_ER_CHANG_SHENG[dayStem][branch];
-      dsEl.innerHTML = '<span class="dr-label">势</span> ' + csName;
-      dsEl.style.color = CHANG_SHENG_COLORS[csName] || 'var(--text-muted)';
-    }
-
-    // 每柱神煞
-    const ssEl = cell.querySelector('.bazi-cell-shensha');
-    if(ssEl){
+      // 空亡
+      const kongStr = xunKongBranches.includes(branch) ? xunKongBranches.map(b=>DI_ZHI[b]).join('、') : '—';
+      // 神煞
       const yrB = pillars[0][1];
       const pillarShensha = [];
       SHENSHA_RULES.forEach(rule => {
-        try {
-          if(rule.calc(dayStem, branch, pillars, yrB, stem)){
-            pillarShensha.push(rule.icon + rule.name);
-          }
-        } catch(e){}
+        try { if(rule.calc(dayStem, branch, pillars, yrB, stem)) pillarShensha.push(rule.icon + rule.name); } catch(e){}
       });
-      ssEl.innerHTML = '<span class="dr-label">煞</span> ' + (pillarShensha.slice(0,3).join(' ') || '—');
+      // 地支关系简写
+      const rels = [];
+      try {
+        const combos = calcDiZhiRelations(branch, -1);
+        if(combos.length){
+          const relNames = combos.filter(c => c.type === '六合' || c.type === '三合' || c.type === '六冲');
+          relNames.slice(0,2).forEach(r => rels.push(r.emoji + r.type));
+        }
+      } catch(e){}
+
+      detailEl.innerHTML =
+        '<div class="bz-dt-row"><span class="bz-dt-label">十神</span><span class="bz-dt-shishen">'+shenName+'</span></div>' +
+        '<div class="bz-dt-row"><span class="bz-dt-label">纳音</span><span class="bz-dt-nayin">'+nayinName+'</span></div>' +
+        '<div class="bz-dt-row"><span class="bz-dt-label">地势</span><span class="bz-dt-dishi">'+csName+'</span></div>' +
+        '<div class="bz-dt-row"><span class="bz-dt-label">空亡</span><span class="bz-dt-xunkong">'+kongStr+'</span></div>' +
+        (pillarShensha.length ? '<div class="bz-dt-row"><span class="bz-dt-label">神煞</span><span class="bz-dt-shensha">'+pillarShensha.slice(0,3).join(' ')+'</span></div>' : '') +
+        (rels.length ? '<div class="bz-dt-row"><span class="bz-dt-label">关系</span><span>'+rels.join(' · ')+'</span></div>' : '');
     }
-
-    allHiddenShen.push({ stem, branch, cangArr: cangQI.map(c=>c.gan) });
-
-    // Tooltip
-    cell.querySelector('.bazi-cell-tip').textContent = labels[i]+' · '+WX_NAMES[stem]+' · '+gan+zhi;
-
-    // data-insight attributes for AI analysis
-    cell.dataset.insightPillar = labels[i];
-    cell.dataset.insightGanzhi = gan+zhi;
-    cell.dataset.insightWx = colorByElement(stem);
-    cell.dataset.insightShen = shenName;
-    const cangStr = cangQI.map(c=>c.gan + '('+c.qi+')').join(',');
-    cell.dataset.insightCanggan = cangStr;
-    cell.dataset.insightNayin = calcNayinName(stem, branch);
-    cell.dataset.insightDishi = SHI_ER_CHANG_SHENG[dayStem][branch];
-
-    // Clear highlight
-    const hl = cell.querySelector('.bazi-cell-highlight');
-    if(hl) hl.className = 'bazi-cell-highlight';
-    cell.className = 'bazi-cell '+WU_XING_CLASS[stem];
-    if(i === 2) cell.classList.add('day-stem');
   });
-  // Setup click handler once
-  const grid = document.getElementById('baziGrid');
-  if(!grid.dataset.baziInit){
-    grid.dataset.baziInit = '1';
-    grid.addEventListener('click', function(e){
-      const cell = e.target.closest('.bazi-cell.day-stem');
-      if(cell) triggerBaziHighlight();
-    });
-  }
 
-  // 地支全关系 (Phase 13)
-  drawBaziFullRelations(pillars, cells);
-
-  // 神煞计算
+  // 神煞 (new row)
   calculateShenSha(pillars, dayStem);
-  // 生克关系线
-  drawBaziRelations(pillars);
+
   // 身强身弱
   _gBodyStrength = calculateBodyStrength(pillars, dayStem);
+  const strEl = document.getElementById('bzStrengthRow');
+  if(strEl && _gBodyStrength){
+    const st = _gBodyStrength.strength || _gBodyStrength.type || '身平';
+    const strengthColors = {身强:'var(--element-fire)',身旺:'var(--element-fire)',身弱:'var(--element-water)',身平:'var(--text-muted)'};
+    strEl.innerHTML = '<span class="bz-strength-badge" style="color:'+(strengthColors[st]||'var(--text-muted)')+';">' + st + '</span>';
+  }
 }
 
 /* ── 神煞系统 ── */
@@ -5190,8 +5481,9 @@ const SHENSHA_RULES = [
 ];
 
 function calculateShenSha(pillars, dayStem){
-  const row = document.getElementById('shenshaRow');
-  if(!row) return;
+  const oldRow = document.getElementById('shenshaRow');
+  const newRow = document.getElementById('bzShenshaRow');
+  if(!oldRow && !newRow) return;
   const ds = dayStem;
   const [yP,mP,dP,hP] = pillars;
   const tags = [];
@@ -5206,13 +5498,13 @@ function calculateShenSha(pillars, dayStem){
       } catch(e){}
     });
   });
-  // Limit to 8 unique shensha (Phase 14: expanded from 5)
   const unique = tags.slice(0,8);
   _gShenshaNames = unique.map(t => t.name);
-  row.innerHTML = unique.map(t =>
-    '<span class="shensha-tag" data-healing="'+t.healing+'"><span class="shensha-tag-icon">'+t.icon+'</span>'+t.name+'</span>'
+  const html = unique.map(t =>
+    '<span class="bz-shensha-tag" title="'+t.healing+'"><span class="shensha-tag-icon">'+t.icon+'</span>'+t.name+'</span>'
   ).join('');
-  if(unique.length === 0) row.innerHTML = '';
+  if(oldRow) { oldRow.innerHTML = unique.length ? html.replace(/bz-shensha-tag/g,'shensha-tag') : ''; }
+  if(newRow) { newRow.innerHTML = unique.length ? html : ''; }
 }
 
 /* ── 天干五合 + 地支六冲 SVG ── */
@@ -5670,24 +5962,49 @@ function calcQiYun(pillars, gender, birthY, birthM, birthD){
   return { age:Math.floor(startAge), months:Math.round((startAge-Math.floor(startAge))*12), startYear:y+Math.floor(startAge), forward };
 }
 function renderDayun(pillars, gender, birthYear, birthM, birthD){
-  const section=document.getElementById('dayunSection');
-  const info=document.getElementById('dayunInfo');
-  const row=document.getElementById('dayunRow');
-  if(!section||!row) return;
+  const oldSection=document.getElementById('dayunSection');
+  const oldInfo=document.getElementById('dayunInfo');
+  const oldRow=document.getElementById('dayunRow');
+  const newInfo=document.getElementById('bzDayunInfo');
+  const newRow=document.getElementById('bzDayunRow');
+  if(!oldRow&&!newRow) return;
   const qiYun=calcQiYun(pillars,gender,birthYear,birthM,birthD);
   const mP=pillars[1];
   const forward=qiYun.forward;
   const items=[];
+  const today=new Date();
+  const curYear=today.getFullYear();
   for(let i=0;i<10;i++){
     const stem=forward?(mP[0]+i)%10:((mP[0]-i)%10+10)%10;
     const branch=forward?(mP[1]+i)%12:((mP[1]-i)%12+12)%12;
     const a=Math.round(qiYun.age+i*10);
-    items.push({ gan:TIAN_GAN[stem], zhi:DI_ZHI[branch], a, b:a+9 });
+    const yearFrom=birthYear+a;
+    items.push({ gan:TIAN_GAN[stem], zhi:DI_ZHI[branch], a, b:a+9, yStart: yearFrom });
   }
-  if(info) info.textContent='起运:'+qiYun.age+'岁'+(qiYun.months?' '+qiYun.months+'个月':'')+' · '+(forward?'顺行':'逆行');
-  row.innerHTML=items.map(it=>'<div class="dayun-item"><div class="dayun-gan">'+it.gan+'</div><div class="dayun-zhi">'+it.zhi+'</div><div class="dayun-age">'+it.a+'-'+it.b+'</div></div>').join('');
+  const infoStr='起运:'+qiYun.age+'岁'+(qiYun.months?' '+qiYun.months+'个月':'')+' · '+(forward?'顺行':'逆行');
+  if(oldInfo) oldInfo.textContent=infoStr;
+  if(newInfo) newInfo.textContent=infoStr;
+
+  // Old format (for overview tab)
+  if(oldRow){
+    oldRow.innerHTML=items.map(it=>'<div class="dayun-item"><div class="dayun-gan">'+it.gan+'</div><div class="dayun-zhi">'+it.zhi+'</div><div class="dayun-age">'+it.a+'-'+it.b+'</div></div>').join('');
+  }
+  if(oldSection) oldSection.style.display='block';
+
+  // New format (for bazi tab)
+  if(newRow){
+    newRow.innerHTML=items.map(it=>{
+      const isCurrent=curYear>=it.yStart&&curYear<it.yStart+10;
+      return '<div class="bz-dayun-card'+(isCurrent?' current':'')+'">'+
+        '<div class="dz-gan">'+it.gan+'</div>'+
+        '<div class="dz-zhi">'+it.zhi+'</div>'+
+        '<div class="dz-age">'+it.a+' ~ '+it.b+' 岁</div>'+
+        '<div class="dz-year">'+it.yStart+'-'+(it.yStart+9)+'</div>'+
+        '</div>';
+    }).join('');
+  }
+
   _gDayunData = {items, info: qiYun};
-  section.style.display='block';
 }
 
 /* ── Phase 14: 三垣 ── */
@@ -5732,9 +6049,86 @@ function calcWuxingEnergy(pillars){
     const val = document.getElementById('wx'+wx.charAt(0).toUpperCase()+wx.slice(1)+'Val');
     if(el) el.style.width = pct+'%';
     if(val) val.textContent = pct+'%';
+
+    // New bubble structure
+    const bubbleEl = document.getElementById('bzWx'+wx.charAt(0).toUpperCase()+wx.slice(1));
+    const pctEl = document.getElementById('bzWx'+wx.charAt(0).toUpperCase()+wx.slice(1)+'Pct');
+    if(bubbleEl){
+      const ELEM_COLORS = {wood:'#52A055',fire:'#E05C5C',earth:'#C49A3C',metal:'#9B84D4',water:'#4A7FA5'};
+      const WX_NAMES = {wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
+      bubbleEl.textContent = WX_NAMES[wx] || wx;
+      bubbleEl.style.background = ELEM_COLORS[wx];
+      // Level label
+      let level = '';
+      if(pct >= 40) level = '强';
+      else if(pct >= 20) level = '中';
+      else level = '弱';
+      bubbleEl.title = level;
+    }
+    if(pctEl) pctEl.textContent = pct + '%';
   });
+
+  // Draw connecting lines between bubbles
+  drawWxBubbleLines();
+
   return elemMap;
 }
+
+/* ── 五行气泡连线 ── */
+function drawWxBubbleLines(){
+  const svg = document.getElementById('bzWxSvgLines');
+  if(!svg) return;
+  const wrap = document.getElementById('bzWxBubbles');
+  if(!wrap) return;
+  const bubbles = wrap.querySelectorAll('.bz-wx-bubble');
+  if(bubbles.length < 5) return;
+
+  const W = wrap.offsetWidth, H = wrap.offsetHeight;
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+
+  const SHENG = {0:1,1:3,3:2,2:4,4:0};
+  const KE = {0:2,2:4,4:1,1:3,3:0};
+
+  const centers = [];
+  bubbles.forEach(b => {
+    const r = b.getBoundingClientRect();
+    const wr = wrap.getBoundingClientRect();
+    centers.push({
+      x: r.left - wr.left + r.width/2,
+      y: r.top - wr.top + r.height/2
+    });
+  });
+
+  svg.innerHTML = '';
+  const NS = 'http://www.w3.org/2000/svg';
+
+  // Sheng lines (green)
+  Object.entries(SHENG_RELS).forEach(([from, to]) => {
+    from = parseInt(from); if(from === undefined || to === undefined) return;
+    const p1 = centers[from], p2 = centers[to];
+    const ln = document.createElementNS(NS, 'line');
+    ln.setAttribute('x1', p1.x); ln.setAttribute('y1', p1.y);
+    ln.setAttribute('x2', p2.x); ln.setAttribute('y2', p2.y);
+    ln.setAttribute('stroke', '#52A055'); ln.setAttribute('stroke-width', '1.5');
+    ln.setAttribute('opacity', '0.25');
+    svg.appendChild(ln);
+  });
+
+  // Ke lines (red, dashed)
+  Object.entries(KE_RELS).forEach(([from, to]) => {
+    from = parseInt(from); if(from === undefined || to === undefined) return;
+    const p1 = centers[from], p2 = centers[to];
+    const ln = document.createElementNS(NS, 'line');
+    ln.setAttribute('x1', p1.x); ln.setAttribute('y1', p1.y);
+    ln.setAttribute('x2', p2.x); ln.setAttribute('y2', p2.y);
+    ln.setAttribute('stroke', '#E05C5C'); ln.setAttribute('stroke-width', '1');
+    ln.setAttribute('stroke-dasharray', '4,3'); ln.setAttribute('opacity', '0.2');
+    svg.appendChild(ln);
+  });
+}
+const SHENG_RELS = [[0,1],[1,3],[3,2],[2,4],[4,0]];
+const KE_RELS = [[0,2],[2,4],[4,1],[1,3],[3,0]];
 
 /* ── 五行雷达图 ── */
 function drawWuxingRadar(wxMap){
@@ -7060,11 +7454,11 @@ function showDemoBazi(){
     renderBazi(demoPillars, 5);
     const wxMap = calculateElementScores(demoPillars);
     _lastWxMap = wxMap;
+    calcWuxingEnergy(demoPillars);
     drawElementCycle(wxMap);
     drawEnergyRing('energyRingCanvas', wxMap);
     const bs = calculateBodyStrength(demoPillars, 5);
     _gBodyStrength = bs;
-    populateBaziReading();
     try { const bd={pillars:demoPillars,dayStem:5,bodyStrength:bs,wxMap:_lastWxMap};localStorage.setItem('auraBaziData',JSON.stringify(bd)); } catch(e){}
   } catch(e){ console.warn('Demo render error:', e); }
 }
@@ -7129,6 +7523,27 @@ function initDailyAuraFlow(userDayPillar){
   }
 
   if(el) setTimeout(() => el.classList.add('loaded'), 100);
+
+  // Also populate bazi tab's aura card
+  const bzPillar = document.getElementById('bzAuraPillar');
+  const bzAdvice = document.getElementById('bzAuraAdvice');
+  const bzTag = document.getElementById('bzAuraTag');
+  const bzDate = document.getElementById('bzAuraDate');
+  if(bzPillar) bzPillar.textContent = pillarStr;
+  if(bzDate) bzDate.textContent = y+'年'+m+'月'+d+'日';
+  if(bzAdvice) bzAdvice.textContent = daily ? daily.advice : '今日能量流动自然，适合保持觉察与开放。';
+  if(bzTag){
+    if(daily){
+      bzTag.textContent = daily.element+'行 · '+gan+'日';
+      bzTag.style.background = daily.color+'18';
+      bzTag.style.color = daily.color;
+      bzTag.style.borderColor = daily.color+'30';
+    } else {
+      bzTag.textContent = '阴阳平衡';
+      bzTag.style.borderColor = 'rgba(180,160,240,0.15)';
+      bzTag.style.color = 'var(--text-muted)';
+    }
+  }
 }
 
 /* ── 命理解读填充 ── */
@@ -7309,7 +7724,7 @@ function calculateAstrology(confirmed){
 
   // Wuxing overview tags
   const wxNameMap = {wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
-  const wxColors = {wood:'#4CAF50',fire:'#F44336',earth:'#FF9800',metal:'#FFC107',water:'#2196F3'};
+  const wxColors = {wood:'#52A055',fire:'#E05C5C',earth:'#C49A3C',metal:'#9B84D4',water:'#4A7FA5'};
   const wxTagsEl = document.getElementById('ovWxTags');
   if(wxTagsEl){
     const sorted = Object.entries(wxMap).sort((a,b)=>b[1]-a[1]);
@@ -8687,11 +9102,11 @@ function drawElementCycle(wxMap){
   if(!svg) return;
   const NS = 'http://www.w3.org/2000/svg';
   const items = [
-    {key:'wood', color:'#4CAF50', label:'木'},
-    {key:'fire', color:'#F44336', label:'火'},
-    {key:'earth', color:'#FF9800', label:'土'},
-    {key:'metal', color:'#FFC107', label:'金'},
-    {key:'water', color:'#2196F3', label:'水'},
+    {key:'wood', color:'#52A055', label:'木'},
+    {key:'fire', color:'#E05C5C', label:'火'},
+    {key:'earth', color:'#C49A3C', label:'土'},
+    {key:'metal', color:'#9B84D4', label:'金'},
+    {key:'water', color:'#4A7FA5', label:'水'},
   ];
   const CX=50, CY=50, R=34;
   const SHENG = {0:1,1:3,3:2,2:4,4:0};
@@ -8894,8 +9309,8 @@ function drawEnergyRing(canvasId, wxMap){
   const cx = W/2, cy = H/2, R = 48;
   ctx.clearRect(0,0,W,H);
   const items = [
-    {key:'wood', color:'#34d399'},{key:'fire', color:'#f87171'},
-    {key:'earth', color:'#fbbf24'},{key:'metal', color:'#e5e7eb'},{key:'water', color:'#60a5fa'},
+    {key:'wood', color:'#52A055'},{key:'fire', color:'#E05C5C'},
+    {key:'earth', color:'#C49A3C'},{key:'metal', color:'#9B84D4'},{key:'water', color:'#4A7FA5'},
   ];
   const total = Math.max(Object.values(wxMap).reduce((a,b)=>a+b,0), 1);
   let startAngle = -Math.PI/2;
@@ -8916,8 +9331,8 @@ function shareLingjue(){
   const detailStr = detailEl ? detailEl.innerHTML : '';
   const abbr = detailStr.replace(/<br>/g,' · ').replace(/<strong>/g,'').replace(/<\/strong>/g,'') || '等待开启';
 
+  const wxColors = {wood:'#52A055',fire:'#E05C5C',earth:'#C49A3C',metal:'#9B84D4',water:'#4A7FA5'};
   const wxNameMap = {wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
-  const wxColors = {wood:'#4CAF50',fire:'#F44336',earth:'#FF9800',metal:'#FFC107',water:'#2196F3'};
 
   let wxHtml = '';
   ['wood','fire','earth','metal','water'].forEach(k=>{
