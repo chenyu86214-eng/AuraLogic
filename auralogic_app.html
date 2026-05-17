@@ -7435,7 +7435,18 @@ function playOpeningAnimation(){
 
 /* calculateDestiny - public API that calls calculateAstrology */
 function calculateDestiny(confirmed){
-  playOpeningAnimation();
+  console.log('排盘开始', 'confirmed:', confirmed);
+  try { playOpeningAnimation(); } catch(e){ console.warn('Animation err:', e); }
+  // Show loading state immediately
+  const res = document.getElementById('astroResult');
+  if(res){
+    res.style.display = 'block';
+    // Set loading placeholder text in overview tab
+    const ovBazi = document.getElementById('ovBazi');
+    if(ovBazi) ovBazi.textContent = '排盘计算中...';
+    const ovSub = document.getElementById('ovBaziSub');
+    if(ovSub) ovSub.textContent = '请稍候';
+  }
   try {
     return calculateAstrology(confirmed);
   } catch(e){
@@ -7621,7 +7632,8 @@ function populateBaziReading(){
 
 /* Main */
 function calculateAstrology(confirmed){
-  const hourIdx=parseInt(document.getElementById('astroHour').value);
+  console.log('calculateAstrology called, confirmed:', confirmed);
+  const hourIdx=parseInt(document.getElementById('astroHour').value) || 0;
   const gender=document.getElementById('astroGender').value;
   const nameInput=document.getElementById('astroName');
   const userName=nameInput?nameInput.value.trim():'';
