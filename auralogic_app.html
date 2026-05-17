@@ -1207,8 +1207,50 @@ body {
 .bazi-section { margin-bottom:28px; }
 .bazi-section-title { font-size:12px; color:var(--morandi-muted); font-weight:400; letter-spacing:2px; margin-bottom:16px; }
 .bazi-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
   max-width:520px;
+}
+.bazi-grid-wrap {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(180,160,240,0.15);
+  border-radius:20px; padding:20px;
+  margin-bottom:16px;
+}
+.bazi-section-title {
+  font-family:'Noto Serif SC',serif; font-size:15px;
+  color:rgba(196,176,232,0.9); margin-bottom:14px;
+  letter-spacing:1px;
+}
+/* 命理解读卡片 */
+.reading-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
+}
+.reading-card {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(180,160,240,0.12);
+  border-radius:16px; padding:16px 12px; text-align:center;
+  transition:all 0.3s;
+}
+.reading-card:hover { border-color:rgba(180,160,240,0.25); transform:translateY(-1px); }
+.reading-card-label {
+  font-size:10px; color:rgba(155,132,212,0.7);
+  letter-spacing:2px; margin-bottom:8px; text-transform:uppercase;
+}
+.reading-card-value {
+  font-family:'Noto Serif SC',serif; font-size:20px;
+  color:rgba(196,176,232,0.95); font-weight:600;
+  margin-bottom:4px;
+}
+.reading-card-sub {
+  font-size:11px; color:rgba(107,95,144,0.8); line-height:1.4;
+}
+.reading-colors {
+  display:flex; gap:8px; justify-content:center; margin-bottom:4px;
+}
+.reading-color-swatch {
+  width:28px; height:28px; border-radius:50%;
+  border:2px solid rgba(255,255,255,0.1);
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 .bazi-cell {
   text-align:center; padding:18px 6px 14px;
@@ -3529,7 +3571,7 @@ body {
   <div id="page-astrology" class="page">
     <div class="astro-page">
       <div class="astro-header">
-        <div class="astro-title">生辰八字 · 紫微斗数</div>
+        <div class="astro-title">✦ 八字排盘 · 紫微斗数</div>
         <div class="astro-sub">输入出生信息 · 开启东方命理排盘</div>
       </div>
 
@@ -3579,7 +3621,11 @@ body {
             <label>姓名（选填）</label>
             <input type="text" id="astroName" placeholder="输入你的名字" style="padding:10px 14px;border:1px solid var(--morandi-accent);border-radius:10px;background:var(--morandi-card);font-size:14px;width:100%;box-sizing:border-box;">
           </div>
-          <button class="astro-submit-btn" onclick="calculateDestiny()">开启灵觉</button>
+          <div class="astro-field">
+            <label>出生地点</label>
+            <input type="text" id="astroLocation" placeholder="如：北京（用于真太阳时校正）" style="padding:10px 14px;border:1px solid var(--morandi-accent);border-radius:10px;background:var(--morandi-card);font-size:14px;width:100%;box-sizing:border-box;">
+          </div>
+          <button class="astro-submit-btn" onclick="calculateDestiny()">✦ 开启灵觉 · 开始排盘</button>
         </div>
       </div>
 
@@ -3647,11 +3693,11 @@ body {
             </div>
             <canvas id="energyRingCanvas" width="130" height="130" style="display:none;"></canvas>
             <div class="wuxing-ring-legend" id="wxRingLegend">
-              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#34d399"></div>木 <span class="wuxing-ring-num" id="wxRingWood">0</span></div>
-              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#f87171"></div>火 <span class="wuxing-ring-num" id="wxRingFire">0</span></div>
-              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#fbbf24"></div>土 <span class="wuxing-ring-num" id="wxRingEarth">0</span></div>
-              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#e5e7eb"></div>金 <span class="wuxing-ring-num" id="wxRingMetal">0</span></div>
-              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#60a5fa"></div>水 <span class="wuxing-ring-num" id="wxRingWater">0</span></div>
+              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#4CAF50"></div>木 <span class="wuxing-ring-num" id="wxRingWood">0</span></div>
+              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#F44336"></div>火 <span class="wuxing-ring-num" id="wxRingFire">0</span></div>
+              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#FF9800"></div>土 <span class="wuxing-ring-num" id="wxRingEarth">0</span></div>
+              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#FFC107"></div>金 <span class="wuxing-ring-num" id="wxRingMetal">0</span></div>
+              <div class="wuxing-ring-item"><div class="wuxing-ring-dot" style="background:#2196F3"></div>水 <span class="wuxing-ring-num" id="wxRingWater">0</span></div>
             </div>
           </div>
 
@@ -3720,16 +3766,18 @@ body {
         <!-- ── 八字精排 ── -->
         <div class="astro-tab-content" id="tabBazi">
           <div class="bazi-section">
-            <div class="bazi-section-title">八字四柱</div>
-            <div class="bazi-grid" id="baziGrid">
-              <div class="bazi-cell" id="bzCell0" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-              <div class="bazi-cell" id="bzCell1" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-              <div class="bazi-cell" id="bzCell2" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
-              <div class="bazi-cell" id="bzCell3" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+            <div class="bazi-section-title">✦ 八字四柱</div>
+            <div class="bazi-grid-wrap">
+              <div class="bazi-grid" id="baziGrid">
+                <div class="bazi-cell" id="bzCell0" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+                <div class="bazi-cell" id="bzCell1" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+                <div class="bazi-cell" id="bzCell2" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+                <div class="bazi-cell" id="bzCell3" data-stem="0"><div class="bazi-cell-shen"></div><div class="bazi-cell-text"></div><div class="bazi-detail-row bazi-cell-canggan"></div><div class="bazi-detail-row bazi-cell-nayin"></div><div class="bazi-detail-row bazi-cell-xunkong"></div><div class="bazi-detail-row bazi-cell-dishi"></div><div class="bazi-detail-row bazi-cell-shensha"></div><div class="bazi-cell-relations"></div><div class="bazi-cell-tip"></div><div class="bazi-cell-highlight"></div></div>
+              </div>
             </div>
             <!-- 神煞栏 -->
             <div class="shensha-row" id="shenshaRow"></div>
-            <!-- 三垣 (Phase 14) -->
+            <!-- 三垣 -->
             <div class="sanyuan-section" id="sanyuanSection">
               <div class="sanyuan-item"><span class="sanyuan-label">胎元</span><span class="sanyuan-val" id="sanyuanTaiYuan">—</span></div>
               <div class="sanyuan-item"><span class="sanyuan-label">命宫</span><span class="sanyuan-val" id="sanyuanMingGong">—</span></div>
@@ -3762,6 +3810,32 @@ body {
             </div>
             <!-- 本源评价 -->
             <div class="wuxing-source-eval" id="wuxingSourceEval"></div>
+          </div>
+        </div>
+
+        <!-- ── 命理解读 ── -->
+        <div class="bazi-reading" id="baziReading" style="display:none;">
+          <div class="bazi-section-title">✦ 命理解读</div>
+          <div class="reading-grid">
+            <div class="reading-card">
+              <div class="reading-card-label">日主</div>
+              <div class="reading-card-value" id="readingDayMaster">—</div>
+              <div class="reading-card-sub" id="readingDayMasterDesc"></div>
+            </div>
+            <div class="reading-card">
+              <div class="reading-card-label">喜用神</div>
+              <div class="reading-card-value" id="readingFavorable">—</div>
+              <div class="reading-card-sub">平衡五行能量</div>
+            </div>
+            <div class="reading-card">
+              <div class="reading-card-label">幸运颜色</div>
+              <div class="reading-colors" id="readingColors"></div>
+            </div>
+            <div class="reading-card">
+              <div class="reading-card-label">幸运数字</div>
+              <div class="reading-card-value" id="readingLuckyNum">—</div>
+              <div class="reading-card-sub">今日能量数字</div>
+            </div>
           </div>
         </div>
 
@@ -4807,7 +4881,7 @@ function getCangGanQI(branchName){
 }
 
 /* ── Phase 16: 五行色彩映射函数 ── */
-const WX_COLORS_MAP = {0:'#34d399',1:'#34d399',2:'#f87171',3:'#f87171',4:'#fbbf24',5:'#fbbf24',6:'#e5e7eb',7:'#e5e7eb',8:'#60a5fa',9:'#60a5fa'};
+const WX_COLORS_MAP = {0:'#4CAF50',1:'#4CAF50',2:'#F44336',3:'#F44336',4:'#FF9800',5:'#FF9800',6:'#FFC107',7:'#FFC107',8:'#2196F3',9:'#2196F3'};
 const WX_NAMES_FULL = ['甲木','乙木','丙火','丁火','戊土','己土','庚金','辛金','壬水','癸水'];
 function colorByElement(stemIdx){
   return WX_COLORS_MAP[stemIdx] || '#6B5F90';
@@ -6990,6 +7064,8 @@ function showDemoBazi(){
     drawEnergyRing('energyRingCanvas', wxMap);
     const bs = calculateBodyStrength(demoPillars, 5);
     _gBodyStrength = bs;
+    populateBaziReading();
+    try { const bd={pillars:demoPillars,dayStem:5,bodyStrength:bs,wxMap:_lastWxMap};localStorage.setItem('auraBaziData',JSON.stringify(bd)); } catch(e){}
   } catch(e){ console.warn('Demo render error:', e); }
 }
 
@@ -7053,6 +7129,79 @@ function initDailyAuraFlow(userDayPillar){
   }
 
   if(el) setTimeout(() => el.classList.add('loaded'), 100);
+}
+
+/* ── 命理解读填充 ── */
+function populateBaziReading(){
+  if(_baziDayStem < 0) return;
+  const dayStem = _baziDayStem;
+  const dayGan = TIAN_GAN[dayStem];
+  const wxNames = ['木','火','土','金','水'];
+  const wxVals = ['wood','fire','earth','metal','water'];
+  const stemWx = wxNames[dayStem];
+  const dayMasterEl = document.getElementById('readingDayMaster');
+  const dayDescEl = document.getElementById('readingDayMasterDesc');
+  if(dayMasterEl) dayMasterEl.textContent = dayGan + '·' + stemWx;
+  if(dayDescEl) dayDescEl.textContent = '日主为'+dayGan+'，五行属'+stemWx+'。'+{
+    '甲':'参天大树，有担当与领导力。',
+    '乙':'藤蔓之木，柔韧而善于适应。',
+    '丙':'太阳之火，热情照亮他人。',
+    '丁':'灯烛之火，内敛而持久。',
+    '戊':'泰山之土，厚重而包容。',
+    '己':'田园之土，滋养万物。',
+    '庚':'斧钺之金，果断刚毅。',
+    '辛':'珠宝之金，精致而贵气。',
+    '壬':'江河之水，奔流不息。',
+    '癸':'雨露之水，润物无声。'
+  }[dayGan] || '';
+
+  // 喜用神 (based on body strength)
+  const strength = _gBodyStrength || {strength:'身平'};
+  const bs = strength.strength;
+  const favorable = document.getElementById('readingFavorable');
+  if(favorable){
+    if(bs === '身平'){
+      favorable.textContent = '中和';
+    } else if(bs === '身强'){
+      favorable.textContent = '喜泄耗';
+    } else {
+      favorable.textContent = '喜生扶';
+    }
+  }
+
+  // 幸运颜色
+  const colorEl = document.getElementById('readingColors');
+  if(colorEl){
+    const wxColors = [
+      ['#4CAF50','#81C784','#A5D6A7'], // 木
+      ['#F44336','#EF5350','#FF7043'], // 火
+      ['#FF9800','#FFB74D','#FFCC80'], // 土
+      ['#FFC107','#FFD54F','#FFE082'], // 金
+      ['#2196F3','#42A5F5','#64B5F6']  // 水
+    ];
+    const idx = [0,0,1,1,2,2,3,3,4,4][dayStem];
+    colorEl.innerHTML = wxColors[idx].map(c =>
+      '<div class="reading-color-swatch" style="background:'+c+';"></div>'
+    ).join('');
+  }
+
+  // 幸运数字
+  const numEl = document.getElementById('readingLuckyNum');
+  if(numEl){
+    const luckyNums = {
+      0:[3,8,1,6], // 木
+      1:[2,7,3,8], // 火
+      2:[5,10,2,7], // 土
+      3:[4,9,5,10], // 金
+      4:[1,6,4,9]  // 水
+    };
+    const idx = [0,0,1,1,2,2,3,3,4,4][dayStem];
+    numEl.textContent = luckyNums[idx].slice(0,3).join(' · ');
+  }
+
+  // Show the reading section
+  const reading = document.getElementById('baziReading');
+  if(reading) reading.style.display = 'block';
 }
 
 /* Main */
@@ -7160,7 +7309,7 @@ function calculateAstrology(confirmed){
 
   // Wuxing overview tags
   const wxNameMap = {wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
-  const wxColors = {wood:'#34d399',fire:'#f87171',earth:'#fbbf24',metal:'#e5e7eb',water:'#60a5fa'};
+  const wxColors = {wood:'#4CAF50',fire:'#F44336',earth:'#FF9800',metal:'#FFC107',water:'#2196F3'};
   const wxTagsEl = document.getElementById('ovWxTags');
   if(wxTagsEl){
     const sorted = Object.entries(wxMap).sort((a,b)=>b[1]-a[1]);
@@ -7179,6 +7328,18 @@ function calculateAstrology(confirmed){
 
   // Trigger singing bowl tone
   playSingingBowlTone();
+
+  populateBaziReading();
+  // Save to localStorage
+  try {
+    const baziData = {
+      pillars: _gBaziPillars,
+      dayStem: _baziDayStem,
+      bodyStrength: _gBodyStrength,
+      wxMap: _lastWxMap
+    };
+    localStorage.setItem('auraBaziData', JSON.stringify(baziData));
+  } catch(e){}
 
   document.getElementById('astroResult').style.display='block';
   document.getElementById('astroResult').scrollIntoView({behavior:'smooth',block:'start'});
@@ -8526,11 +8687,11 @@ function drawElementCycle(wxMap){
   if(!svg) return;
   const NS = 'http://www.w3.org/2000/svg';
   const items = [
-    {key:'wood', color:'#34d399', label:'木'},
-    {key:'fire', color:'#f87171', label:'火'},
-    {key:'earth', color:'#fbbf24', label:'土'},
-    {key:'metal', color:'#e5e7eb', label:'金'},
-    {key:'water', color:'#60a5fa', label:'水'},
+    {key:'wood', color:'#4CAF50', label:'木'},
+    {key:'fire', color:'#F44336', label:'火'},
+    {key:'earth', color:'#FF9800', label:'土'},
+    {key:'metal', color:'#FFC107', label:'金'},
+    {key:'water', color:'#2196F3', label:'水'},
   ];
   const CX=50, CY=50, R=34;
   const SHENG = {0:1,1:3,3:2,2:4,4:0};
@@ -8756,7 +8917,7 @@ function shareLingjue(){
   const abbr = detailStr.replace(/<br>/g,' · ').replace(/<strong>/g,'').replace(/<\/strong>/g,'') || '等待开启';
 
   const wxNameMap = {wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
-  const wxColors = {wood:'#34d399',fire:'#f87171',earth:'#fbbf24',metal:'#e5e7eb',water:'#60a5fa'};
+  const wxColors = {wood:'#4CAF50',fire:'#F44336',earth:'#FF9800',metal:'#FFC107',water:'#2196F3'};
 
   let wxHtml = '';
   ['wood','fire','earth','metal','water'].forEach(k=>{
