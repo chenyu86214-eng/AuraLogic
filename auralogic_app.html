@@ -3365,64 +3365,16 @@ body {
   <!--  AI CHAT PAGE                              -->
   <!-- ══════════════════════════════════════════ -->
   <div id="page-chat" class="page">
-    <div class="chat-page">
-      <div class="chat-sidebar">
-        <div class="chat-profile">
-          <div class="chat-avatar" id="chatAvatar">S</div>
-          <div class="chat-profile-name" id="chatProfileName">Stella</div>
-          <div class="chat-profile-info" id="chatProfileInfo">1990年6月15日 · 巳时</div>
-          <div class="chat-status"><div class="energy-dot"></div>命盘已激活</div>
-        </div>
-        <div class="chat-context">
-          <div class="cc-title">命盘上下文</div>
-          <div class="cc-row"><div class="cc-key">命宫主星</div><div class="cc-val">天机</div></div>
-          <div class="cc-row"><div class="cc-key">今日能量</div><div class="cc-val">72%</div></div>
-          <div class="cc-row"><div class="cc-key">今日主题</div><div class="cc-val">放下执着</div></div>
-          <div class="cc-row"><div class="cc-key">流年运势</div><div class="cc-val">变化期</div></div>
-          <div class="cc-row"><div class="cc-key">大运星曜</div><div class="cc-val">天梁化科</div></div>
-          <div class="cc-row"><div class="cc-key">月令</div><div class="cc-val">己巳月</div></div>
-        </div>
-        <!-- 案例星盘 · 社会证明 -->
-        <div class="chat-proof">
-          <div class="cc-title">✦ 名人星盘参考</div>
-          <div class="proof-card" onclick="loadProofCase('socrates')">
-            <div class="proof-card-avatar">🏛️</div>
-            <div class="proof-card-body">
-              <div class="proof-card-name">苏格拉底</div>
-              <div class="proof-card-bazi" id="proofBaziS">己丑 丙寅 丁卯 戊申</div>
-              <div class="proof-card-tags">
-                <span class="proof-tag">天机化禄</span>
-                <span class="proof-tag">太阳化权</span>
-              </div>
-            </div>
-          </div>
-          <div class="proof-card" onclick="loadProofCase('jobs')">
-            <div class="proof-card-avatar">🍎</div>
-            <div class="proof-card-body">
-              <div class="proof-card-name">史蒂夫·乔布斯</div>
-              <div class="proof-card-bazi" id="proofBaziJobs">乙未 丙戌 壬辰 辛亥</div>
-              <div class="proof-card-tags">
-                <span class="proof-tag">紫微帝星</span>
-                <span class="proof-tag">七杀朝斗</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div style="padding:24px 32px;height:calc(100vh - 60px);display:flex;flex-direction:column;">
+      <div style="margin-bottom:16px;">
+        <div style="font-family:'Noto Serif SC',serif;font-size:22px;color:#C4B0E8;">✨ Ask Aura · 灵性问答</div>
+        <div style="font-size:12px;color:#6B5F90;margin-top:4px;">基于你的命盘，与AI真实对话</div>
       </div>
-      <div class="chat-main">
-        <div class="chat-header">
-          <div class="chat-header-icon">✨</div>
-          <div>
-            <div class="chat-header-title">Ask Aura · 灵性问答</div>
-            <div class="chat-header-sub">Dify AI 深度解读 · 基于你的命盘</div>
-          </div>
-        </div>
-        <iframe id="difyChatIframe"
-          src="https://udify.app/chatbot/oEz7rOYCE4gEloeK"
-          style="flex:1;width:100%;border:none;min-height:500px;"
-          allow="microphone">
-        </iframe>
-      </div>
+      <iframe
+        src="https://udify.app/chatbot/oEz7rOYCE4gEloeK"
+        style="flex:1;width:100%;border:1px solid rgba(180,160,240,0.2);border-radius:20px;background:rgba(19,16,43,0.8);"
+        allow="microphone">
+      </iframe>
     </div>
   </div>
 
