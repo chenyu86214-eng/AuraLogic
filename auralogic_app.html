@@ -3414,33 +3414,14 @@ body {
           <div class="chat-header-icon">✨</div>
           <div>
             <div class="chat-header-title">Ask Aura · 灵性问答</div>
-            <div class="chat-header-sub">基于你的命盘，提问任何人生问题</div>
-          </div>
-          <button onclick="showModal('api-settings')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(212,197,232,0.2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-secondary);flex-shrink:0;" title="API 设置">⚙</button>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="msg ai">
-            <div class="msg-avatar">✦</div>
-            <div>
-              <div class="msg-bubble" id="chatGreetingMsg">你好，我是 Aura。请先到「排盘」页面输入你的出生信息，然后可以向我提问任何人生问题。</div>
-              <div class="msg-time">现在</div>
-            </div>
+            <div class="chat-header-sub">Dify AI 深度解读 · 基于你的命盘</div>
           </div>
         </div>
-        <div class="chat-input-area">
-          <div class="chat-quick-pills">
-            <div class="quick-pill" onclick="sendQuick(this)">我的事业运如何？</div>
-            <div class="quick-pill" onclick="sendQuick(this)">今年有什么大转变？</div>
-            <div class="quick-pill" onclick="sendQuick(this)">我的天赋在哪里？</div>
-            <div class="quick-pill" onclick="sendQuick(this)">财运分析</div>
-            <div class="quick-pill" onclick="sendQuick(this)">我该换工作吗</div>
-            <div class="quick-pill" onclick="sendQuick(this)">最近有什么需要注意</div>
-          </div>
-          <div class="chat-input-row">
-            <textarea class="chat-input" id="chatInput" placeholder="向 Aura 提问..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
-            <button class="chat-send" onclick="sendMsg()">↑</button>
-          </div>
-        </div>
+        <iframe id="difyChatIframe"
+          src="https://udify.app/chatbot/oEz7rOYCE4gEloeK"
+          style="flex:1;width:100%;border:none;min-height:500px;"
+          allow="microphone">
+        </iframe>
       </div>
     </div>
   </div>
