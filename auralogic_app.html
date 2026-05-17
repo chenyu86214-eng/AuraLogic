@@ -2921,7 +2921,7 @@ body {
       <button class="tab-btn active" role="tab" onclick="showPage('home')">🏠 首页</button>
       <button class="tab-btn" role="tab" onclick="showPage('chart')">⭕ 星盘</button>
       <button class="tab-btn" role="tab" onclick="showPage('radio')">📻 Aura Radio</button>
-      <button class="tab-btn" role="tab" onclick="showPage('chat')">✨ Ask Aura</button>
+      <button class="tab-btn" role="tab" onclick="showPage('chat')">✨ AI · 浮窗</button>
       <button class="tab-btn" role="tab" onclick="showPage('karma')">💫 业力标签</button>
       <button class="tab-btn" role="tab" onclick="showPage('subscription')">👑 会员</button>
       <button class="tab-btn" role="tab" onclick="showPage('astrology')">🔮 排盘</button>
@@ -2981,11 +2981,11 @@ body {
             </div>
             <div class="ql-arrow">›</div>
           </a>
-          <a class="quick-link" onclick="showPage('chat');return false;">
-            <div class="ql-icon" style="background:linear-gradient(135deg,rgba(212,197,232,0.2),rgba(139,123,181,0.1));border:1px solid rgba(212,197,232,0.2);">✨</div>
+          <a class="quick-link" onclick="var b=document.getElementById('dify-chatbot-bubble-button');if(b)b.click();else showPage('chat');return false;">
+            <div class="ql-icon" style="background:linear-gradient(135deg,rgba(112,85,184,0.15),rgba(78,58,142,0.1));border:1px solid rgba(112,85,184,0.2);">✨</div>
             <div class="ql-text">
               <div class="ql-name">AI 解读</div>
-              <div class="ql-hint">深度命盘分析</div>
+              <div class="ql-hint">点击气泡对话</div>
             </div>
             <div class="ql-arrow">›</div>
           </a>
@@ -3192,7 +3192,7 @@ body {
           <div class="theme-desc">你正在进入一个深度情感转化阶段，这个阶段关于疗愈和重新对齐自己的内在价值体系。放下不再属于你的，为真正重要的腾出空间。</div>
           <div class="theme-actions">
             <button class="theme-action-btn primary" onclick="showPage('radio')">🎧 播放今日信号</button>
-            <button class="theme-action-btn secondary" onclick="showPage('chat')">💬 向 AI 提问</button>
+            <button class="theme-action-btn secondary" onclick="var b=document.getElementById('dify-chatbot-bubble-button');if(b)b.click();else showPage('chat');">💬 向 AI 提问</button>
           </div>
         </div>
       </div>
@@ -3365,16 +3365,16 @@ body {
   <!--  AI CHAT PAGE                              -->
   <!-- ══════════════════════════════════════════ -->
   <div id="page-chat" class="page">
-    <div style="padding:24px 32px;height:calc(100vh - 60px);display:flex;flex-direction:column;background:linear-gradient(135deg,#F5F0FA,#EDE5F5);">
-      <div style="margin-bottom:16px;">
-        <div style="font-family:'Noto Serif SC',serif;font-size:22px;color:#4E3A8E;">✨ Ask Aura · 灵性问答</div>
-        <div style="font-size:12px;color:#6B5F90;margin-top:4px;">基于你的命盘，与AI真实对话</div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 60px);padding:40px;text-align:center;background:linear-gradient(135deg,#F5F0FA,#EDE5F5);">
+      <div style="font-size:48px;margin-bottom:20px;">✨</div>
+      <div style="font-family:'Noto Serif SC',serif;font-size:24px;color:#4E3A8E;margin-bottom:12px;">Ask Aura · AI 灵性解读</div>
+      <div style="font-size:14px;color:#6B5F90;line-height:1.8;max-width:360px;margin-bottom:24px;">
+        点击右下角的对话气泡<br>
+        即可与 AI 进行深度命盘对话
       </div>
-      <iframe
-        src="https://udify.app/chatbot/oEz7rOYCE4gEloeK?user_birth_date=%E8%AF%B7%E8%BE%93%E5%85%A5%E4%BD%A0%E7%9A%84%E5%87%BA%E7%94%9F%E6%97%A5%E6%9C%9F&current_date=2026%E5%B9%B45%E6%9C%8817%E6%97%A5&user_question=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E8%AF%B7%E5%B8%AE%E6%88%91%E8%A7%A3%E8%AF%BB%E4%BB%8A%E6%97%A5%E8%83%BD%E9%87%8F"
-        style="flex:1;width:100%;min-height:600px;border:1px solid rgba(180,160,240,0.2);border-radius:20px;"
-        allow="microphone">
-      </iframe>
+      <div onclick="document.getElementById('dify-chatbot-bubble-button')?.click()" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:linear-gradient(135deg,#7055B8,#4E3A8E);color:white;border-radius:999px;font-size:14px;cursor:pointer;box-shadow:0 0 30px rgba(112,85,184,0.4);">
+        ✦ 打开对话气泡
+      </div>
     </div>
   </div>
 
@@ -9058,5 +9058,31 @@ AuraApp.Dify = AuraApp.Dify || {};
 })();
 
 </script>
+
+<!-- ── Dify 浮窗气泡嵌入 ── -->
+<script>
+ window.difyChatbotConfig = {
+  token: 'oEz7rOYCE4gEloeK',
+  inputs: {},
+  systemVariables: {},
+  userVariables: {},
+ }
+</script>
+<script
+ src="https://udify.app/embed.min.js"
+ id="oEz7rOYCE4gEloeK"
+ defer>
+</script>
+<style>
+  #dify-chatbot-bubble-button {
+    background: linear-gradient(135deg, #7055B8, #4E3A8E) !important;
+    box-shadow: 0 0 30px rgba(112,85,184,0.6) !important;
+  }
+  #dify-chatbot-bubble-window {
+    width: 26rem !important;
+    height: 42rem !important;
+  }
+</style>
+
 </body>
 </html>
